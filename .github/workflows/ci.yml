@@ -16,15 +16,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
+      - name: Install Rye
+        run: |
+          curl -sSf https://rye.astral.sh/get | bash
+          echo "$HOME/.rye/shims" >> $GITHUB_PATH
+        env:
+          RYE_VERSION: 0.24.0
+          RYE_INSTALL_OPTION: '--yes'
 
       - name: Install dependencies
-        run: yarn install
+        run: rye sync --all-features
 
-      - name: Check types
+      - name: Run lints
         run: ./scripts/lint
   test:
     name: test
@@ -33,10 +36,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
+      - name: Install Rye
+        run: |
+          curl -sSf https://rye.astral.sh/get | bash
+          echo "$HOME/.rye/shims" >> $GITHUB_PATH
+        env:
+          RYE_VERSION: 0.24.0
+          RYE_INSTALL_OPTION: '--yes'
 
       - name: Bootstrap
         run: ./scripts/bootstrap

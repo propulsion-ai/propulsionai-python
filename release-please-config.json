@@ -59,9 +59,8 @@
       "hidden": true
     }
   ],
-  "release-type": "node",
+  "release-type": "python",
   "extra-files": [
-    "src/version.ts",
-    "README.md"
+    "src/propulsionai/_version.py"
   ]
 }
