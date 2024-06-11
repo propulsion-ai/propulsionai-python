@@ -47,6 +47,7 @@ __all__ = [
 
 class PropulsionAI(SyncAPIClient):
     models: resources.ModelsResource
+    datasets: resources.DatasetsResource
     with_raw_response: PropulsionAIWithRawResponse
     with_streaming_response: PropulsionAIWithStreamedResponse
 
@@ -105,6 +106,7 @@ class PropulsionAI(SyncAPIClient):
         )
 
         self.models = resources.ModelsResource(self)
+        self.datasets = resources.DatasetsResource(self)
         self.with_raw_response = PropulsionAIWithRawResponse(self)
         self.with_streaming_response = PropulsionAIWithStreamedResponse(self)
 
@@ -215,6 +217,7 @@ class PropulsionAI(SyncAPIClient):
 
 class AsyncPropulsionAI(AsyncAPIClient):
     models: resources.AsyncModelsResource
+    datasets: resources.AsyncDatasetsResource
     with_raw_response: AsyncPropulsionAIWithRawResponse
     with_streaming_response: AsyncPropulsionAIWithStreamedResponse
 
@@ -273,6 +276,7 @@ class AsyncPropulsionAI(AsyncAPIClient):
         )
 
         self.models = resources.AsyncModelsResource(self)
+        self.datasets = resources.AsyncDatasetsResource(self)
         self.with_raw_response = AsyncPropulsionAIWithRawResponse(self)
         self.with_streaming_response = AsyncPropulsionAIWithStreamedResponse(self)
 
@@ -384,21 +388,25 @@ class AsyncPropulsionAI(AsyncAPIClient):
 class PropulsionAIWithRawResponse:
     def __init__(self, client: PropulsionAI) -> None:
         self.models = resources.ModelsResourceWithRawResponse(client.models)
+        self.datasets = resources.DatasetsResourceWithRawResponse(client.datasets)
 
 
 class AsyncPropulsionAIWithRawResponse:
     def __init__(self, client: AsyncPropulsionAI) -> None:
         self.models = resources.AsyncModelsResourceWithRawResponse(client.models)
+        self.datasets = resources.AsyncDatasetsResourceWithRawResponse(client.datasets)
 
 
 class PropulsionAIWithStreamedResponse:
     def __init__(self, client: PropulsionAI) -> None:
         self.models = resources.ModelsResourceWithStreamingResponse(client.models)
+        self.datasets = resources.DatasetsResourceWithStreamingResponse(client.datasets)
 
 
 class AsyncPropulsionAIWithStreamedResponse:
     def __init__(self, client: AsyncPropulsionAI) -> None:
         self.models = resources.AsyncModelsResourceWithStreamingResponse(client.models)
+        self.datasets = resources.AsyncDatasetsResourceWithStreamingResponse(client.datasets)
 
 
 Client = PropulsionAI
