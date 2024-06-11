@@ -59,7 +59,7 @@ class ModelsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ModelChatResponse:
         """
-        Run a model with specified tools and messages.
+        This endpoint runs a model with the specified tools and messages.
 
         Args:
           wait: Whether to wait for the response or not.
@@ -170,7 +170,7 @@ class AsyncModelsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> ModelChatResponse:
         """
-        Run a model with specified tools and messages.
+        This endpoint runs a model with the specified tools and messages.
 
         Args:
           wait: Whether to wait for the response or not.
