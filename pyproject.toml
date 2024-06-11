@@ -5,7 +5,7 @@ description = "The official Python library for the PropulsionAI API"
 dynamic = ["readme"]
 license = "Apache-2.0"
 authors = [
-{ name = "Propulsion AI", email = "dev-feedback@propulsionai.com" },
+{ name = "Propulsion AI", email = "dev-feedback@propulsionhq.com" },
 ]
 dependencies = [
     "httpx>=0.23.0, <1",
