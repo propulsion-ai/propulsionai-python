@@ -191,7 +191,7 @@ class ModelsResource(SyncAPIResource):
             )
             return initial_response
         
-        initial_response: ModelChatResponse = self._post(
+        initial_response = self._post(
             f"/api/v1/{model_id}/run",
             body=maybe_transform(
                 {
@@ -231,8 +231,14 @@ class ModelsResource(SyncAPIResource):
         # if there are no tool_calls, then return the initial response
         if initial_response.tool_calls:
             for tool_call in initial_response.tool_calls:
-                function_name: str = tool_call.function["name"]
-                function_params: object = tool_call.function["parameters"]
+                function_name: str | None = str(tool_call.function["name"]) if tool_call.function else None
+                function_params = tool_call.function["parameters"] if tool_call.function else None
+                if(not function_name):
+                    raise ValueError(f"Function name is sent by th model, it is required to call the function.")
+                # Check if available_function_map[function_name] exists
+                if function_name not in available_function_map:
+                    raise ValueError(f"Function {function_name} is not available in the available_function_map.")
+                
                 function_response = await available_function_map[function_name](function_params)
                 # append response to the messages
                 messages = list(messages)

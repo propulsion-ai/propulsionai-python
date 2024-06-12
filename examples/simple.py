@@ -10,7 +10,7 @@ p8n = PropulsionAI(
 )
 
 
-async def mongo_query(parameters: object):
+async def mongo_query(parameters: object) -> str:
     # Here you would normally use the parameters to form your query
     # For this example, we are returning a hardcoded response
     print(parameters)
@@ -26,7 +26,7 @@ available_function_map: Dict[str, Callable[..., Coroutine[Any, Any, str]]] = {
 }
 
 
-async def main():
+async def main() -> None:
     model_chat_response = await p8n.models.chat_auto(
         "khzhgybzctm6e8m",
         tool_choice="auto",
