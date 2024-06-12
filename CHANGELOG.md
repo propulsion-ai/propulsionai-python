@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.6 (2024-06-12)
+
+Full Changelog: [v0.1.0-alpha.5...v0.1.0-alpha.6](https://github.com/propulsion-ai/propulsionai-python/compare/v0.1.0-alpha.5...v0.1.0-alpha.6)
+
+### Features
+
+* fix linting errors ([ea7eefc](https://github.com/propulsion-ai/propulsionai-python/commit/ea7eefc6a392a0838fdbc78db4cc31e5041655eb))
+* git pull origin release-please--branches--main--changes--next ([42222d9](https://github.com/propulsion-ai/propulsionai-python/commit/42222d92088604a3a0cad062968c257c8addf73a))
+
 ## 0.1.0-alpha.5 (2024-06-12)
 
 Full Changelog: [v0.1.0-alpha.4...v0.1.0-alpha.5](https://github.com/propulsion-ai/propulsionai-python/compare/v0.1.0-alpha.4...v0.1.0-alpha.5)
