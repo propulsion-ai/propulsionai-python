@@ -22,11 +22,9 @@ class Choice(BaseModel):
 
 
 class ToolCall(BaseModel):
-    arguments: Optional[object] = None
+    name: Optional[str] = None
 
-    function_name: Optional[str] = FieldInfo(alias="functionName", default=None)
-
-    response: Optional[object] = None
+    parameters: Optional[object] = None
 
 
 class Usage(BaseModel):
