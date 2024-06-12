@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, Iterable, Optional
+from typing import Any, Dict, Callable, Iterable, Optional
 
 import httpx
 
@@ -137,6 +137,7 @@ class ModelsResource(SyncAPIResource):
             ),
             cast_to=ModelChatResponse,
         )
+
     async def chat_auto(
         self,
         model_id: str,
@@ -161,9 +162,9 @@ class ModelsResource(SyncAPIResource):
     ) -> ModelChatResponse:
         if not model_id:
             raise ValueError(f"Expected a non-empty value for `model_id` but received {model_id!r}")
-       
+        
         if not tools or not available_function_map:
-            return self._post(
+            initial_response: ModelChatResponse = self._post(
                 f"/api/v1/{model_id}/run",
                 body=maybe_transform(
                     {
@@ -188,6 +189,7 @@ class ModelsResource(SyncAPIResource):
                 ),
                 cast_to=ModelChatResponse,
             )
+            return initial_response
         
         initial_response: ModelChatResponse = self._post(
             f"/api/v1/{model_id}/run",
@@ -214,57 +216,56 @@ class ModelsResource(SyncAPIResource):
             ),
             cast_to=ModelChatResponse,
         )
-
         # check that choices and content are present
         initial_message: str = ""
-        if not initial_response.choices or not initial_response.choices[0].message or not initial_response.choices[0].message.content:
-            initial_message = "Function call by user"    
+        if (
+            not initial_response.choices
+            or not initial_response.choices[0].message
+            or not initial_response.choices[0].message.content
+        ):
+            initial_message = "Function call by user"
         else:
             initial_message = initial_response.choices[0].message.content
-
+            
         # if initial response has tool_calls, then loop through the tool_calls and call the tools
         # if there are no tool_calls, then return the initial response
         if initial_response.tool_calls:
             for tool_call in initial_response.tool_calls:
-                function_name: str = tool_call.function['name']
-                function_params: object = tool_call.function['parameters']
+                function_name: str = tool_call.function["name"]
+                function_params: object = tool_call.function["parameters"]
                 function_response = await available_function_map[function_name](function_params)
                 # append response to the messages
-                messages=list(messages)
-                messages.append({
-                    "role": "assistant",
-                    "content": initial_message
-                })
-                messages.append({
-                    "role": "user",
-                    "content": function_response
-                })
-                
-                return self._post(
-                  f"/api/v1/{model_id}/run",
-                  body=maybe_transform(
-                      {
-                          "messages": messages,
-                          "model": model,
-                          "stream": stream,
-                          "max_tokens": max_tokens,
-                          "n": n,
-                          "temperature": temperature,
-                          "top_p": top_p,
-                      },
-                      model_chat_params.ModelChatParams,
-                  ),
-                  options=make_request_options(
-                      extra_headers=extra_headers,
-                      extra_query=extra_query,
-                      extra_body=extra_body,
-                      timeout=timeout,
-                      query=maybe_transform({"wait": wait}, model_chat_params.ModelChatParams),
-                  ),
-                  cast_to=ModelChatResponse,
-              )
+                messages = list(messages)
+                messages.append({"role": "assistant", "content": initial_message})
+                messages.append({"role": "user", "content": function_response})
+                final_response: ModelChatResponse = self._post(
+                    f"/api/v1/{model_id}/run",
+                    body=maybe_transform(
+                        {
+                            "messages": messages,
+                            "model": model,
+                            "stream": stream,
+                            "max_tokens": max_tokens,
+                            "n": n,
+                            "temperature": temperature,
+                            "top_p": top_p,
+                        },
+                        model_chat_params.ModelChatParams,
+                    ),
+                    options=make_request_options(
+                        extra_headers=extra_headers,
+                        extra_query=extra_query,
+                        extra_body=extra_body,
+                        timeout=timeout,
+                        query=maybe_transform({"wait": wait}, model_chat_params.ModelChatParams),
+                    ),
+                    cast_to=ModelChatResponse,
+                )
+                return final_response
         else:
             return initial_response
+        return initial_response
+
 
 class AsyncModelsResource(AsyncAPIResource):
     @cached_property
