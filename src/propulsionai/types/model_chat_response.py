@@ -1,12 +1,13 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import TYPE_CHECKING, Dict, List, Optional
+from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["ModelChatResponse", "Choice", "ChoiceMessage", "ToolCall", "Usage"]
+__all__ = ["ModelChatResponse", "Choice", "ChoiceMessage", "ToolCall", "ToolCallFunction", "Usage"]
 
 
 class ChoiceMessage(BaseModel):
@@ -21,10 +22,42 @@ class Choice(BaseModel):
     message: Optional[ChoiceMessage] = None
 
 
-class ToolCall(BaseModel):
-    name: Optional[str] = None
+class ToolCallFunction(BaseModel):
+    name: str
+    """The name of the function to be called.
 
-    parameters: Optional[object] = None
+    Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length
+    of 64.
+    """
+
+    description: Optional[str] = None
+    """
+    A description of what the function does, used by the model to choose when and
+    how to call the function.
+    """
+
+    parameters: Optional[Dict[str, object]] = None
+    """The parameters the functions accepts, described as a JSON Schema object.
+
+    See the [guide](/docs/guides/function-calling) for examples, and the
+    [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for
+    documentation about the format.
+
+    Omitting `parameters` defines a function with an empty parameter list.
+    """
+
+    if TYPE_CHECKING:
+        # Stub to indicate that arbitrary properties are accepted.
+        # To access properties that are not valid identifiers you can use `getattr`, e.g.
+        # `getattr(obj, '$type')`
+        def __getattr__(self, attr: str) -> object:
+            ...
+
+
+class ToolCall(BaseModel):
+    function: Optional[ToolCallFunction] = None
+
+    type: Optional[Literal["function"]] = None
 
 
 class Usage(BaseModel):
