@@ -52,6 +52,8 @@ class ToolCallFunction(BaseModel):
         # `getattr(obj, '$type')`
         def __getattr__(self, attr: str) -> object:
             ...
+    def __getitem__(self, item: str) -> object:
+        return getattr(self, item)
 
 
 class ToolCall(BaseModel):
