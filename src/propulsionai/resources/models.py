@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable, Optional
+from typing import Any, Dict, Callable, Iterable, Optional
 
 import httpx
 
@@ -137,6 +137,140 @@ class ModelsResource(SyncAPIResource):
             ),
             cast_to=ModelChatResponse,
         )
+
+    async def chat_auto(
+        self,
+        model_id: str,
+        *,
+        messages: Iterable[model_chat_params.Message],
+        model: str,
+        stream: bool,
+        wait: bool | NotGiven = NOT_GIVEN,
+        max_tokens: Optional[int] | NotGiven = NOT_GIVEN,
+        n: Optional[int] | NotGiven = NOT_GIVEN,
+        temperature: Optional[float] | NotGiven = NOT_GIVEN,
+        tool_choice: model_chat_params.ToolChoice | NotGiven = NOT_GIVEN,
+        tools: Iterable[model_chat_params.Tool] | NotGiven = NOT_GIVEN,
+        top_p: Optional[float] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        available_function_map: Dict[str, Callable[..., Any]],
+    ) -> ModelChatResponse:
+        if not model_id:
+            raise ValueError(f"Expected a non-empty value for `model_id` but received {model_id!r}")
+        
+        if not tools or not available_function_map:
+            initial_response: ModelChatResponse = self._post(
+                f"/api/v1/{model_id}/run",
+                body=maybe_transform(
+                    {
+                        "messages": messages,
+                        "model": model,
+                        "stream": stream,
+                        "max_tokens": max_tokens,
+                        "n": n,
+                        "temperature": temperature,
+                        "tool_choice": tool_choice,
+                        "tools": tools,
+                        "top_p": top_p,
+                    },
+                    model_chat_params.ModelChatParams,
+                ),
+                options=make_request_options(
+                    extra_headers=extra_headers,
+                    extra_query=extra_query,
+                    extra_body=extra_body,
+                    timeout=timeout,
+                    query=maybe_transform({"wait": wait}, model_chat_params.ModelChatParams),
+                ),
+                cast_to=ModelChatResponse,
+            )
+            return initial_response
+        
+        initial_response = self._post(
+            f"/api/v1/{model_id}/run",
+            body=maybe_transform(
+                {
+                    "messages": messages,
+                    "model": model,
+                    "stream": stream,
+                    "max_tokens": max_tokens,
+                    "n": n,
+                    "temperature": temperature,
+                    "tool_choice": tool_choice,
+                    "tools": tools,
+                    "top_p": top_p,
+                },
+                model_chat_params.ModelChatParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"wait": wait}, model_chat_params.ModelChatParams),
+            ),
+            cast_to=ModelChatResponse,
+        )
+        # check that choices and content are present
+        initial_message: str = ""
+        if (
+            not initial_response.choices
+            or not initial_response.choices[0].message
+            or not initial_response.choices[0].message.content
+        ):
+            initial_message = "Function call by user"
+        else:
+            initial_message = initial_response.choices[0].message.content
+            
+        # if initial response has tool_calls, then loop through the tool_calls and call the tools
+        # if there are no tool_calls, then return the initial response
+        if initial_response.tool_calls:
+            for tool_call in initial_response.tool_calls:
+                function_name: str | None = str(tool_call.function["name"]) if tool_call.function else None
+                function_params = tool_call.function["parameters"] if tool_call.function else None
+                if(not function_name):
+                    raise ValueError(f"Function name is sent by th model, it is required to call the function.")
+                # Check if available_function_map[function_name] exists
+                if function_name not in available_function_map:
+                    raise ValueError(f"Function {function_name} is not available in the available_function_map.")
+                
+                function_response = await available_function_map[function_name](function_params)
+                # append response to the messages
+                messages = list(messages)
+                messages.append({"role": "assistant", "content": initial_message})
+                messages.append({"role": "user", "content": function_response})
+                final_response: ModelChatResponse = self._post(
+                    f"/api/v1/{model_id}/run",
+                    body=maybe_transform(
+                        {
+                            "messages": messages,
+                            "model": model,
+                            "stream": stream,
+                            "max_tokens": max_tokens,
+                            "n": n,
+                            "temperature": temperature,
+                            "top_p": top_p,
+                        },
+                        model_chat_params.ModelChatParams,
+                    ),
+                    options=make_request_options(
+                        extra_headers=extra_headers,
+                        extra_query=extra_query,
+                        extra_body=extra_body,
+                        timeout=timeout,
+                        query=maybe_transform({"wait": wait}, model_chat_params.ModelChatParams),
+                    ),
+                    cast_to=ModelChatResponse,
+                )
+                return final_response
+        else:
+            return initial_response
+        return initial_response
 
 
 class AsyncModelsResource(AsyncAPIResource):
