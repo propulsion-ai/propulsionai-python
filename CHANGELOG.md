@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.7 (2024-07-03)
+
+Full Changelog: [v0.1.0-alpha.6...v0.1.0-alpha.7](https://github.com/propulsion-ai/propulsionai-python/compare/v0.1.0-alpha.6...v0.1.0-alpha.7)
+
+### Features
+
+* **api:** OpenAPI spec update via Stainless API ([#23](https://github.com/propulsion-ai/propulsionai-python/issues/23)) ([828e954](https://github.com/propulsion-ai/propulsionai-python/commit/828e954676813291c760ff43c3b69718661d2af7))
+* **api:** OpenAPI spec update via Stainless API ([#25](https://github.com/propulsion-ai/propulsionai-python/issues/25)) ([7c77e0f](https://github.com/propulsion-ai/propulsionai-python/commit/7c77e0f2d32c04b0eab805ffac25f17b8cd18a7f))
+
 ## 0.1.0-alpha.6 (2024-06-12)
 
 Full Changelog: [v0.1.0-alpha.5...v0.1.0-alpha.6](https://github.com/propulsion-ai/propulsionai-python/compare/v0.1.0-alpha.5...v0.1.0-alpha.6)
