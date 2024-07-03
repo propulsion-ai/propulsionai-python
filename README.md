@@ -32,13 +32,13 @@ client = PropulsionAI(
     bearer_token=os.environ.get("PROPULSIONAI_BEARER_TOKEN"),
 )
 
-model_chat_response = client.models.chat(
+model_ep_response = client.models.ep(
     "REPLACE_ME",
     messages=[],
-    model="REPLACE_ME",
+    model="string",
     stream=True,
 )
-print(model_chat_response.id)
+print(model_ep_response.id)
 ```
 
 While you can provide a `bearer_token` keyword argument,
@@ -62,13 +62,13 @@ client = AsyncPropulsionAI(
 
 
 async def main() -> None:
-    model_chat_response = await client.models.chat(
+    model_ep_response = await client.models.ep(
         "REPLACE_ME",
         messages=[],
-        model="REPLACE_ME",
+        model="string",
         stream=True,
     )
-    print(model_chat_response.id)
+    print(model_ep_response.id)
 
 
 asyncio.run(main())
@@ -101,10 +101,10 @@ from propulsionai import PropulsionAI
 client = PropulsionAI()
 
 try:
-    client.models.chat(
+    client.models.ep(
         "REPLACE_ME",
         messages=[],
-        model="REPLACE_ME",
+        model="string",
         stream=True,
     )
 except propulsionai.APIConnectionError as e:
@@ -149,10 +149,10 @@ client = PropulsionAI(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).models.chat(
+client.with_options(max_retries=5).models.ep(
     "REPLACE_ME",
     messages=[],
-    model="REPLACE_ME",
+    model="string",
     stream=True,
 )
 ```
@@ -177,10 +177,10 @@ client = PropulsionAI(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).models.chat(
+client.with_options(timeout=5.0).models.ep(
     "REPLACE_ME",
     messages=[],
-    model="REPLACE_ME",
+    model="string",
     stream=True,
 )
 ```
@@ -221,15 +221,15 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from propulsionai import PropulsionAI
 
 client = PropulsionAI()
-response = client.models.with_raw_response.chat(
+response = client.models.with_raw_response.ep(
     "REPLACE_ME",
     messages=[],
-    model="REPLACE_ME",
+    model="string",
     stream=True,
 )
 print(response.headers.get('X-My-Header'))
 
-model = response.parse()  # get the object that `models.chat()` would have returned
+model = response.parse()  # get the object that `models.ep()` would have returned
 print(model.id)
 ```
 
@@ -244,10 +244,10 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.models.with_streaming_response.chat(
+with client.models.with_streaming_response.ep(
     "REPLACE_ME",
     messages=[],
-    model="REPLACE_ME",
+    model="string",
     stream=True,
 ) as response:
     print(response.headers.get("X-My-Header"))

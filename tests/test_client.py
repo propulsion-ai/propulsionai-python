@@ -732,12 +732,12 @@ class TestPropulsionAI:
     @mock.patch("propulsionai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/api/v1/string/run").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/api/v1/chat/string").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
             self.client.post(
-                "/api/v1/string/run",
-                body=cast(object, dict(messages=[], model="REPLACE_ME", stream=True)),
+                "/api/v1/chat/string",
+                body=cast(object, dict(messages=[], model="string", stream=True)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -747,12 +747,12 @@ class TestPropulsionAI:
     @mock.patch("propulsionai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/api/v1/string/run").mock(return_value=httpx.Response(500))
+        respx_mock.post("/api/v1/chat/string").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
             self.client.post(
-                "/api/v1/string/run",
-                body=cast(object, dict(messages=[], model="REPLACE_ME", stream=True)),
+                "/api/v1/chat/string",
+                body=cast(object, dict(messages=[], model="string", stream=True)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1449,12 +1449,12 @@ class TestAsyncPropulsionAI:
     @mock.patch("propulsionai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/api/v1/string/run").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/api/v1/chat/string").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
             await self.client.post(
-                "/api/v1/string/run",
-                body=cast(object, dict(messages=[], model="REPLACE_ME", stream=True)),
+                "/api/v1/chat/string",
+                body=cast(object, dict(messages=[], model="string", stream=True)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1464,12 +1464,12 @@ class TestAsyncPropulsionAI:
     @mock.patch("propulsionai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/api/v1/string/run").mock(return_value=httpx.Response(500))
+        respx_mock.post("/api/v1/chat/string").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
             await self.client.post(
-                "/api/v1/string/run",
-                body=cast(object, dict(messages=[], model="REPLACE_ME", stream=True)),
+                "/api/v1/chat/string",
+                body=cast(object, dict(messages=[], model="string", stream=True)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
