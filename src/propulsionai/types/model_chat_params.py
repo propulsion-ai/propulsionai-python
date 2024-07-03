@@ -27,43 +27,20 @@ class ModelChatParams(TypedDict, total=False):
     """Whether to wait for the response or not."""
 
     max_tokens: Optional[int]
-    """
-    The maximum number of [tokens](/tokenizer) that can be generated in the chat
-    completion.
-
-    The total length of input tokens and generated tokens is limited by the model's
-    context length.
-    [Example Python code](https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken)
-    for counting tokens.
-    """
+    """The maximum number of tokens that can be generated in the chat completion."""
 
     n: Optional[int]
-    """How many chat completion choices to generate for each input message.
-
-    Note that you will be charged based on the number of generated tokens across all
-    of the choices. Keep `n` as `1` to minimize costs.
-    """
+    """How many chat completion choices to generate for each input message."""
 
     temperature: Optional[float]
-    """
-    An alternative to sampling with temperature, called nucleus sampling, where the
-    model considers the results of the tokens with top_p probability mass. So 0.1
-    means only the tokens comprising the top 10% probability mass are considered.
-
-    We generally recommend altering this or `temperature` but not both.
-    """
+    """An alternative to sampling with temperature, called nucleus sampling."""
 
     tool_choice: ToolChoice
     """
     Controls which (if any) tool is called by the model. `none` means the model will
     not call any tool and instead generates a message. `auto` means the model can
     pick between generating a message or calling one or more tools. `required` means
-    the model must call one or more tools. Specifying a particular tool via
-    `{"type": "function", "function": {"name": "my_function"}}` forces the model to
-    call that tool.
-
-    `none` is the default when no tools are present. `auto` is the default if tools
-    are present.
+    the model must call one or more tools.
     """
 
     tools: Iterable[Tool]
@@ -75,13 +52,7 @@ class ModelChatParams(TypedDict, total=False):
     """
 
     top_p: Optional[float]
-    """
-    An alternative to sampling with temperature, called nucleus sampling, where the
-    model considers the results of the tokens with top_p probability mass. So 0.1
-    means only the tokens comprising the top 10% probability mass are considered.
-
-    We generally recommend altering this or `temperature` but not both.
-    """
+    """An alternative to sampling with temperature, called nucleus sampling."""
 
 
 class Message(TypedDict, total=False):
@@ -90,7 +61,7 @@ class Message(TypedDict, total=False):
     role: Literal["system", "user", "assistant", "tool"]
 
 
-class ToolChoiceChatCompletionNamedToolChoiceFunctionTyped(TypedDict, total=False):
+class ToolChoiceChatCompletionNamedToolChoiceFunction(TypedDict, total=False):
     name: Required[str]
     """The name of the function to be called.
 
@@ -105,19 +76,7 @@ class ToolChoiceChatCompletionNamedToolChoiceFunctionTyped(TypedDict, total=Fals
     """
 
     parameters: Dict[str, object]
-    """The parameters the functions accepts, described as a JSON Schema object.
-
-    See the [guide](/docs/guides/function-calling) for examples, and the
-    [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for
-    documentation about the format.
-
-    Omitting `parameters` defines a function with an empty parameter list.
-    """
-
-
-ToolChoiceChatCompletionNamedToolChoiceFunction = Union[
-    ToolChoiceChatCompletionNamedToolChoiceFunctionTyped, Dict[str, object]
-]
+    """The parameters the functions accepts, described as a JSON Schema object."""
 
 
 class ToolChoiceChatCompletionNamedToolChoice(TypedDict, total=False):
@@ -129,7 +88,7 @@ class ToolChoiceChatCompletionNamedToolChoice(TypedDict, total=False):
 ToolChoice = Union[Literal["none", "auto", "required"], ToolChoiceChatCompletionNamedToolChoice]
 
 
-class ToolFunctionTyped(TypedDict, total=False):
+class ToolFunction(TypedDict, total=False):
     name: Required[str]
     """The name of the function to be called.
 
@@ -144,17 +103,7 @@ class ToolFunctionTyped(TypedDict, total=False):
     """
 
     parameters: Dict[str, object]
-    """The parameters the functions accepts, described as a JSON Schema object.
-
-    See the [guide](/docs/guides/function-calling) for examples, and the
-    [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for
-    documentation about the format.
-
-    Omitting `parameters` defines a function with an empty parameter list.
-    """
-
-
-ToolFunction = Union[ToolFunctionTyped, Dict[str, object]]
+    """The parameters the functions accepts, described as a JSON Schema object."""
 
 
 class Tool(TypedDict, total=False):

@@ -50,7 +50,7 @@ class TestModels:
             wait=True,
             max_tokens=0,
             n=1,
-            temperature=1,
+            temperature=0,
             tool_choice="none",
             tools=[
                 {
@@ -78,7 +78,7 @@ class TestModels:
                     },
                 },
             ],
-            top_p=1,
+            top_p=0,
         )
         assert_matches_type(ModelChatResponse, model, path=["response"])
 
@@ -159,7 +159,7 @@ class TestAsyncModels:
             wait=True,
             max_tokens=0,
             n=1,
-            temperature=1,
+            temperature=0,
             tool_choice="none",
             tools=[
                 {
@@ -187,7 +187,7 @@ class TestAsyncModels:
                     },
                 },
             ],
-            top_p=1,
+            top_p=0,
         )
         assert_matches_type(ModelChatResponse, model, path=["response"])
 
