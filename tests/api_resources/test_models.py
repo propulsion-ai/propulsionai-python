@@ -48,8 +48,10 @@ class TestModels:
             model="string",
             stream=True,
             wait=True,
+            knowledgebases=["string", "string", "string"],
             max_tokens=0,
             n=1,
+            task_id="string",
             temperature=0,
             tool_choice="none",
             tools=[
@@ -122,6 +124,113 @@ class TestModels:
                 stream=True,
             )
 
+    @parametrize
+    def test_method_ep(self, client: PropulsionAI) -> None:
+        model = client.models.ep(
+            "string",
+            messages=[{}, {}, {}],
+            model="string",
+            stream=True,
+        )
+        assert_matches_type(ModelEpResponse, model, path=["response"])
+
+    @parametrize
+    def test_method_ep_with_all_params(self, client: PropulsionAI) -> None:
+        model = client.models.ep(
+            "string",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "string",
+                },
+                {
+                    "role": "system",
+                    "content": "string",
+                },
+                {
+                    "role": "system",
+                    "content": "string",
+                },
+            ],
+            model="string",
+            stream=True,
+            wait=True,
+            knowledgebases=["string", "string", "string"],
+            max_tokens=0,
+            n=1,
+            task_id="string",
+            temperature=0,
+            tool_choice="none",
+            tools=[
+                {
+                    "type": "function",
+                    "function": {
+                        "description": "string",
+                        "name": "string",
+                        "parameters": {"foo": "bar"},
+                    },
+                },
+                {
+                    "type": "function",
+                    "function": {
+                        "description": "string",
+                        "name": "string",
+                        "parameters": {"foo": "bar"},
+                    },
+                },
+                {
+                    "type": "function",
+                    "function": {
+                        "description": "string",
+                        "name": "string",
+                        "parameters": {"foo": "bar"},
+                    },
+                },
+            ],
+            top_p=0,
+        )
+        assert_matches_type(ModelEpResponse, model, path=["response"])
+
+    @parametrize
+    def test_raw_response_ep(self, client: PropulsionAI) -> None:
+        response = client.models.with_raw_response.ep(
+            "string",
+            messages=[{}, {}, {}],
+            model="string",
+            stream=True,
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        model = response.parse()
+        assert_matches_type(ModelEpResponse, model, path=["response"])
+
+    @parametrize
+    def test_streaming_response_ep(self, client: PropulsionAI) -> None:
+        with client.models.with_streaming_response.ep(
+            "string",
+            messages=[{}, {}, {}],
+            model="string",
+            stream=True,
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            model = response.parse()
+            assert_matches_type(ModelEpResponse, model, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_ep(self, client: PropulsionAI) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `deployment_tag` but received ''"):
+            client.models.with_raw_response.ep(
+                "",
+                messages=[{}, {}, {}],
+                model="string",
+                stream=True,
+            )
+
 
 class TestAsyncModels:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
@@ -157,8 +266,10 @@ class TestAsyncModels:
             model="string",
             stream=True,
             wait=True,
+            knowledgebases=["string", "string", "string"],
             max_tokens=0,
             n=1,
+            task_id="string",
             temperature=0,
             tool_choice="none",
             tools=[
@@ -230,3 +341,113 @@ class TestAsyncModels:
                 model="string",
                 stream=True,
             )
+<<<<<<< HEAD
+=======
+
+    @parametrize
+    async def test_method_ep(self, async_client: AsyncPropulsionAI) -> None:
+        model = await async_client.models.ep(
+            "string",
+            messages=[{}, {}, {}],
+            model="string",
+            stream=True,
+        )
+        assert_matches_type(ModelEpResponse, model, path=["response"])
+
+    @parametrize
+    async def test_method_ep_with_all_params(self, async_client: AsyncPropulsionAI) -> None:
+        model = await async_client.models.ep(
+            "string",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "string",
+                },
+                {
+                    "role": "system",
+                    "content": "string",
+                },
+                {
+                    "role": "system",
+                    "content": "string",
+                },
+            ],
+            model="string",
+            stream=True,
+            wait=True,
+            knowledgebases=["string", "string", "string"],
+            max_tokens=0,
+            n=1,
+            task_id="string",
+            temperature=0,
+            tool_choice="none",
+            tools=[
+                {
+                    "type": "function",
+                    "function": {
+                        "description": "string",
+                        "name": "string",
+                        "parameters": {"foo": "bar"},
+                    },
+                },
+                {
+                    "type": "function",
+                    "function": {
+                        "description": "string",
+                        "name": "string",
+                        "parameters": {"foo": "bar"},
+                    },
+                },
+                {
+                    "type": "function",
+                    "function": {
+                        "description": "string",
+                        "name": "string",
+                        "parameters": {"foo": "bar"},
+                    },
+                },
+            ],
+            top_p=0,
+        )
+        assert_matches_type(ModelEpResponse, model, path=["response"])
+
+    @parametrize
+    async def test_raw_response_ep(self, async_client: AsyncPropulsionAI) -> None:
+        response = await async_client.models.with_raw_response.ep(
+            "string",
+            messages=[{}, {}, {}],
+            model="string",
+            stream=True,
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        model = await response.parse()
+        assert_matches_type(ModelEpResponse, model, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_ep(self, async_client: AsyncPropulsionAI) -> None:
+        async with async_client.models.with_streaming_response.ep(
+            "string",
+            messages=[{}, {}, {}],
+            model="string",
+            stream=True,
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            model = await response.parse()
+            assert_matches_type(ModelEpResponse, model, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_ep(self, async_client: AsyncPropulsionAI) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `deployment_tag` but received ''"):
+            await async_client.models.with_raw_response.ep(
+                "",
+                messages=[{}, {}, {}],
+                model="string",
+                stream=True,
+            )
+>>>>>>> origin/generated--merge-conflict
