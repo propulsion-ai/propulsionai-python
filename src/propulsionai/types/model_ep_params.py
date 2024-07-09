@@ -6,7 +6,7 @@ from typing import Dict, List, Union, Iterable, Optional
 from typing_extensions import Literal, Required, TypedDict
 
 __all__ = [
-    "ModelChatParams",
+    "ModelEpParams",
     "Message",
     "ToolChoice",
     "ToolChoiceChatCompletionNamedToolChoice",
@@ -16,7 +16,7 @@ __all__ = [
 ]
 
 
-class ModelChatParams(TypedDict, total=False):
+class ModelEpParams(TypedDict, total=False):
     messages: Required[Iterable[Message]]
 
     model: Required[str]
