@@ -57,7 +57,7 @@ class TasksResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        This endpoint creates a new task for the dataset with specific columns.
+        Create a new dataset task
 
         Args:
           chosen: The column name in the dataset containing the chosen answers.
@@ -148,7 +148,7 @@ class AsyncTasksResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> None:
         """
-        This endpoint creates a new task for the dataset with specific columns.
+        Create a new dataset task
 
         Args:
           chosen: The column name in the dataset containing the chosen answers.
