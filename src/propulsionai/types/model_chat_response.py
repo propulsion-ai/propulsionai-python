@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Dict, List, Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -52,6 +52,7 @@ class ToolCallFunction(BaseModel):
         # `getattr(obj, '$type')`
         def __getattr__(self, attr: str) -> object:
             ...
+
     def __getitem__(self, item: str) -> object:
         return getattr(self, item)
 

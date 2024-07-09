@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Iterable, Optional, Dict, Any, Coroutine, Callable
+from typing import Any, Dict, List, Callable, Iterable, Optional, Coroutine
 
 import httpx
 
@@ -23,8 +23,8 @@ from .._response import (
 from .._base_client import (
     make_request_options,
 )
-from ..types.model_chat_response import ModelChatResponse
 from ..types.model_ep_params import ModelEpParams
+from ..types.model_chat_response import ModelChatResponse
 
 __all__ = ["ModelsResource", "AsyncModelsResource"]
 
@@ -213,7 +213,7 @@ class ModelsResource(SyncAPIResource):
             ),
             cast_to=ModelChatResponse,
         )
-    
+
     def ep_auto(
         self,
         deployment_tag: str,
@@ -246,7 +246,7 @@ class ModelsResource(SyncAPIResource):
         """
         if not deployment_tag:
             raise ValueError(f"Expected a non-empty value for `deployment_tag` but received {deployment_tag!r}")
-        
+
         body = {
             "messages": messages,
             "model": model,
@@ -260,7 +260,7 @@ class ModelsResource(SyncAPIResource):
             "tools": tools,
             "top_p": top_p,
         }
-        
+
         initial_response: ModelChatResponse = self._post(
             f"/api/v1/chat/{deployment_tag}",
             body=maybe_transform(body, ModelEpParams),
@@ -273,7 +273,7 @@ class ModelsResource(SyncAPIResource):
             ),
             cast_to=ModelChatResponse,
         )
-        
+
         initial_message: str = ""
         if (
             not initial_response.choices
@@ -283,7 +283,7 @@ class ModelsResource(SyncAPIResource):
             initial_message = "Function call by user"
         else:
             initial_message = initial_response.choices[0].message.content
-        
+
         if initial_response.tool_calls and not isinstance(available_function_map, NotGiven):
             for tool_call in initial_response.tool_calls:
                 function_name: str | None = str(tool_call.function["name"]) if tool_call.function else None
@@ -292,7 +292,7 @@ class ModelsResource(SyncAPIResource):
                     raise ValueError(f"Function name is sent by the model, it is required to call the function.")
                 if function_name not in available_function_map:
                     raise ValueError(f"Function {function_name} is not available in the available_function_map.")
-                
+
                 function_response: Any = available_function_map[function_name](function_params)
                 if not function_response:
                     function_response = "The function call did not return any response."
@@ -300,7 +300,7 @@ class ModelsResource(SyncAPIResource):
                 messages = list(messages)
                 messages.append({"role": "assistant", "content": initial_message})
                 messages.append({"role": "user", "content": function_response})
-                
+
                 final_response: ModelChatResponse = self._post(
                     f"/api/v1/chat/{deployment_tag}",
                     body=maybe_transform(
@@ -514,7 +514,7 @@ class AsyncModelsResource(AsyncAPIResource):
             ),
             cast_to=ModelChatResponse,
         )
-    
+
     async def ep_auto(
         self,
         deployment_tag: str,
@@ -547,7 +547,7 @@ class AsyncModelsResource(AsyncAPIResource):
         """
         if not deployment_tag:
             raise ValueError(f"Expected a non-empty value for `deployment_tag` but received {deployment_tag!r}")
-        
+
         body = {
             "messages": messages,
             "model": model,
@@ -561,7 +561,7 @@ class AsyncModelsResource(AsyncAPIResource):
             "tools": tools,
             "top_p": top_p,
         }
-        
+
         initial_response: ModelChatResponse = await self._post(
             f"/api/v1/chat/{deployment_tag}",
             body=await async_maybe_transform(body, ModelEpParams),
@@ -574,7 +574,7 @@ class AsyncModelsResource(AsyncAPIResource):
             ),
             cast_to=ModelChatResponse,
         )
-        
+
         initial_message: str = ""
         if (
             not initial_response.choices
@@ -584,7 +584,7 @@ class AsyncModelsResource(AsyncAPIResource):
             initial_message = "Function call by user"
         else:
             initial_message = initial_response.choices[0].message.content
-        
+
         if initial_response.tool_calls and not isinstance(available_function_map, NotGiven):
             for tool_call in initial_response.tool_calls:
                 function_name: str | None = str(tool_call.function["name"]) if tool_call.function else None
@@ -593,7 +593,7 @@ class AsyncModelsResource(AsyncAPIResource):
                     raise ValueError(f"Function name is sent by the model, it is required to call the function.")
                 if function_name not in available_function_map:
                     raise ValueError(f"Function {function_name} is not available in the available_function_map.")
-                
+
                 function_response: Any = await available_function_map[function_name](function_params)
                 if not function_response:
                     function_response = "The function call did not return any response."
@@ -601,7 +601,7 @@ class AsyncModelsResource(AsyncAPIResource):
                 messages = list(messages)
                 messages.append({"role": "assistant", "content": initial_message})
                 messages.append({"role": "user", "content": function_response})
-                
+
                 final_response: ModelChatResponse = await self._post(
                     f"/api/v1/chat/{deployment_tag}",
                     body=await async_maybe_transform(

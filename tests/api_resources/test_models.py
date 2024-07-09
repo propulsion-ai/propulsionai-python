@@ -341,8 +341,6 @@ class TestAsyncModels:
                 model="string",
                 stream=True,
             )
-<<<<<<< HEAD
-=======
 
     @parametrize
     async def test_method_ep(self, async_client: AsyncPropulsionAI) -> None:
@@ -450,4 +448,3 @@ class TestAsyncModels:
                 model="string",
                 stream=True,
             )
->>>>>>> origin/generated--merge-conflict
