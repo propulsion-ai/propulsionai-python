@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable, Optional
+from typing import List, Iterable, Optional
 
 import httpx
 
@@ -46,6 +46,7 @@ class ModelsResource(SyncAPIResource):
         model: str,
         stream: bool,
         wait: bool | NotGiven = NOT_GIVEN,
+        knowledgebases: List[str] | NotGiven = NOT_GIVEN,
         max_tokens: Optional[int] | NotGiven = NOT_GIVEN,
         n: Optional[int] | NotGiven = NOT_GIVEN,
         temperature: Optional[float] | NotGiven = NOT_GIVEN,
@@ -64,6 +65,8 @@ class ModelsResource(SyncAPIResource):
 
         Args:
           wait: Whether to wait for the response or not.
+
+          knowledgebases: A list of knowledgebase IDs to use in the model.
 
           max_tokens: The maximum number of tokens that can be generated in the chat completion.
 
@@ -99,6 +102,7 @@ class ModelsResource(SyncAPIResource):
                     "messages": messages,
                     "model": model,
                     "stream": stream,
+                    "knowledgebases": knowledgebases,
                     "max_tokens": max_tokens,
                     "n": n,
                     "temperature": temperature,
@@ -126,6 +130,7 @@ class ModelsResource(SyncAPIResource):
         model: str,
         stream: bool,
         wait: bool | NotGiven = NOT_GIVEN,
+        knowledgebases: List[str] | NotGiven = NOT_GIVEN,
         max_tokens: Optional[int] | NotGiven = NOT_GIVEN,
         n: Optional[int] | NotGiven = NOT_GIVEN,
         temperature: Optional[float] | NotGiven = NOT_GIVEN,
@@ -144,6 +149,8 @@ class ModelsResource(SyncAPIResource):
 
         Args:
           wait: Whether to wait for the response or not.
+
+          knowledgebases: A list of knowledgebase IDs to use in the model.
 
           max_tokens: The maximum number of tokens that can be generated in the chat completion.
 
@@ -179,6 +186,7 @@ class ModelsResource(SyncAPIResource):
                     "messages": messages,
                     "model": model,
                     "stream": stream,
+                    "knowledgebases": knowledgebases,
                     "max_tokens": max_tokens,
                     "n": n,
                     "temperature": temperature,
@@ -216,6 +224,7 @@ class AsyncModelsResource(AsyncAPIResource):
         model: str,
         stream: bool,
         wait: bool | NotGiven = NOT_GIVEN,
+        knowledgebases: List[str] | NotGiven = NOT_GIVEN,
         max_tokens: Optional[int] | NotGiven = NOT_GIVEN,
         n: Optional[int] | NotGiven = NOT_GIVEN,
         temperature: Optional[float] | NotGiven = NOT_GIVEN,
@@ -234,6 +243,8 @@ class AsyncModelsResource(AsyncAPIResource):
 
         Args:
           wait: Whether to wait for the response or not.
+
+          knowledgebases: A list of knowledgebase IDs to use in the model.
 
           max_tokens: The maximum number of tokens that can be generated in the chat completion.
 
@@ -269,6 +280,7 @@ class AsyncModelsResource(AsyncAPIResource):
                     "messages": messages,
                     "model": model,
                     "stream": stream,
+                    "knowledgebases": knowledgebases,
                     "max_tokens": max_tokens,
                     "n": n,
                     "temperature": temperature,
@@ -296,6 +308,7 @@ class AsyncModelsResource(AsyncAPIResource):
         model: str,
         stream: bool,
         wait: bool | NotGiven = NOT_GIVEN,
+        knowledgebases: List[str] | NotGiven = NOT_GIVEN,
         max_tokens: Optional[int] | NotGiven = NOT_GIVEN,
         n: Optional[int] | NotGiven = NOT_GIVEN,
         temperature: Optional[float] | NotGiven = NOT_GIVEN,
@@ -314,6 +327,8 @@ class AsyncModelsResource(AsyncAPIResource):
 
         Args:
           wait: Whether to wait for the response or not.
+
+          knowledgebases: A list of knowledgebase IDs to use in the model.
 
           max_tokens: The maximum number of tokens that can be generated in the chat completion.
 
@@ -349,6 +364,7 @@ class AsyncModelsResource(AsyncAPIResource):
                     "messages": messages,
                     "model": model,
                     "stream": stream,
+                    "knowledgebases": knowledgebases,
                     "max_tokens": max_tokens,
                     "n": n,
                     "temperature": temperature,
