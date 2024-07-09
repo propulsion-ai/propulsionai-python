@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, TYPE_CHECKING
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -57,9 +57,9 @@ class ToolCallFunction(BaseModel):
 
 
 class ToolCall(BaseModel):
-    function: Optional[ToolCallFunction] = None
+    function: ToolCallFunction
 
-    type: Optional[Literal["function"]] = None
+    type: Literal["function"] = "function"
 
 
 class Usage(BaseModel):
