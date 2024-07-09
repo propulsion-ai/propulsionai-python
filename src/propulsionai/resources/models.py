@@ -49,6 +49,7 @@ class ModelsResource(SyncAPIResource):
         knowledgebases: List[str] | NotGiven = NOT_GIVEN,
         max_tokens: Optional[int] | NotGiven = NOT_GIVEN,
         n: Optional[int] | NotGiven = NOT_GIVEN,
+        task_id: str | NotGiven = NOT_GIVEN,
         temperature: Optional[float] | NotGiven = NOT_GIVEN,
         tool_choice: model_chat_params.ToolChoice | NotGiven = NOT_GIVEN,
         tools: Iterable[model_chat_params.Tool] | NotGiven = NOT_GIVEN,
@@ -71,6 +72,8 @@ class ModelsResource(SyncAPIResource):
           max_tokens: The maximum number of tokens that can be generated in the chat completion.
 
           n: How many chat completion choices to generate for each input message.
+
+          task_id: Optional task ID associated with the request.
 
           temperature: An alternative to sampling with temperature, called nucleus sampling.
 
@@ -105,6 +108,7 @@ class ModelsResource(SyncAPIResource):
                     "knowledgebases": knowledgebases,
                     "max_tokens": max_tokens,
                     "n": n,
+                    "task_id": task_id,
                     "temperature": temperature,
                     "tool_choice": tool_choice,
                     "tools": tools,
@@ -133,6 +137,7 @@ class ModelsResource(SyncAPIResource):
         knowledgebases: List[str] | NotGiven = NOT_GIVEN,
         max_tokens: Optional[int] | NotGiven = NOT_GIVEN,
         n: Optional[int] | NotGiven = NOT_GIVEN,
+        task_id: str | NotGiven = NOT_GIVEN,
         temperature: Optional[float] | NotGiven = NOT_GIVEN,
         tool_choice: model_ep_params.ToolChoice | NotGiven = NOT_GIVEN,
         tools: Iterable[model_ep_params.Tool] | NotGiven = NOT_GIVEN,
@@ -155,6 +160,8 @@ class ModelsResource(SyncAPIResource):
           max_tokens: The maximum number of tokens that can be generated in the chat completion.
 
           n: How many chat completion choices to generate for each input message.
+
+          task_id: Optional task ID associated with the request.
 
           temperature: An alternative to sampling with temperature, called nucleus sampling.
 
@@ -189,6 +196,7 @@ class ModelsResource(SyncAPIResource):
                     "knowledgebases": knowledgebases,
                     "max_tokens": max_tokens,
                     "n": n,
+                    "task_id": task_id,
                     "temperature": temperature,
                     "tool_choice": tool_choice,
                     "tools": tools,
@@ -227,6 +235,7 @@ class AsyncModelsResource(AsyncAPIResource):
         knowledgebases: List[str] | NotGiven = NOT_GIVEN,
         max_tokens: Optional[int] | NotGiven = NOT_GIVEN,
         n: Optional[int] | NotGiven = NOT_GIVEN,
+        task_id: str | NotGiven = NOT_GIVEN,
         temperature: Optional[float] | NotGiven = NOT_GIVEN,
         tool_choice: model_chat_params.ToolChoice | NotGiven = NOT_GIVEN,
         tools: Iterable[model_chat_params.Tool] | NotGiven = NOT_GIVEN,
@@ -249,6 +258,8 @@ class AsyncModelsResource(AsyncAPIResource):
           max_tokens: The maximum number of tokens that can be generated in the chat completion.
 
           n: How many chat completion choices to generate for each input message.
+
+          task_id: Optional task ID associated with the request.
 
           temperature: An alternative to sampling with temperature, called nucleus sampling.
 
@@ -283,6 +294,7 @@ class AsyncModelsResource(AsyncAPIResource):
                     "knowledgebases": knowledgebases,
                     "max_tokens": max_tokens,
                     "n": n,
+                    "task_id": task_id,
                     "temperature": temperature,
                     "tool_choice": tool_choice,
                     "tools": tools,
@@ -311,6 +323,7 @@ class AsyncModelsResource(AsyncAPIResource):
         knowledgebases: List[str] | NotGiven = NOT_GIVEN,
         max_tokens: Optional[int] | NotGiven = NOT_GIVEN,
         n: Optional[int] | NotGiven = NOT_GIVEN,
+        task_id: str | NotGiven = NOT_GIVEN,
         temperature: Optional[float] | NotGiven = NOT_GIVEN,
         tool_choice: model_ep_params.ToolChoice | NotGiven = NOT_GIVEN,
         tools: Iterable[model_ep_params.Tool] | NotGiven = NOT_GIVEN,
@@ -333,6 +346,8 @@ class AsyncModelsResource(AsyncAPIResource):
           max_tokens: The maximum number of tokens that can be generated in the chat completion.
 
           n: How many chat completion choices to generate for each input message.
+
+          task_id: Optional task ID associated with the request.
 
           temperature: An alternative to sampling with temperature, called nucleus sampling.
 
@@ -367,6 +382,7 @@ class AsyncModelsResource(AsyncAPIResource):
                     "knowledgebases": knowledgebases,
                     "max_tokens": max_tokens,
                     "n": n,
+                    "task_id": task_id,
                     "temperature": temperature,
                     "tool_choice": tool_choice,
                     "tools": tools,
