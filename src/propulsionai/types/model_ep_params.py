@@ -35,6 +35,9 @@ class ModelEpParams(TypedDict, total=False):
     n: Optional[int]
     """How many chat completion choices to generate for each input message."""
 
+    task_id: str
+    """Optional task ID associated with the request."""
+
     temperature: Optional[float]
     """An alternative to sampling with temperature, called nucleus sampling."""
 
