@@ -1113,15 +1113,15 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         parsed_response = api_response.parse()
 
         # Check for X-TASK-ID header and add it to the response body
-        task_id = response.headers.get('X-TASK-ID')
+        task_id = response.headers.get("X-TASK-ID")
         if task_id:
             if isinstance(parsed_response, dict):
-                parsed_response['task_id'] = task_id
-            elif hasattr(parsed_response, '__dict__'):
-                parsed_response.__dict__['task_id'] = task_id
+                parsed_response["task_id"] = task_id
+            elif hasattr(parsed_response, "__dict__"):
+                parsed_response.__dict__["task_id"] = task_id
             # If parsed_response is neither a dict nor an object with __dict__,
             # we can't add the task_id to it without knowing its structure
-        
+
         return cast(ResponseT, parsed_response)
 
     def _request_api_list(
@@ -1684,12 +1684,12 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         parsed_response = await api_response.parse()
 
         # Check for X-TASK-ID header and add it to the response body
-        task_id = response.headers.get('X-TASK-ID')
+        task_id = response.headers.get("X-TASK-ID")
         if task_id:
             if isinstance(parsed_response, dict):
-                parsed_response['task_id'] = task_id
-            elif hasattr(parsed_response, '__dict__'):
-                parsed_response.__dict__['task_id'] = task_id
+                parsed_response["task_id"] = task_id
+            elif hasattr(parsed_response, "__dict__"):
+                parsed_response.__dict__["task_id"] = task_id
             # If parsed_response is neither a dict nor an object with __dict__,
             # we can't add the task_id to it without knowing its structure
 
