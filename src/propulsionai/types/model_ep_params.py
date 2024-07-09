@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Iterable, Optional
+from typing import Dict, List, Union, Iterable, Optional
 from typing_extensions import Literal, Required, TypedDict
 
 __all__ = [
@@ -25,6 +25,9 @@ class ModelEpParams(TypedDict, total=False):
 
     wait: bool
     """Whether to wait for the response or not."""
+
+    knowledgebases: List[str]
+    """A list of knowledgebase IDs to use in the model."""
 
     max_tokens: Optional[int]
     """The maximum number of tokens that can be generated in the chat completion."""
