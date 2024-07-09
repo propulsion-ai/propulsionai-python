@@ -37,7 +37,23 @@ class ToolCallFunction(BaseModel):
     """
 
     parameters: Optional[Dict[str, object]] = None
-    """The parameters the functions accepts, described as a JSON Schema object."""
+    """The parameters the functions accepts, described as a JSON Schema object.
+
+    See the [guide](/docs/guides/function-calling) for examples, and the
+    [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for
+    documentation about the format.
+
+    Omitting `parameters` defines a function with an empty parameter list.
+    """
+
+    if TYPE_CHECKING:
+        # Stub to indicate that arbitrary properties are accepted.
+        # To access properties that are not valid identifiers you can use `getattr`, e.g.
+        # `getattr(obj, '$type')`
+        def __getattr__(self, attr: str) -> object:
+            ...
+    def __getitem__(self, item: str) -> object:
+        return getattr(self, item)
 
 
 class ToolCall(BaseModel):

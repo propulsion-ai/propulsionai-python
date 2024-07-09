@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Iterable, Optional
+from typing import Any, Dict, Callable, Iterable, Optional
 
 import httpx
 
-from ..types import model_ep_params, model_chat_params
+from ..types import model_chat_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
     maybe_transform,
@@ -23,7 +23,6 @@ from .._response import (
 from .._base_client import (
     make_request_options,
 )
-from ..types.model_ep_response import ModelEpResponse
 from ..types.model_chat_response import ModelChatResponse
 
 __all__ = ["ModelsResource", "AsyncModelsResource"]
@@ -118,19 +117,19 @@ class ModelsResource(SyncAPIResource):
             cast_to=ModelChatResponse,
         )
 
-    def ep(
+    async def chat_auto(
         self,
-        deployment_tag: str,
+        model_id: str,
         *,
-        messages: Iterable[model_ep_params.Message],
+        messages: Iterable[model_chat_params.Message],
         model: str,
         stream: bool,
         wait: bool | NotGiven = NOT_GIVEN,
         max_tokens: Optional[int] | NotGiven = NOT_GIVEN,
         n: Optional[int] | NotGiven = NOT_GIVEN,
         temperature: Optional[float] | NotGiven = NOT_GIVEN,
-        tool_choice: model_ep_params.ToolChoice | NotGiven = NOT_GIVEN,
-        tools: Iterable[model_ep_params.Tool] | NotGiven = NOT_GIVEN,
+        tool_choice: model_chat_params.ToolChoice | NotGiven = NOT_GIVEN,
+        tools: Iterable[model_chat_params.Tool] | NotGiven = NOT_GIVEN,
         top_p: Optional[float] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -138,42 +137,41 @@ class ModelsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ModelEpResponse:
-        """
-        Call a deployment endpoint with specified tools and messages.
-
-        Args:
-          wait: Whether to wait for the response or not.
-
-          max_tokens: The maximum number of tokens that can be generated in the chat completion.
-
-          n: How many chat completion choices to generate for each input message.
-
-          temperature: An alternative to sampling with temperature, called nucleus sampling.
-
-          tool_choice: Controls which (if any) tool is called by the model. `none` means the model will
-              not call any tool and instead generates a message. `auto` means the model can
-              pick between generating a message or calling one or more tools. `required` means
-              the model must call one or more tools.
-
-          tools: A list of tools the model may call. Currently, only functions are supported as a
-              tool. Use this to provide a list of functions the model may generate JSON inputs
-              for. A max of 128 functions are supported.
-
-          top_p: An alternative to sampling with temperature, called nucleus sampling.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not deployment_tag:
-            raise ValueError(f"Expected a non-empty value for `deployment_tag` but received {deployment_tag!r}")
-        return self._post(
-            f"/api/v1/chat/{deployment_tag}",
+        available_function_map: Dict[str, Callable[..., Any]],
+    ) -> ModelChatResponse:
+        if not model_id:
+            raise ValueError(f"Expected a non-empty value for `model_id` but received {model_id!r}")
+        
+        if not tools or not available_function_map:
+            initial_response: ModelChatResponse = self._post(
+                f"/api/v1/{model_id}/run",
+                body=maybe_transform(
+                    {
+                        "messages": messages,
+                        "model": model,
+                        "stream": stream,
+                        "max_tokens": max_tokens,
+                        "n": n,
+                        "temperature": temperature,
+                        "tool_choice": tool_choice,
+                        "tools": tools,
+                        "top_p": top_p,
+                    },
+                    model_chat_params.ModelChatParams,
+                ),
+                options=make_request_options(
+                    extra_headers=extra_headers,
+                    extra_query=extra_query,
+                    extra_body=extra_body,
+                    timeout=timeout,
+                    query=maybe_transform({"wait": wait}, model_chat_params.ModelChatParams),
+                ),
+                cast_to=ModelChatResponse,
+            )
+            return initial_response
+        
+        initial_response = self._post(
+            f"/api/v1/{model_id}/run",
             body=maybe_transform(
                 {
                     "messages": messages,
@@ -186,17 +184,72 @@ class ModelsResource(SyncAPIResource):
                     "tools": tools,
                     "top_p": top_p,
                 },
-                model_ep_params.ModelEpParams,
+                model_chat_params.ModelChatParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=maybe_transform({"wait": wait}, model_ep_params.ModelEpParams),
+                query=maybe_transform({"wait": wait}, model_chat_params.ModelChatParams),
             ),
-            cast_to=ModelEpResponse,
+            cast_to=ModelChatResponse,
         )
+        # check that choices and content are present
+        initial_message: str = ""
+        if (
+            not initial_response.choices
+            or not initial_response.choices[0].message
+            or not initial_response.choices[0].message.content
+        ):
+            initial_message = "Function call by user"
+        else:
+            initial_message = initial_response.choices[0].message.content
+            
+        # if initial response has tool_calls, then loop through the tool_calls and call the tools
+        # if there are no tool_calls, then return the initial response
+        if initial_response.tool_calls:
+            for tool_call in initial_response.tool_calls:
+                function_name: str | None = str(tool_call.function["name"]) if tool_call.function else None
+                function_params = tool_call.function["parameters"] if tool_call.function else None
+                if(not function_name):
+                    raise ValueError(f"Function name is sent by th model, it is required to call the function.")
+                # Check if available_function_map[function_name] exists
+                if function_name not in available_function_map:
+                    raise ValueError(f"Function {function_name} is not available in the available_function_map.")
+                
+                function_response = await available_function_map[function_name](function_params)
+                # append response to the messages
+                messages = list(messages)
+                messages.append({"role": "assistant", "content": initial_message})
+                messages.append({"role": "user", "content": function_response})
+                final_response: ModelChatResponse = self._post(
+                    f"/api/v1/{model_id}/run",
+                    body=maybe_transform(
+                        {
+                            "messages": messages,
+                            "model": model,
+                            "stream": stream,
+                            "max_tokens": max_tokens,
+                            "n": n,
+                            "temperature": temperature,
+                            "top_p": top_p,
+                        },
+                        model_chat_params.ModelChatParams,
+                    ),
+                    options=make_request_options(
+                        extra_headers=extra_headers,
+                        extra_query=extra_query,
+                        extra_body=extra_body,
+                        timeout=timeout,
+                        query=maybe_transform({"wait": wait}, model_chat_params.ModelChatParams),
+                    ),
+                    cast_to=ModelChatResponse,
+                )
+                return final_response
+        else:
+            return initial_response
+        return initial_response
 
 
 class AsyncModelsResource(AsyncAPIResource):
@@ -288,86 +341,6 @@ class AsyncModelsResource(AsyncAPIResource):
             cast_to=ModelChatResponse,
         )
 
-    async def ep(
-        self,
-        deployment_tag: str,
-        *,
-        messages: Iterable[model_ep_params.Message],
-        model: str,
-        stream: bool,
-        wait: bool | NotGiven = NOT_GIVEN,
-        max_tokens: Optional[int] | NotGiven = NOT_GIVEN,
-        n: Optional[int] | NotGiven = NOT_GIVEN,
-        temperature: Optional[float] | NotGiven = NOT_GIVEN,
-        tool_choice: model_ep_params.ToolChoice | NotGiven = NOT_GIVEN,
-        tools: Iterable[model_ep_params.Tool] | NotGiven = NOT_GIVEN,
-        top_p: Optional[float] | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ModelEpResponse:
-        """
-        Call a deployment endpoint with specified tools and messages.
-
-        Args:
-          wait: Whether to wait for the response or not.
-
-          max_tokens: The maximum number of tokens that can be generated in the chat completion.
-
-          n: How many chat completion choices to generate for each input message.
-
-          temperature: An alternative to sampling with temperature, called nucleus sampling.
-
-          tool_choice: Controls which (if any) tool is called by the model. `none` means the model will
-              not call any tool and instead generates a message. `auto` means the model can
-              pick between generating a message or calling one or more tools. `required` means
-              the model must call one or more tools.
-
-          tools: A list of tools the model may call. Currently, only functions are supported as a
-              tool. Use this to provide a list of functions the model may generate JSON inputs
-              for. A max of 128 functions are supported.
-
-          top_p: An alternative to sampling with temperature, called nucleus sampling.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not deployment_tag:
-            raise ValueError(f"Expected a non-empty value for `deployment_tag` but received {deployment_tag!r}")
-        return await self._post(
-            f"/api/v1/chat/{deployment_tag}",
-            body=await async_maybe_transform(
-                {
-                    "messages": messages,
-                    "model": model,
-                    "stream": stream,
-                    "max_tokens": max_tokens,
-                    "n": n,
-                    "temperature": temperature,
-                    "tool_choice": tool_choice,
-                    "tools": tools,
-                    "top_p": top_p,
-                },
-                model_ep_params.ModelEpParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform({"wait": wait}, model_ep_params.ModelEpParams),
-            ),
-            cast_to=ModelEpResponse,
-        )
-
 
 class ModelsResourceWithRawResponse:
     def __init__(self, models: ModelsResource) -> None:
@@ -375,9 +348,6 @@ class ModelsResourceWithRawResponse:
 
         self.chat = to_raw_response_wrapper(
             models.chat,
-        )
-        self.ep = to_raw_response_wrapper(
-            models.ep,
         )
 
 
@@ -388,9 +358,6 @@ class AsyncModelsResourceWithRawResponse:
         self.chat = async_to_raw_response_wrapper(
             models.chat,
         )
-        self.ep = async_to_raw_response_wrapper(
-            models.ep,
-        )
 
 
 class ModelsResourceWithStreamingResponse:
@@ -400,9 +367,6 @@ class ModelsResourceWithStreamingResponse:
         self.chat = to_streamed_response_wrapper(
             models.chat,
         )
-        self.ep = to_streamed_response_wrapper(
-            models.ep,
-        )
 
 
 class AsyncModelsResourceWithStreamingResponse:
@@ -411,7 +375,4 @@ class AsyncModelsResourceWithStreamingResponse:
 
         self.chat = async_to_streamed_response_wrapper(
             models.chat,
-        )
-        self.ep = async_to_streamed_response_wrapper(
-            models.ep,
         )
