@@ -442,7 +442,7 @@ class TestAsyncModels:
     @parametrize
     async def test_path_params_ep(self, async_client: AsyncPropulsionAI) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `deployment_tag` but received ''"):
-            await async_client.models.with_raw_response.chat(
+            await async_client.models.with_raw_response.ep(
                 "",
                 messages=[{}, {}, {}],
                 model="string",
