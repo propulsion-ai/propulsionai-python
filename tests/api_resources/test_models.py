@@ -207,7 +207,7 @@ class TestModels:
 
     @parametrize
     def test_streaming_response_ep(self, client: PropulsionAI) -> None:
-        with client.models.with_streaming_response.chat(
+        with client.models.with_streaming_response.ep(
             "string",
             messages=[{}, {}, {}],
             model="string",
@@ -224,7 +224,7 @@ class TestModels:
     @parametrize
     def test_path_params_ep(self, client: PropulsionAI) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `deployment_tag` but received ''"):
-            client.models.with_raw_response.chat(
+            client.models.with_raw_response.ep(
                 "",
                 messages=[{}, {}, {}],
                 model="string",
