@@ -193,7 +193,7 @@ class TestModels:
 
     @parametrize
     def test_raw_response_ep(self, client: PropulsionAI) -> None:
-        response = client.models.with_raw_response.chat(
+        response = client.models.with_raw_response.ep(
             "string",
             messages=[{}, {}, {}],
             model="string",
@@ -411,7 +411,7 @@ class TestAsyncModels:
 
     @parametrize
     async def test_raw_response_ep(self, async_client: AsyncPropulsionAI) -> None:
-        response = await async_client.models.with_raw_response.chat(
+        response = await async_client.models.with_raw_response.ep(
             "string",
             messages=[{}, {}, {}],
             model="string",
@@ -425,7 +425,7 @@ class TestAsyncModels:
 
     @parametrize
     async def test_streaming_response_ep(self, async_client: AsyncPropulsionAI) -> None:
-        async with async_client.models.with_streaming_response.chat(
+        async with async_client.models.with_streaming_response.ep(
             "string",
             messages=[{}, {}, {}],
             model="string",
