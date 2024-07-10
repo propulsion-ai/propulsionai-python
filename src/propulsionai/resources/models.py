@@ -638,6 +638,12 @@ class ModelsResourceWithRawResponse:
         self.chat = to_raw_response_wrapper(
             models.chat,
         )
+        self.ep = to_raw_response_wrapper(
+            models.ep,
+        )
+        self.ep_auto = to_raw_response_wrapper(
+            models.ep_auto,
+        )
 
 
 class AsyncModelsResourceWithRawResponse:
@@ -648,6 +654,14 @@ class AsyncModelsResourceWithRawResponse:
             models.chat,
         )
 
+        self.ep = async_to_raw_response_wrapper(
+            models.ep,
+        )
+
+        self.ep_auto = async_to_raw_response_wrapper(
+            models.ep_auto,
+        )
+
 
 class ModelsResourceWithStreamingResponse:
     def __init__(self, models: ModelsResource) -> None:
@@ -655,6 +669,12 @@ class ModelsResourceWithStreamingResponse:
 
         self.chat = to_streamed_response_wrapper(
             models.chat,
+        )
+        self.ep = to_streamed_response_wrapper(
+            models.ep,
+        )
+        self.ep_auto = to_streamed_response_wrapper(
+            models.ep_auto,
         )
 
 
@@ -664,4 +684,10 @@ class AsyncModelsResourceWithStreamingResponse:
 
         self.chat = async_to_streamed_response_wrapper(
             models.chat,
+        )
+        self.ep = async_to_streamed_response_wrapper(
+            models.ep,
+        )
+        self.ep_auto = async_to_streamed_response_wrapper(
+            models.ep_auto,
         )
