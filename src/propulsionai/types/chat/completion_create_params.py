@@ -6,7 +6,7 @@ from typing import Dict, List, Union, Iterable
 from typing_extensions import Literal, Required, TypedDict
 
 __all__ = [
-    "ChatCreateParams",
+    "CompletionCreateParams",
     "Message",
     "ToolChoice",
     "ToolChoiceChatCompletionNamedToolChoice",
@@ -16,7 +16,7 @@ __all__ = [
 ]
 
 
-class ChatCreateParams(TypedDict, total=False):
+class CompletionCreateParams(TypedDict, total=False):
     deployment: Required[str]
 
     messages: Required[Iterable[Message]]

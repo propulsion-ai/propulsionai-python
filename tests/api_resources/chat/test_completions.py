@@ -9,25 +9,25 @@ import pytest
 
 from tests.utils import assert_matches_type
 from propulsionai import Propulsionai, AsyncPropulsionai
-from propulsionai.types import ChatCreateResponse
+from propulsionai.types.chat import CompletionCreateResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
-class TestChats:
+class TestCompletions:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_create(self, client: Propulsionai) -> None:
-        chat = client.chats.create(
+        completion = client.chat.completions.create(
             deployment="deployment",
             messages=[{}, {}, {}],
         )
-        assert_matches_type(ChatCreateResponse, chat, path=["response"])
+        assert_matches_type(CompletionCreateResponse, completion, path=["response"])
 
     @parametrize
     def test_method_create_with_all_params(self, client: Propulsionai) -> None:
-        chat = client.chats.create(
+        completion = client.chat.completions.create(
             deployment="deployment",
             messages=[
                 {
@@ -78,49 +78,49 @@ class TestChats:
             ],
             top_p=0,
         )
-        assert_matches_type(ChatCreateResponse, chat, path=["response"])
+        assert_matches_type(CompletionCreateResponse, completion, path=["response"])
 
     @parametrize
     def test_raw_response_create(self, client: Propulsionai) -> None:
-        response = client.chats.with_raw_response.create(
+        response = client.chat.completions.with_raw_response.create(
             deployment="deployment",
             messages=[{}, {}, {}],
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        chat = response.parse()
-        assert_matches_type(ChatCreateResponse, chat, path=["response"])
+        completion = response.parse()
+        assert_matches_type(CompletionCreateResponse, completion, path=["response"])
 
     @parametrize
     def test_streaming_response_create(self, client: Propulsionai) -> None:
-        with client.chats.with_streaming_response.create(
+        with client.chat.completions.with_streaming_response.create(
             deployment="deployment",
             messages=[{}, {}, {}],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            chat = response.parse()
-            assert_matches_type(ChatCreateResponse, chat, path=["response"])
+            completion = response.parse()
+            assert_matches_type(CompletionCreateResponse, completion, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
 
-class TestAsyncChats:
+class TestAsyncCompletions:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_create(self, async_client: AsyncPropulsionai) -> None:
-        chat = await async_client.chats.create(
+        completion = await async_client.chat.completions.create(
             deployment="deployment",
             messages=[{}, {}, {}],
         )
-        assert_matches_type(ChatCreateResponse, chat, path=["response"])
+        assert_matches_type(CompletionCreateResponse, completion, path=["response"])
 
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncPropulsionai) -> None:
-        chat = await async_client.chats.create(
+        completion = await async_client.chat.completions.create(
             deployment="deployment",
             messages=[
                 {
@@ -171,30 +171,30 @@ class TestAsyncChats:
             ],
             top_p=0,
         )
-        assert_matches_type(ChatCreateResponse, chat, path=["response"])
+        assert_matches_type(CompletionCreateResponse, completion, path=["response"])
 
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncPropulsionai) -> None:
-        response = await async_client.chats.with_raw_response.create(
+        response = await async_client.chat.completions.with_raw_response.create(
             deployment="deployment",
             messages=[{}, {}, {}],
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        chat = await response.parse()
-        assert_matches_type(ChatCreateResponse, chat, path=["response"])
+        completion = await response.parse()
+        assert_matches_type(CompletionCreateResponse, completion, path=["response"])
 
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncPropulsionai) -> None:
-        async with async_client.chats.with_streaming_response.create(
+        async with async_client.chat.completions.with_streaming_response.create(
             deployment="deployment",
             messages=[{}, {}, {}],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            chat = await response.parse()
-            assert_matches_type(ChatCreateResponse, chat, path=["response"])
+            completion = await response.parse()
+            assert_matches_type(CompletionCreateResponse, completion, path=["response"])
 
         assert cast(Any, response.is_closed) is True

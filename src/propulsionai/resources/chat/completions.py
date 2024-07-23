@@ -6,48 +6,48 @@ from typing import List, Iterable
 
 import httpx
 
-from ..types import chat_create_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from .._utils import (
+from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._utils import (
     maybe_transform,
     async_maybe_transform,
 )
-from .._compat import cached_property
-from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import (
+from ..._compat import cached_property
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from .._base_client import make_request_options
-from ..types.chat_create_response import ChatCreateResponse
+from ...types.chat import completion_create_params
+from ..._base_client import make_request_options
+from ...types.chat.completion_create_response import CompletionCreateResponse
 
-__all__ = ["ChatsResource", "AsyncChatsResource"]
+__all__ = ["CompletionsResource", "AsyncCompletionsResource"]
 
 
-class ChatsResource(SyncAPIResource):
+class CompletionsResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> ChatsResourceWithRawResponse:
-        return ChatsResourceWithRawResponse(self)
+    def with_raw_response(self) -> CompletionsResourceWithRawResponse:
+        return CompletionsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> ChatsResourceWithStreamingResponse:
-        return ChatsResourceWithStreamingResponse(self)
+    def with_streaming_response(self) -> CompletionsResourceWithStreamingResponse:
+        return CompletionsResourceWithStreamingResponse(self)
 
     def create(
         self,
         *,
         deployment: str,
-        messages: Iterable[chat_create_params.Message],
+        messages: Iterable[completion_create_params.Message],
         knowledgebases: List[str] | NotGiven = NOT_GIVEN,
         max_tokens: int | NotGiven = NOT_GIVEN,
         n: int | NotGiven = NOT_GIVEN,
         stream: bool | NotGiven = NOT_GIVEN,
         task_id: str | NotGiven = NOT_GIVEN,
         temperature: float | NotGiven = NOT_GIVEN,
-        tool_choice: chat_create_params.ToolChoice | NotGiven = NOT_GIVEN,
-        tools: Iterable[chat_create_params.Tool] | NotGiven = NOT_GIVEN,
+        tool_choice: completion_create_params.ToolChoice | NotGiven = NOT_GIVEN,
+        tools: Iterable[completion_create_params.Tool] | NotGiven = NOT_GIVEN,
         top_p: float | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -55,7 +55,7 @@ class ChatsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ChatCreateResponse:
+    ) -> CompletionCreateResponse:
         """
         Call a deployment endpoint with specified tools and messages.
 
@@ -72,7 +72,7 @@ class ChatsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return self._post(
-            "/chat",
+            "/chat/completions",
             body=maybe_transform(
                 {
                     "deployment": deployment,
@@ -87,37 +87,37 @@ class ChatsResource(SyncAPIResource):
                     "tools": tools,
                     "top_p": top_p,
                 },
-                chat_create_params.ChatCreateParams,
+                completion_create_params.CompletionCreateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ChatCreateResponse,
+            cast_to=CompletionCreateResponse,
         )
 
 
-class AsyncChatsResource(AsyncAPIResource):
+class AsyncCompletionsResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncChatsResourceWithRawResponse:
-        return AsyncChatsResourceWithRawResponse(self)
+    def with_raw_response(self) -> AsyncCompletionsResourceWithRawResponse:
+        return AsyncCompletionsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncChatsResourceWithStreamingResponse:
-        return AsyncChatsResourceWithStreamingResponse(self)
+    def with_streaming_response(self) -> AsyncCompletionsResourceWithStreamingResponse:
+        return AsyncCompletionsResourceWithStreamingResponse(self)
 
     async def create(
         self,
         *,
         deployment: str,
-        messages: Iterable[chat_create_params.Message],
+        messages: Iterable[completion_create_params.Message],
         knowledgebases: List[str] | NotGiven = NOT_GIVEN,
         max_tokens: int | NotGiven = NOT_GIVEN,
         n: int | NotGiven = NOT_GIVEN,
         stream: bool | NotGiven = NOT_GIVEN,
         task_id: str | NotGiven = NOT_GIVEN,
         temperature: float | NotGiven = NOT_GIVEN,
-        tool_choice: chat_create_params.ToolChoice | NotGiven = NOT_GIVEN,
-        tools: Iterable[chat_create_params.Tool] | NotGiven = NOT_GIVEN,
+        tool_choice: completion_create_params.ToolChoice | NotGiven = NOT_GIVEN,
+        tools: Iterable[completion_create_params.Tool] | NotGiven = NOT_GIVEN,
         top_p: float | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -125,7 +125,7 @@ class AsyncChatsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ChatCreateResponse:
+    ) -> CompletionCreateResponse:
         """
         Call a deployment endpoint with specified tools and messages.
 
@@ -142,7 +142,7 @@ class AsyncChatsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         return await self._post(
-            "/chat",
+            "/chat/completions",
             body=await async_maybe_transform(
                 {
                     "deployment": deployment,
@@ -157,46 +157,46 @@ class AsyncChatsResource(AsyncAPIResource):
                     "tools": tools,
                     "top_p": top_p,
                 },
-                chat_create_params.ChatCreateParams,
+                completion_create_params.CompletionCreateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ChatCreateResponse,
+            cast_to=CompletionCreateResponse,
         )
 
 
-class ChatsResourceWithRawResponse:
-    def __init__(self, chats: ChatsResource) -> None:
-        self._chats = chats
+class CompletionsResourceWithRawResponse:
+    def __init__(self, completions: CompletionsResource) -> None:
+        self._completions = completions
 
         self.create = to_raw_response_wrapper(
-            chats.create,
+            completions.create,
         )
 
 
-class AsyncChatsResourceWithRawResponse:
-    def __init__(self, chats: AsyncChatsResource) -> None:
-        self._chats = chats
+class AsyncCompletionsResourceWithRawResponse:
+    def __init__(self, completions: AsyncCompletionsResource) -> None:
+        self._completions = completions
 
         self.create = async_to_raw_response_wrapper(
-            chats.create,
+            completions.create,
         )
 
 
-class ChatsResourceWithStreamingResponse:
-    def __init__(self, chats: ChatsResource) -> None:
-        self._chats = chats
+class CompletionsResourceWithStreamingResponse:
+    def __init__(self, completions: CompletionsResource) -> None:
+        self._completions = completions
 
         self.create = to_streamed_response_wrapper(
-            chats.create,
+            completions.create,
         )
 
 
-class AsyncChatsResourceWithStreamingResponse:
-    def __init__(self, chats: AsyncChatsResource) -> None:
-        self._chats = chats
+class AsyncCompletionsResourceWithStreamingResponse:
+    def __init__(self, completions: AsyncCompletionsResource) -> None:
+        self._completions = completions
 
         self.create = async_to_streamed_response_wrapper(
-            chats.create,
+            completions.create,
         )

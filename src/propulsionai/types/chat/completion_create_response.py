@@ -3,9 +3,9 @@
 from typing import Dict, List, Optional
 from typing_extensions import Literal
 
-from .._models import BaseModel
+from ..._models import BaseModel
 
-__all__ = ["ChatCreateResponse", "Choice", "ChoiceMessage", "ToolCall", "ToolCallFunction", "Usage"]
+__all__ = ["CompletionCreateResponse", "Choice", "ChoiceMessage", "ToolCall", "ToolCallFunction", "Usage"]
 
 
 class ChoiceMessage(BaseModel):
@@ -42,7 +42,7 @@ class Usage(BaseModel):
     total_tokens: Optional[int] = None
 
 
-class ChatCreateResponse(BaseModel):
+class CompletionCreateResponse(BaseModel):
     id: Optional[str] = None
 
     choices: Optional[List[Choice]] = None
