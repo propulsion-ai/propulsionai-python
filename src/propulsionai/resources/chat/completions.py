@@ -19,9 +19,9 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...types.chats import completion_create_params
+from ...types.chat import completion_create_params
 from ..._base_client import make_request_options
-from ...types.chats.completion_create_response import CompletionCreateResponse
+from ...types.chat.completion_create_response import CompletionCreateResponse
 
 __all__ = ["CompletionsResource", "AsyncCompletionsResource"]
 

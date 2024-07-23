@@ -32,7 +32,7 @@ client = Propulsionai(
     api_key=os.environ.get("PROPULSIONAI_API_KEY"),
 )
 
-completion_create_response = client.chats.completions.create(
+completion_create_response = client.chat.completions.create(
     deployment="<your-deployment-endpoint>",
     messages=[
         {
@@ -65,7 +65,7 @@ client = AsyncPropulsionai(
 
 
 async def main() -> None:
-    completion_create_response = await client.chats.completions.create(
+    completion_create_response = await client.chat.completions.create(
         deployment="<your-deployment-endpoint>",
         messages=[
             {
@@ -107,7 +107,7 @@ from propulsionai import Propulsionai
 client = Propulsionai()
 
 try:
-    client.chats.completions.create(
+    client.chat.completions.create(
         deployment="deployment",
         messages=[
             {
@@ -166,7 +166,7 @@ client = Propulsionai(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).chats.completions.create(
+client.with_options(max_retries=5).chat.completions.create(
     deployment="deployment",
     messages=[
         {
@@ -205,7 +205,7 @@ client = Propulsionai(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).chats.completions.create(
+client.with_options(timeout=5.0).chat.completions.create(
     deployment="deployment",
     messages=[
         {
@@ -260,7 +260,7 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from propulsionai import Propulsionai
 
 client = Propulsionai()
-response = client.chats.completions.with_raw_response.create(
+response = client.chat.completions.with_raw_response.create(
     deployment="deployment",
     messages=[{
         "role": "system",
@@ -275,7 +275,7 @@ response = client.chats.completions.with_raw_response.create(
 )
 print(response.headers.get('X-My-Header'))
 
-completion = response.parse()  # get the object that `chats.completions.create()` would have returned
+completion = response.parse()  # get the object that `chat.completions.create()` would have returned
 print(completion.id)
 ```
 
@@ -290,7 +290,7 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.chats.completions.with_streaming_response.create(
+with client.chat.completions.with_streaming_response.create(
     deployment="deployment",
     messages=[
         {

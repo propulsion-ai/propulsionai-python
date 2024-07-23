@@ -46,7 +46,7 @@ __all__ = [
 
 
 class Propulsionai(SyncAPIClient):
-    chats: resources.ChatsResource
+    chat: resources.ChatResource
     with_raw_response: PropulsionaiWithRawResponse
     with_streaming_response: PropulsionaiWithStreamedResponse
 
@@ -104,7 +104,7 @@ class Propulsionai(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.chats = resources.ChatsResource(self)
+        self.chat = resources.ChatResource(self)
         self.with_raw_response = PropulsionaiWithRawResponse(self)
         self.with_streaming_response = PropulsionaiWithStreamedResponse(self)
 
@@ -214,7 +214,7 @@ class Propulsionai(SyncAPIClient):
 
 
 class AsyncPropulsionai(AsyncAPIClient):
-    chats: resources.AsyncChatsResource
+    chat: resources.AsyncChatResource
     with_raw_response: AsyncPropulsionaiWithRawResponse
     with_streaming_response: AsyncPropulsionaiWithStreamedResponse
 
@@ -272,7 +272,7 @@ class AsyncPropulsionai(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.chats = resources.AsyncChatsResource(self)
+        self.chat = resources.AsyncChatResource(self)
         self.with_raw_response = AsyncPropulsionaiWithRawResponse(self)
         self.with_streaming_response = AsyncPropulsionaiWithStreamedResponse(self)
 
@@ -383,22 +383,22 @@ class AsyncPropulsionai(AsyncAPIClient):
 
 class PropulsionaiWithRawResponse:
     def __init__(self, client: Propulsionai) -> None:
-        self.chats = resources.ChatsResourceWithRawResponse(client.chats)
+        self.chat = resources.ChatResourceWithRawResponse(client.chat)
 
 
 class AsyncPropulsionaiWithRawResponse:
     def __init__(self, client: AsyncPropulsionai) -> None:
-        self.chats = resources.AsyncChatsResourceWithRawResponse(client.chats)
+        self.chat = resources.AsyncChatResourceWithRawResponse(client.chat)
 
 
 class PropulsionaiWithStreamedResponse:
     def __init__(self, client: Propulsionai) -> None:
-        self.chats = resources.ChatsResourceWithStreamingResponse(client.chats)
+        self.chat = resources.ChatResourceWithStreamingResponse(client.chat)
 
 
 class AsyncPropulsionaiWithStreamedResponse:
     def __init__(self, client: AsyncPropulsionai) -> None:
-        self.chats = resources.AsyncChatsResourceWithStreamingResponse(client.chats)
+        self.chat = resources.AsyncChatResourceWithStreamingResponse(client.chat)
 
 
 Client = Propulsionai
