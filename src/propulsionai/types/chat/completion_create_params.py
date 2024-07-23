@@ -45,9 +45,9 @@ class CompletionCreateParams(TypedDict, total=False):
 
 
 class Message(TypedDict, total=False):
-    content: str
+    content: Required[str]
 
-    role: Literal["system", "user", "assistant", "tool"]
+    role: Required[Literal["system", "user", "assistant", "tool"]]
 
 
 class ToolChoiceChatCompletionNamedToolChoiceFunction(TypedDict, total=False):
