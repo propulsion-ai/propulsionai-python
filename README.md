@@ -99,7 +99,20 @@ client = Propulsionai()
 try:
     client.chat.completions.create(
         deployment="deployment",
-        messages=[{}, {}, {}],
+        messages=[
+            {
+                "role": "system",
+                "content": "content",
+            },
+            {
+                "role": "system",
+                "content": "content",
+            },
+            {
+                "role": "system",
+                "content": "content",
+            },
+        ],
     )
 except propulsionai.APIConnectionError as e:
     print("The server could not be reached")
@@ -145,7 +158,20 @@ client = Propulsionai(
 # Or, configure per-request:
 client.with_options(max_retries=5).chat.completions.create(
     deployment="deployment",
-    messages=[{}, {}, {}],
+    messages=[
+        {
+            "role": "system",
+            "content": "content",
+        },
+        {
+            "role": "system",
+            "content": "content",
+        },
+        {
+            "role": "system",
+            "content": "content",
+        },
+    ],
 )
 ```
 
@@ -171,7 +197,20 @@ client = Propulsionai(
 # Override per-request:
 client.with_options(timeout=5.0).chat.completions.create(
     deployment="deployment",
-    messages=[{}, {}, {}],
+    messages=[
+        {
+            "role": "system",
+            "content": "content",
+        },
+        {
+            "role": "system",
+            "content": "content",
+        },
+        {
+            "role": "system",
+            "content": "content",
+        },
+    ],
 )
 ```
 
@@ -213,7 +252,16 @@ from propulsionai import Propulsionai
 client = Propulsionai()
 response = client.chat.completions.with_raw_response.create(
     deployment="deployment",
-    messages=[{}, {}, {}],
+    messages=[{
+        "role": "system",
+        "content": "content",
+    }, {
+        "role": "system",
+        "content": "content",
+    }, {
+        "role": "system",
+        "content": "content",
+    }],
 )
 print(response.headers.get('X-My-Header'))
 
@@ -234,7 +282,20 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 ```python
 with client.chat.completions.with_streaming_response.create(
     deployment="deployment",
-    messages=[{}, {}, {}],
+    messages=[
+        {
+            "role": "system",
+            "content": "content",
+        },
+        {
+            "role": "system",
+            "content": "content",
+        },
+        {
+            "role": "system",
+            "content": "content",
+        },
+    ],
 ) as response:
     print(response.headers.get("X-My-Header"))
 

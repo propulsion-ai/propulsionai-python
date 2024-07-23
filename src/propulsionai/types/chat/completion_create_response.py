@@ -9,9 +9,9 @@ __all__ = ["CompletionCreateResponse", "Choice", "ChoiceMessage", "ToolCall", "T
 
 
 class ChoiceMessage(BaseModel):
-    content: Optional[str] = None
+    content: str
 
-    role: Optional[Literal["system", "user", "assistant", "tool"]] = None
+    role: Literal["system", "user", "assistant", "tool"]
 
 
 class Choice(BaseModel):
