@@ -25,7 +25,7 @@ from ._utils import (
 )
 from ._version import __version__
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
-from ._exceptions import APIStatusError, PropulsionAIError
+from ._exceptions import APIStatusError
 from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
@@ -38,26 +38,23 @@ __all__ = [
     "ProxiesTypes",
     "RequestOptions",
     "resources",
-    "PropulsionAI",
-    "AsyncPropulsionAI",
+    "Propulsionai",
+    "AsyncPropulsionai",
     "Client",
     "AsyncClient",
 ]
 
 
-class PropulsionAI(SyncAPIClient):
-    models: resources.ModelsResource
-    datasets: resources.DatasetsResource
-    with_raw_response: PropulsionAIWithRawResponse
-    with_streaming_response: PropulsionAIWithStreamedResponse
+class Propulsionai(SyncAPIClient):
+    chats: resources.ChatsResource
+    with_raw_response: PropulsionaiWithRawResponse
+    with_streaming_response: PropulsionaiWithStreamedResponse
 
     # client options
-    bearer_token: str
 
     def __init__(
         self,
         *,
-        bearer_token: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -77,22 +74,11 @@ class PropulsionAI(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous PropulsionAI client instance.
-
-        This automatically infers the `bearer_token` argument from the `PROPULSIONAI_BEARER_TOKEN` environment variable if it is not provided.
-        """
-        if bearer_token is None:
-            bearer_token = os.environ.get("PROPULSIONAI_BEARER_TOKEN")
-        if bearer_token is None:
-            raise PropulsionAIError(
-                "The bearer_token client option must be set either by passing bearer_token to the client or by setting the PROPULSIONAI_BEARER_TOKEN environment variable"
-            )
-        self.bearer_token = bearer_token
-
+        """Construct a new synchronous propulsionai client instance."""
         if base_url is None:
-            base_url = os.environ.get("PROPULSION_AI_BASE_URL")
+            base_url = os.environ.get("PROPULSIONAI_BASE_URL")
         if base_url is None:
-            base_url = f"https://api.propulsionhq.com"
+            base_url = f"https://api.propulsionhq.com/api/v1"
 
         super().__init__(
             version=__version__,
@@ -105,21 +91,14 @@ class PropulsionAI(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.models = resources.ModelsResource(self)
-        self.datasets = resources.DatasetsResource(self)
-        self.with_raw_response = PropulsionAIWithRawResponse(self)
-        self.with_streaming_response = PropulsionAIWithStreamedResponse(self)
+        self.chats = resources.ChatsResource(self)
+        self.with_raw_response = PropulsionaiWithRawResponse(self)
+        self.with_streaming_response = PropulsionaiWithStreamedResponse(self)
 
     @property
     @override
     def qs(self) -> Querystring:
         return Querystring(array_format="comma")
-
-    @property
-    @override
-    def auth_headers(self) -> dict[str, str]:
-        bearer_token = self.bearer_token
-        return {"Authorization": f"Bearer {bearer_token}"}
 
     @property
     @override
@@ -133,7 +112,6 @@ class PropulsionAI(SyncAPIClient):
     def copy(
         self,
         *,
-        bearer_token: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.Client | None = None,
@@ -167,7 +145,6 @@ class PropulsionAI(SyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
-            bearer_token=bearer_token or self.bearer_token,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
@@ -215,19 +192,16 @@ class PropulsionAI(SyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class AsyncPropulsionAI(AsyncAPIClient):
-    models: resources.AsyncModelsResource
-    datasets: resources.AsyncDatasetsResource
-    with_raw_response: AsyncPropulsionAIWithRawResponse
-    with_streaming_response: AsyncPropulsionAIWithStreamedResponse
+class AsyncPropulsionai(AsyncAPIClient):
+    chats: resources.AsyncChatsResource
+    with_raw_response: AsyncPropulsionaiWithRawResponse
+    with_streaming_response: AsyncPropulsionaiWithStreamedResponse
 
     # client options
-    bearer_token: str
 
     def __init__(
         self,
         *,
-        bearer_token: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -247,22 +221,11 @@ class AsyncPropulsionAI(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async PropulsionAI client instance.
-
-        This automatically infers the `bearer_token` argument from the `PROPULSIONAI_BEARER_TOKEN` environment variable if it is not provided.
-        """
-        if bearer_token is None:
-            bearer_token = os.environ.get("PROPULSIONAI_BEARER_TOKEN")
-        if bearer_token is None:
-            raise PropulsionAIError(
-                "The bearer_token client option must be set either by passing bearer_token to the client or by setting the PROPULSIONAI_BEARER_TOKEN environment variable"
-            )
-        self.bearer_token = bearer_token
-
+        """Construct a new async propulsionai client instance."""
         if base_url is None:
-            base_url = os.environ.get("PROPULSION_AI_BASE_URL")
+            base_url = os.environ.get("PROPULSIONAI_BASE_URL")
         if base_url is None:
-            base_url = f"https://api.propulsionhq.com"
+            base_url = f"https://api.propulsionhq.com/api/v1"
 
         super().__init__(
             version=__version__,
@@ -275,21 +238,14 @@ class AsyncPropulsionAI(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.models = resources.AsyncModelsResource(self)
-        self.datasets = resources.AsyncDatasetsResource(self)
-        self.with_raw_response = AsyncPropulsionAIWithRawResponse(self)
-        self.with_streaming_response = AsyncPropulsionAIWithStreamedResponse(self)
+        self.chats = resources.AsyncChatsResource(self)
+        self.with_raw_response = AsyncPropulsionaiWithRawResponse(self)
+        self.with_streaming_response = AsyncPropulsionaiWithStreamedResponse(self)
 
     @property
     @override
     def qs(self) -> Querystring:
         return Querystring(array_format="comma")
-
-    @property
-    @override
-    def auth_headers(self) -> dict[str, str]:
-        bearer_token = self.bearer_token
-        return {"Authorization": f"Bearer {bearer_token}"}
 
     @property
     @override
@@ -303,7 +259,6 @@ class AsyncPropulsionAI(AsyncAPIClient):
     def copy(
         self,
         *,
-        bearer_token: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.AsyncClient | None = None,
@@ -337,7 +292,6 @@ class AsyncPropulsionAI(AsyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
-            bearer_token=bearer_token or self.bearer_token,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
@@ -385,30 +339,26 @@ class AsyncPropulsionAI(AsyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class PropulsionAIWithRawResponse:
-    def __init__(self, client: PropulsionAI) -> None:
-        self.models = resources.ModelsResourceWithRawResponse(client.models)
-        self.datasets = resources.DatasetsResourceWithRawResponse(client.datasets)
+class PropulsionaiWithRawResponse:
+    def __init__(self, client: Propulsionai) -> None:
+        self.chats = resources.ChatsResourceWithRawResponse(client.chats)
 
 
-class AsyncPropulsionAIWithRawResponse:
-    def __init__(self, client: AsyncPropulsionAI) -> None:
-        self.models = resources.AsyncModelsResourceWithRawResponse(client.models)
-        self.datasets = resources.AsyncDatasetsResourceWithRawResponse(client.datasets)
+class AsyncPropulsionaiWithRawResponse:
+    def __init__(self, client: AsyncPropulsionai) -> None:
+        self.chats = resources.AsyncChatsResourceWithRawResponse(client.chats)
 
 
-class PropulsionAIWithStreamedResponse:
-    def __init__(self, client: PropulsionAI) -> None:
-        self.models = resources.ModelsResourceWithStreamingResponse(client.models)
-        self.datasets = resources.DatasetsResourceWithStreamingResponse(client.datasets)
+class PropulsionaiWithStreamedResponse:
+    def __init__(self, client: Propulsionai) -> None:
+        self.chats = resources.ChatsResourceWithStreamingResponse(client.chats)
 
 
-class AsyncPropulsionAIWithStreamedResponse:
-    def __init__(self, client: AsyncPropulsionAI) -> None:
-        self.models = resources.AsyncModelsResourceWithStreamingResponse(client.models)
-        self.datasets = resources.AsyncDatasetsResourceWithStreamingResponse(client.datasets)
+class AsyncPropulsionaiWithStreamedResponse:
+    def __init__(self, client: AsyncPropulsionai) -> None:
+        self.chats = resources.AsyncChatsResourceWithStreamingResponse(client.chats)
 
 
-Client = PropulsionAI
+Client = Propulsionai
 
-AsyncClient = AsyncPropulsionAI
+AsyncClient = AsyncPropulsionai

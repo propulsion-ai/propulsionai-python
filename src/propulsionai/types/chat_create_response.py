@@ -3,17 +3,15 @@
 from typing import Dict, List, Optional
 from typing_extensions import Literal
 
-from pydantic import Field as FieldInfo
-
 from .._models import BaseModel
 
-__all__ = ["ModelChatResponse", "Choice", "ChoiceMessage", "ToolCall", "ToolCallFunction", "Usage"]
+__all__ = ["ChatCreateResponse", "Choice", "ChoiceMessage", "ToolCall", "ToolCallFunction", "Usage"]
 
 
 class ChoiceMessage(BaseModel):
     content: Optional[str] = None
 
-    role: Optional[str] = None
+    role: Optional[Literal["system", "user", "assistant", "tool"]] = None
 
 
 class Choice(BaseModel):
@@ -24,20 +22,10 @@ class Choice(BaseModel):
 
 class ToolCallFunction(BaseModel):
     name: str
-    """The name of the function to be called.
-
-    Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length
-    of 64.
-    """
 
     description: Optional[str] = None
-    """
-    A description of what the function does, used by the model to choose when and
-    how to call the function.
-    """
 
     parameters: Optional[Dict[str, object]] = None
-    """The parameters the functions accepts, described as a JSON Schema object."""
 
 
 class ToolCall(BaseModel):
@@ -54,7 +42,7 @@ class Usage(BaseModel):
     total_tokens: Optional[int] = None
 
 
-class ModelChatResponse(BaseModel):
+class ChatCreateResponse(BaseModel):
     id: Optional[str] = None
 
     choices: Optional[List[Choice]] = None
@@ -65,6 +53,6 @@ class ModelChatResponse(BaseModel):
 
     object: Optional[str] = None
 
-    tool_calls: Optional[List[ToolCall]] = FieldInfo(alias="toolCalls", default=None)
+    tool_calls: Optional[List[ToolCall]] = None
 
     usage: Optional[Usage] = None

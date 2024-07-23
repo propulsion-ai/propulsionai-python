@@ -1,11 +1,11 @@
 [project]
 name = "propulsionai"
 version = "0.1.0-alpha.8"
-description = "The official Python library for the PropulsionAI API"
+description = "The official Python library for the propulsionai API"
 dynamic = ["readme"]
 license = "Apache-2.0"
 authors = [
-{ name = "Propulsion AI", email = "dev-feedback@propulsionhq.com" },
+{ name = "Propulsionai", email = "dev-feedback@propulsionai.com" },
 ]
 dependencies = [
     "httpx>=0.23.0, <1",
@@ -39,8 +39,8 @@ classifiers = [
 
 
 [project.urls]
-Homepage = "https://github.com/propulsion-ai/propulsionai-python"
-Repository = "https://github.com/propulsion-ai/propulsionai-python"
+Homepage = "https://github.com/stainless-sdks/propulsionai-python"
+Repository = "https://github.com/stainless-sdks/propulsionai-python"
 
 
 
@@ -124,7 +124,7 @@ path = "README.md"
 [[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
 # replace relative links with absolute links
 pattern = '\[(.+?)\]\(((?!https?://)\S+?)\)'
-replacement = '[\1](https://github.com/propulsion-ai/propulsionai-python/tree/main/\g<2>)'
+replacement = '[\1](https://github.com/stainless-sdks/propulsionai-python/tree/main/\g<2>)'
 
 [tool.black]
 line-length = 120

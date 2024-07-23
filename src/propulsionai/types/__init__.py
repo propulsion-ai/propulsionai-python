@@ -2,7 +2,5 @@
 
 from __future__ import annotations
 
-from .model_ep_params import ModelEpParams as ModelEpParams
-from .model_chat_params import ModelChatParams as ModelChatParams
-from .model_ep_response import ModelEpResponse as ModelEpResponse
-from .model_chat_response import ModelChatResponse as ModelChatResponse
+from .chat_create_params import ChatCreateParams as ChatCreateParams
+from .chat_create_response import ChatCreateResponse as ChatCreateResponse

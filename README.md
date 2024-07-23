@@ -1,8 +1,8 @@
-# Propulsion AI Python API library
+# Propulsionai Python API library
 
 [![PyPI version](https://img.shields.io/pypi/v/propulsionai.svg)](https://pypi.org/project/propulsionai/)
 
-The Propulsion AI Python library provides convenient access to the Propulsion AI REST API from any Python 3.7+
+The Propulsionai Python library provides convenient access to the Propulsionai REST API from any Python 3.7+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
@@ -10,65 +10,61 @@ It is generated with [Stainless](https://www.stainlessapi.com/).
 
 ## Documentation
 
-The REST API documentation can be found [on docs.propulsionhq.com](https://docs.propulsionhq.com). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found [on docs.propulsionai.com](https://docs.propulsionai.com). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
 ```sh
-# install from PyPI
-pip install --pre propulsionai
+# install from this staging repo
+pip install git+ssh://git@github.com/stainless-sdks/propulsionai-python.git
 ```
+
+> [!NOTE]
+> Once this package is [published to PyPI](https://app.stainlessapi.com/docs/guides/publish), this will become: `pip install --pre propulsionai`
 
 ## Usage
 
 The full API of this library can be found in [api.md](api.md).
 
 ```python
-import os
-from propulsionai import PropulsionAI
+from propulsionai import Propulsionai
 
-client = PropulsionAI(
-    # This is the default and can be omitted
-    bearer_token=os.environ.get("PROPULSIONAI_BEARER_TOKEN"),
-)
+client = Propulsionai()
 
-model_ep_response = client.models.ep(
-    "REPLACE_ME",
-    messages=[],
-    model="string",
-    stream=True,
+chat_create_response = client.chats.create(
+    deployment="<your-deployment-endpoint>",
+    messages=[
+        {
+            "role": "user",
+            "content": "Hello, How are you?",
+        }
+    ],
 )
-print(model_ep_response.id)
+print(chat_create_response.id)
 ```
-
-While you can provide a `bearer_token` keyword argument,
-we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `PROPULSIONAI_BEARER_TOKEN="My Bearer Token"` to your `.env` file
-so that your Bearer Token is not stored in source control.
 
 ## Async usage
 
-Simply import `AsyncPropulsionAI` instead of `PropulsionAI` and use `await` with each API call:
+Simply import `AsyncPropulsionai` instead of `Propulsionai` and use `await` with each API call:
 
 ```python
-import os
 import asyncio
-from propulsionai import AsyncPropulsionAI
+from propulsionai import AsyncPropulsionai
 
-client = AsyncPropulsionAI(
-    # This is the default and can be omitted
-    bearer_token=os.environ.get("PROPULSIONAI_BEARER_TOKEN"),
-)
+client = AsyncPropulsionai()
 
 
 async def main() -> None:
-    model_ep_response = await client.models.ep(
-        "REPLACE_ME",
-        messages=[],
-        model="string",
-        stream=True,
+    chat_create_response = await client.chats.create(
+        deployment="<your-deployment-endpoint>",
+        messages=[
+            {
+                "role": "user",
+                "content": "Hello, How are you?",
+            }
+        ],
     )
-    print(model_ep_response.id)
+    print(chat_create_response.id)
 
 
 asyncio.run(main())
@@ -96,16 +92,14 @@ All errors inherit from `propulsionai.APIError`.
 
 ```python
 import propulsionai
-from propulsionai import PropulsionAI
+from propulsionai import Propulsionai
 
-client = PropulsionAI()
+client = Propulsionai()
 
 try:
-    client.models.ep(
-        "REPLACE_ME",
-        messages=[],
-        model="string",
-        stream=True,
+    client.chats.create(
+        deployment="string",
+        messages=[{}, {}, {}],
     )
 except propulsionai.APIConnectionError as e:
     print("The server could not be reached")
@@ -140,20 +134,18 @@ Connection errors (for example, due to a network connectivity problem), 408 Requ
 You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from propulsionai import PropulsionAI
+from propulsionai import Propulsionai
 
 # Configure the default for all requests:
-client = PropulsionAI(
+client = Propulsionai(
     # default is 2
     max_retries=0,
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).models.ep(
-    "REPLACE_ME",
-    messages=[],
-    model="string",
-    stream=True,
+client.with_options(max_retries=5).chats.create(
+    deployment="string",
+    messages=[{}, {}, {}],
 )
 ```
 
@@ -163,25 +155,23 @@ By default requests time out after 1 minute. You can configure this with a `time
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/#fine-tuning-the-configuration) object:
 
 ```python
-from propulsionai import PropulsionAI
+from propulsionai import Propulsionai
 
 # Configure the default for all requests:
-client = PropulsionAI(
+client = Propulsionai(
     # 20 seconds (default is 1 minute)
     timeout=20.0,
 )
 
 # More granular control:
-client = PropulsionAI(
+client = Propulsionai(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).models.ep(
-    "REPLACE_ME",
-    messages=[],
-    model="string",
-    stream=True,
+client.with_options(timeout=5.0).chats.create(
+    deployment="string",
+    messages=[{}, {}, {}],
 )
 ```
 
@@ -195,10 +185,10 @@ Note that requests that time out are [retried twice by default](#retries).
 
 We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
 
-You can enable logging by setting the environment variable `PROPULSION_AI_LOG` to `debug`.
+You can enable logging by setting the environment variable `PROPULSIONAI_LOG` to `debug`.
 
 ```shell
-$ export PROPULSION_AI_LOG=debug
+$ export PROPULSIONAI_LOG=debug
 ```
 
 ### How to tell whether `None` means `null` or missing
@@ -218,24 +208,22 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from propulsionai import PropulsionAI
+from propulsionai import Propulsionai
 
-client = PropulsionAI()
-response = client.models.with_raw_response.ep(
-    "REPLACE_ME",
-    messages=[],
-    model="string",
-    stream=True,
+client = Propulsionai()
+response = client.chats.with_raw_response.create(
+    deployment="string",
+    messages=[{}, {}, {}],
 )
 print(response.headers.get('X-My-Header'))
 
-model = response.parse()  # get the object that `models.ep()` would have returned
-print(model.id)
+chat = response.parse()  # get the object that `chats.create()` would have returned
+print(chat.id)
 ```
 
-These methods return an [`APIResponse`](https://github.com/propulsion-ai/propulsionai-python/tree/main/src/propulsionai/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/stainless-sdks/propulsionai-python/tree/main/src/propulsionai/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/propulsion-ai/propulsionai-python/tree/main/src/propulsionai/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/stainless-sdks/propulsionai-python/tree/main/src/propulsionai/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -244,11 +232,9 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.models.with_streaming_response.ep(
-    "REPLACE_ME",
-    messages=[],
-    model="string",
-    stream=True,
+with client.chats.with_streaming_response.create(
+    deployment="string",
+    messages=[{}, {}, {}],
 ) as response:
     print(response.headers.get("X-My-Header"))
 
@@ -302,10 +288,10 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 - Additional [advanced](https://www.python-httpx.org/advanced/clients/) functionality
 
 ```python
-from propulsionai import PropulsionAI, DefaultHttpxClient
+from propulsionai import Propulsionai, DefaultHttpxClient
 
-client = PropulsionAI(
-    # Or use the `PROPULSION_AI_BASE_URL` env var
+client = Propulsionai(
+    # Or use the `PROPULSIONAI_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(
         proxies="http://my.test.proxy.example.com",
@@ -328,7 +314,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/propulsion-ai/propulsionai-python/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/propulsionai-python/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 
