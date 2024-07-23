@@ -15,23 +15,24 @@ The REST API documentation can be found on [docs.propulsionai.com](https://docs.
 ## Installation
 
 ```sh
-# install from the production repo
-pip install git+ssh://git@github.com/propulsion-ai/propulsionai-python.git
+# install from PyPI
+pip install --pre propulsionai
 ```
-
-> [!NOTE]
-> Once this package is [published to PyPI](https://app.stainlessapi.com/docs/guides/publish), this will become: `pip install --pre propulsionai`
 
 ## Usage
 
 The full API of this library can be found in [api.md](api.md).
 
 ```python
+import os
 from propulsionai import Propulsionai
 
-client = Propulsionai()
+client = Propulsionai(
+    # This is the default and can be omitted
+    api_key=os.environ.get("PROPULSIONAI_API_KEY"),
+)
 
-completion_create_response = client.chat.completions.create(
+completion_create_response = client.chats.completions.create(
     deployment="<your-deployment-endpoint>",
     messages=[
         {
@@ -43,19 +44,28 @@ completion_create_response = client.chat.completions.create(
 print(completion_create_response.id)
 ```
 
+While you can provide an `api_key` keyword argument,
+we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
+to add `PROPULSIONAI_API_KEY="My API Key"` to your `.env` file
+so that your API Key is not stored in source control.
+
 ## Async usage
 
 Simply import `AsyncPropulsionai` instead of `Propulsionai` and use `await` with each API call:
 
 ```python
+import os
 import asyncio
 from propulsionai import AsyncPropulsionai
 
-client = AsyncPropulsionai()
+client = AsyncPropulsionai(
+    # This is the default and can be omitted
+    api_key=os.environ.get("PROPULSIONAI_API_KEY"),
+)
 
 
 async def main() -> None:
-    completion_create_response = await client.chat.completions.create(
+    completion_create_response = await client.chats.completions.create(
         deployment="<your-deployment-endpoint>",
         messages=[
             {
@@ -97,7 +107,7 @@ from propulsionai import Propulsionai
 client = Propulsionai()
 
 try:
-    client.chat.completions.create(
+    client.chats.completions.create(
         deployment="deployment",
         messages=[
             {
@@ -156,7 +166,7 @@ client = Propulsionai(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).chat.completions.create(
+client.with_options(max_retries=5).chats.completions.create(
     deployment="deployment",
     messages=[
         {
@@ -195,7 +205,7 @@ client = Propulsionai(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).chat.completions.create(
+client.with_options(timeout=5.0).chats.completions.create(
     deployment="deployment",
     messages=[
         {
@@ -250,7 +260,7 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from propulsionai import Propulsionai
 
 client = Propulsionai()
-response = client.chat.completions.with_raw_response.create(
+response = client.chats.completions.with_raw_response.create(
     deployment="deployment",
     messages=[{
         "role": "system",
@@ -265,7 +275,7 @@ response = client.chat.completions.with_raw_response.create(
 )
 print(response.headers.get('X-My-Header'))
 
-completion = response.parse()  # get the object that `chat.completions.create()` would have returned
+completion = response.parse()  # get the object that `chats.completions.create()` would have returned
 print(completion.id)
 ```
 
@@ -280,7 +290,7 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.chat.completions.with_streaming_response.create(
+with client.chats.completions.with_streaming_response.create(
     deployment="deployment",
     messages=[
         {

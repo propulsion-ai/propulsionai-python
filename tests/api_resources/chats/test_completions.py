@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from propulsionai import Propulsionai, AsyncPropulsionai
-from propulsionai.types.chat import CompletionCreateResponse
+from propulsionai.types.chats import CompletionCreateResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -19,7 +19,7 @@ class TestCompletions:
 
     @parametrize
     def test_method_create(self, client: Propulsionai) -> None:
-        completion = client.chat.completions.create(
+        completion = client.chats.completions.create(
             deployment="deployment",
             messages=[
                 {
@@ -40,7 +40,7 @@ class TestCompletions:
 
     @parametrize
     def test_method_create_with_all_params(self, client: Propulsionai) -> None:
-        completion = client.chat.completions.create(
+        completion = client.chats.completions.create(
             deployment="deployment",
             messages=[
                 {
@@ -95,7 +95,7 @@ class TestCompletions:
 
     @parametrize
     def test_raw_response_create(self, client: Propulsionai) -> None:
-        response = client.chat.completions.with_raw_response.create(
+        response = client.chats.completions.with_raw_response.create(
             deployment="deployment",
             messages=[
                 {
@@ -120,7 +120,7 @@ class TestCompletions:
 
     @parametrize
     def test_streaming_response_create(self, client: Propulsionai) -> None:
-        with client.chat.completions.with_streaming_response.create(
+        with client.chats.completions.with_streaming_response.create(
             deployment="deployment",
             messages=[
                 {
@@ -151,7 +151,7 @@ class TestAsyncCompletions:
 
     @parametrize
     async def test_method_create(self, async_client: AsyncPropulsionai) -> None:
-        completion = await async_client.chat.completions.create(
+        completion = await async_client.chats.completions.create(
             deployment="deployment",
             messages=[
                 {
@@ -172,7 +172,7 @@ class TestAsyncCompletions:
 
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncPropulsionai) -> None:
-        completion = await async_client.chat.completions.create(
+        completion = await async_client.chats.completions.create(
             deployment="deployment",
             messages=[
                 {
@@ -227,7 +227,7 @@ class TestAsyncCompletions:
 
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncPropulsionai) -> None:
-        response = await async_client.chat.completions.with_raw_response.create(
+        response = await async_client.chats.completions.with_raw_response.create(
             deployment="deployment",
             messages=[
                 {
@@ -252,7 +252,7 @@ class TestAsyncCompletions:
 
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncPropulsionai) -> None:
-        async with async_client.chat.completions.with_streaming_response.create(
+        async with async_client.chats.completions.with_streaming_response.create(
             deployment="deployment",
             messages=[
                 {
