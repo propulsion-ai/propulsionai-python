@@ -20,7 +20,7 @@ class TestChats:
     @parametrize
     def test_method_create(self, client: Propulsionai) -> None:
         chat = client.chats.create(
-            deployment="string",
+            deployment="deployment",
             messages=[{}, {}, {}],
         )
         assert_matches_type(ChatCreateResponse, chat, path=["response"])
@@ -28,50 +28,50 @@ class TestChats:
     @parametrize
     def test_method_create_with_all_params(self, client: Propulsionai) -> None:
         chat = client.chats.create(
-            deployment="string",
+            deployment="deployment",
             messages=[
                 {
                     "role": "system",
-                    "content": "string",
+                    "content": "content",
                 },
                 {
                     "role": "system",
-                    "content": "string",
+                    "content": "content",
                 },
                 {
                     "role": "system",
-                    "content": "string",
+                    "content": "content",
                 },
             ],
             knowledgebases=["string", "string", "string"],
             max_tokens=0,
             n=1,
             stream=True,
-            task_id="string",
+            task_id="task_id",
             temperature=0,
             tool_choice="none",
             tools=[
                 {
                     "type": "function",
                     "function": {
-                        "description": "string",
-                        "name": "string",
+                        "description": "description",
+                        "name": "name",
                         "parameters": {"foo": "bar"},
                     },
                 },
                 {
                     "type": "function",
                     "function": {
-                        "description": "string",
-                        "name": "string",
+                        "description": "description",
+                        "name": "name",
                         "parameters": {"foo": "bar"},
                     },
                 },
                 {
                     "type": "function",
                     "function": {
-                        "description": "string",
-                        "name": "string",
+                        "description": "description",
+                        "name": "name",
                         "parameters": {"foo": "bar"},
                     },
                 },
@@ -83,7 +83,7 @@ class TestChats:
     @parametrize
     def test_raw_response_create(self, client: Propulsionai) -> None:
         response = client.chats.with_raw_response.create(
-            deployment="string",
+            deployment="deployment",
             messages=[{}, {}, {}],
         )
 
@@ -95,7 +95,7 @@ class TestChats:
     @parametrize
     def test_streaming_response_create(self, client: Propulsionai) -> None:
         with client.chats.with_streaming_response.create(
-            deployment="string",
+            deployment="deployment",
             messages=[{}, {}, {}],
         ) as response:
             assert not response.is_closed
@@ -113,7 +113,7 @@ class TestAsyncChats:
     @parametrize
     async def test_method_create(self, async_client: AsyncPropulsionai) -> None:
         chat = await async_client.chats.create(
-            deployment="string",
+            deployment="deployment",
             messages=[{}, {}, {}],
         )
         assert_matches_type(ChatCreateResponse, chat, path=["response"])
@@ -121,50 +121,50 @@ class TestAsyncChats:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncPropulsionai) -> None:
         chat = await async_client.chats.create(
-            deployment="string",
+            deployment="deployment",
             messages=[
                 {
                     "role": "system",
-                    "content": "string",
+                    "content": "content",
                 },
                 {
                     "role": "system",
-                    "content": "string",
+                    "content": "content",
                 },
                 {
                     "role": "system",
-                    "content": "string",
+                    "content": "content",
                 },
             ],
             knowledgebases=["string", "string", "string"],
             max_tokens=0,
             n=1,
             stream=True,
-            task_id="string",
+            task_id="task_id",
             temperature=0,
             tool_choice="none",
             tools=[
                 {
                     "type": "function",
                     "function": {
-                        "description": "string",
-                        "name": "string",
+                        "description": "description",
+                        "name": "name",
                         "parameters": {"foo": "bar"},
                     },
                 },
                 {
                     "type": "function",
                     "function": {
-                        "description": "string",
-                        "name": "string",
+                        "description": "description",
+                        "name": "name",
                         "parameters": {"foo": "bar"},
                     },
                 },
                 {
                     "type": "function",
                     "function": {
-                        "description": "string",
-                        "name": "string",
+                        "description": "description",
+                        "name": "name",
                         "parameters": {"foo": "bar"},
                     },
                 },
@@ -176,7 +176,7 @@ class TestAsyncChats:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncPropulsionai) -> None:
         response = await async_client.chats.with_raw_response.create(
-            deployment="string",
+            deployment="deployment",
             messages=[{}, {}, {}],
         )
 
@@ -188,7 +188,7 @@ class TestAsyncChats:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncPropulsionai) -> None:
         async with async_client.chats.with_streaming_response.create(
-            deployment="string",
+            deployment="deployment",
             messages=[{}, {}, {}],
         ) as response:
             assert not response.is_closed

@@ -670,7 +670,7 @@ class TestPropulsionai:
         with pytest.raises(APITimeoutError):
             self.client.post(
                 "/chat",
-                body=cast(object, dict(deployment="string", messages=[{}, {}, {}])),
+                body=cast(object, dict(deployment="deployment", messages=[{}, {}, {}])),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -685,7 +685,7 @@ class TestPropulsionai:
         with pytest.raises(APIStatusError):
             self.client.post(
                 "/chat",
-                body=cast(object, dict(deployment="string", messages=[{}, {}, {}])),
+                body=cast(object, dict(deployment="deployment", messages=[{}, {}, {}])),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1327,7 +1327,7 @@ class TestAsyncPropulsionai:
         with pytest.raises(APITimeoutError):
             await self.client.post(
                 "/chat",
-                body=cast(object, dict(deployment="string", messages=[{}, {}, {}])),
+                body=cast(object, dict(deployment="deployment", messages=[{}, {}, {}])),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1342,7 +1342,7 @@ class TestAsyncPropulsionai:
         with pytest.raises(APIStatusError):
             await self.client.post(
                 "/chat",
-                body=cast(object, dict(deployment="string", messages=[{}, {}, {}])),
+                body=cast(object, dict(deployment="deployment", messages=[{}, {}, {}])),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )

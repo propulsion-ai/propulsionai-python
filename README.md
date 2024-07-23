@@ -98,7 +98,7 @@ client = Propulsionai()
 
 try:
     client.chats.create(
-        deployment="string",
+        deployment="deployment",
         messages=[{}, {}, {}],
     )
 except propulsionai.APIConnectionError as e:
@@ -144,7 +144,7 @@ client = Propulsionai(
 
 # Or, configure per-request:
 client.with_options(max_retries=5).chats.create(
-    deployment="string",
+    deployment="deployment",
     messages=[{}, {}, {}],
 )
 ```
@@ -170,7 +170,7 @@ client = Propulsionai(
 
 # Override per-request:
 client.with_options(timeout=5.0).chats.create(
-    deployment="string",
+    deployment="deployment",
     messages=[{}, {}, {}],
 )
 ```
@@ -212,7 +212,7 @@ from propulsionai import Propulsionai
 
 client = Propulsionai()
 response = client.chats.with_raw_response.create(
-    deployment="string",
+    deployment="deployment",
     messages=[{}, {}, {}],
 )
 print(response.headers.get('X-My-Header'))
@@ -233,7 +233,7 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 
 ```python
 with client.chats.with_streaming_response.create(
-    deployment="string",
+    deployment="deployment",
     messages=[{}, {}, {}],
 ) as response:
     print(response.headers.get("X-My-Header"))
