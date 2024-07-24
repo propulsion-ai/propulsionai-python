@@ -1,8 +1,8 @@
-# Propulsionai Python API library
+# PropulsionAI Python API library
 
 [![PyPI version](https://img.shields.io/pypi/v/propulsionai.svg)](https://pypi.org/project/propulsionai/)
 
-The Propulsionai Python library provides convenient access to the Propulsionai REST API from any Python 3.7+
+The PropulsionAI Python library provides convenient access to the PropulsionAI REST API from any Python 3.7+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
@@ -25,9 +25,9 @@ The full API of this library can be found in [api.md](api.md).
 
 ```python
 import os
-from propulsionai import Propulsionai
+from propulsionai import PropulsionAI
 
-client = Propulsionai(
+client = PropulsionAI(
     # This is the default and can be omitted
     bearer_token=os.environ.get("PROPULSIONAI_BEARER_TOKEN"),
 )
@@ -51,14 +51,14 @@ so that your Bearer Token is not stored in source control.
 
 ## Async usage
 
-Simply import `AsyncPropulsionai` instead of `Propulsionai` and use `await` with each API call:
+Simply import `AsyncPropulsionAI` instead of `PropulsionAI` and use `await` with each API call:
 
 ```python
 import os
 import asyncio
-from propulsionai import AsyncPropulsionai
+from propulsionai import AsyncPropulsionAI
 
-client = AsyncPropulsionai(
+client = AsyncPropulsionAI(
     # This is the default and can be omitted
     bearer_token=os.environ.get("PROPULSIONAI_BEARER_TOKEN"),
 )
@@ -102,9 +102,9 @@ All errors inherit from `propulsionai.APIError`.
 
 ```python
 import propulsionai
-from propulsionai import Propulsionai
+from propulsionai import PropulsionAI
 
-client = Propulsionai()
+client = PropulsionAI()
 
 try:
     client.chat.completions.create(
@@ -144,10 +144,10 @@ Connection errors (for example, due to a network connectivity problem), 408 Requ
 You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from propulsionai import Propulsionai
+from propulsionai import PropulsionAI
 
 # Configure the default for all requests:
-client = Propulsionai(
+client = PropulsionAI(
     # default is 2
     max_retries=0,
 )
@@ -165,16 +165,16 @@ By default requests time out after 1 minute. You can configure this with a `time
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/#fine-tuning-the-configuration) object:
 
 ```python
-from propulsionai import Propulsionai
+from propulsionai import PropulsionAI
 
 # Configure the default for all requests:
-client = Propulsionai(
+client = PropulsionAI(
     # 20 seconds (default is 1 minute)
     timeout=20.0,
 )
 
 # More granular control:
-client = Propulsionai(
+client = PropulsionAI(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 
@@ -218,9 +218,9 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from propulsionai import Propulsionai
+from propulsionai import PropulsionAI
 
-client = Propulsionai()
+client = PropulsionAI()
 response = client.chat.completions.with_raw_response.create(
     deployment="deployment",
     messages=[{}, {}, {}],
@@ -298,9 +298,9 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 - Additional [advanced](https://www.python-httpx.org/advanced/clients/) functionality
 
 ```python
-from propulsionai import Propulsionai, DefaultHttpxClient
+from propulsionai import PropulsionAI, DefaultHttpxClient
 
-client = Propulsionai(
+client = PropulsionAI(
     # Or use the `PROPULSIONAI_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(
