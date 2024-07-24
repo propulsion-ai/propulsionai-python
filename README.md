@@ -29,7 +29,7 @@ from propulsionai import Propulsionai
 
 client = Propulsionai(
     # This is the default and can be omitted
-    api_key=os.environ.get("PROPULSIONAI_API_KEY"),
+    bearer_token=os.environ.get("PROPULSIONAI_BEARER_TOKEN"),
 )
 
 completion_create_response = client.chat.completions.create(
@@ -44,10 +44,10 @@ completion_create_response = client.chat.completions.create(
 print(completion_create_response.id)
 ```
 
-While you can provide an `api_key` keyword argument,
+While you can provide a `bearer_token` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `PROPULSIONAI_API_KEY="My API Key"` to your `.env` file
-so that your API Key is not stored in source control.
+to add `PROPULSIONAI_BEARER_TOKEN="My Bearer Token"` to your `.env` file
+so that your Bearer Token is not stored in source control.
 
 ## Async usage
 
@@ -60,7 +60,7 @@ from propulsionai import AsyncPropulsionai
 
 client = AsyncPropulsionai(
     # This is the default and can be omitted
-    api_key=os.environ.get("PROPULSIONAI_API_KEY"),
+    bearer_token=os.environ.get("PROPULSIONAI_BEARER_TOKEN"),
 )
 
 

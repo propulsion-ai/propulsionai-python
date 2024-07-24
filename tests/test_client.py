@@ -30,7 +30,7 @@ from propulsionai._base_client import (
 from .utils import update_env
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
-api_key = "My API Key"
+bearer_token = "My Bearer Token"
 
 
 def _get_params(client: BaseClient[Any, Any]) -> dict[str, str]:
@@ -52,7 +52,7 @@ def _get_open_connections(client: Propulsionai | AsyncPropulsionai) -> int:
 
 
 class TestPropulsionai:
-    client = Propulsionai(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+    client = Propulsionai(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     def test_raw_response(self, respx_mock: MockRouter) -> None:
@@ -78,9 +78,9 @@ class TestPropulsionai:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
-        copied = self.client.copy(api_key="another My API Key")
-        assert copied.api_key == "another My API Key"
-        assert self.client.api_key == "My API Key"
+        copied = self.client.copy(bearer_token="another My Bearer Token")
+        assert copied.bearer_token == "another My Bearer Token"
+        assert self.client.bearer_token == "My Bearer Token"
 
     def test_copy_default_options(self) -> None:
         # options that have a default are overridden correctly
@@ -100,7 +100,10 @@ class TestPropulsionai:
 
     def test_copy_default_headers(self) -> None:
         client = Propulsionai(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+            base_url=base_url,
+            bearer_token=bearer_token,
+            _strict_response_validation=True,
+            default_headers={"X-Foo": "bar"},
         )
         assert client.default_headers["X-Foo"] == "bar"
 
@@ -134,7 +137,7 @@ class TestPropulsionai:
 
     def test_copy_default_query(self) -> None:
         client = Propulsionai(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
+            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
 
@@ -259,7 +262,7 @@ class TestPropulsionai:
 
     def test_client_timeout_option(self) -> None:
         client = Propulsionai(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
+            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -270,7 +273,7 @@ class TestPropulsionai:
         # custom timeout given to the httpx client should be used
         with httpx.Client(timeout=None) as http_client:
             client = Propulsionai(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -280,7 +283,7 @@ class TestPropulsionai:
         # no timeout given to the httpx client should not use the httpx default
         with httpx.Client() as http_client:
             client = Propulsionai(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -290,7 +293,7 @@ class TestPropulsionai:
         # explicitly passing the default timeout currently results in it being ignored
         with httpx.Client(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
             client = Propulsionai(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -302,14 +305,17 @@ class TestPropulsionai:
             async with httpx.AsyncClient() as http_client:
                 Propulsionai(
                     base_url=base_url,
-                    api_key=api_key,
+                    bearer_token=bearer_token,
                     _strict_response_validation=True,
                     http_client=cast(Any, http_client),
                 )
 
     def test_default_headers_option(self) -> None:
         client = Propulsionai(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+            base_url=base_url,
+            bearer_token=bearer_token,
+            _strict_response_validation=True,
+            default_headers={"X-Foo": "bar"},
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
@@ -317,7 +323,7 @@ class TestPropulsionai:
 
         client2 = Propulsionai(
             base_url=base_url,
-            api_key=api_key,
+            bearer_token=bearer_token,
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
@@ -329,17 +335,20 @@ class TestPropulsionai:
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
-        client = Propulsionai(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = Propulsionai(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
-        assert request.headers.get("Authorization") == f"Bearer {api_key}"
+        assert request.headers.get("Authorization") == f"Bearer {bearer_token}"
 
         with pytest.raises(PropulsionaiError):
-            client2 = Propulsionai(base_url=base_url, api_key=None, _strict_response_validation=True)
+            client2 = Propulsionai(base_url=base_url, bearer_token=None, _strict_response_validation=True)
             _ = client2
 
     def test_default_query_option(self) -> None:
         client = Propulsionai(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
+            base_url=base_url,
+            bearer_token=bearer_token,
+            _strict_response_validation=True,
+            default_query={"query_param": "bar"},
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
@@ -540,7 +549,7 @@ class TestPropulsionai:
 
     def test_base_url_setter(self) -> None:
         client = Propulsionai(
-            base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True
+            base_url="https://example.com/from_init", bearer_token=bearer_token, _strict_response_validation=True
         )
         assert client.base_url == "https://example.com/from_init/"
 
@@ -550,18 +559,20 @@ class TestPropulsionai:
 
     def test_base_url_env(self) -> None:
         with update_env(PROPULSIONAI_BASE_URL="http://localhost:5000/from/env"):
-            client = Propulsionai(api_key=api_key, _strict_response_validation=True)
+            client = Propulsionai(bearer_token=bearer_token, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
     @pytest.mark.parametrize(
         "client",
         [
             Propulsionai(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+                base_url="http://localhost:5000/custom/path/",
+                bearer_token=bearer_token,
+                _strict_response_validation=True,
             ),
             Propulsionai(
                 base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
+                bearer_token=bearer_token,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -582,11 +593,13 @@ class TestPropulsionai:
         "client",
         [
             Propulsionai(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+                base_url="http://localhost:5000/custom/path/",
+                bearer_token=bearer_token,
+                _strict_response_validation=True,
             ),
             Propulsionai(
                 base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
+                bearer_token=bearer_token,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -607,11 +620,13 @@ class TestPropulsionai:
         "client",
         [
             Propulsionai(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+                base_url="http://localhost:5000/custom/path/",
+                bearer_token=bearer_token,
+                _strict_response_validation=True,
             ),
             Propulsionai(
                 base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
+                bearer_token=bearer_token,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -629,7 +644,7 @@ class TestPropulsionai:
         assert request.url == "https://myapi.com/foo"
 
     def test_copied_client_does_not_close_http(self) -> None:
-        client = Propulsionai(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = Propulsionai(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -640,7 +655,7 @@ class TestPropulsionai:
         assert not client.is_closed()
 
     def test_client_context_manager(self) -> None:
-        client = Propulsionai(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = Propulsionai(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
         with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -662,7 +677,10 @@ class TestPropulsionai:
     def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
             Propulsionai(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
+                base_url=base_url,
+                bearer_token=bearer_token,
+                _strict_response_validation=True,
+                max_retries=cast(Any, None),
             )
 
     @pytest.mark.respx(base_url=base_url)
@@ -672,12 +690,12 @@ class TestPropulsionai:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = Propulsionai(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        strict_client = Propulsionai(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             strict_client.get("/foo", cast_to=Model)
 
-        client = Propulsionai(base_url=base_url, api_key=api_key, _strict_response_validation=False)
+        client = Propulsionai(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=False)
 
         response = client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -704,7 +722,7 @@ class TestPropulsionai:
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = Propulsionai(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = Propulsionai(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
@@ -781,7 +799,7 @@ class TestPropulsionai:
 
 
 class TestAsyncPropulsionai:
-    client = AsyncPropulsionai(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+    client = AsyncPropulsionai(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
@@ -809,9 +827,9 @@ class TestAsyncPropulsionai:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
-        copied = self.client.copy(api_key="another My API Key")
-        assert copied.api_key == "another My API Key"
-        assert self.client.api_key == "My API Key"
+        copied = self.client.copy(bearer_token="another My Bearer Token")
+        assert copied.bearer_token == "another My Bearer Token"
+        assert self.client.bearer_token == "My Bearer Token"
 
     def test_copy_default_options(self) -> None:
         # options that have a default are overridden correctly
@@ -831,7 +849,10 @@ class TestAsyncPropulsionai:
 
     def test_copy_default_headers(self) -> None:
         client = AsyncPropulsionai(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+            base_url=base_url,
+            bearer_token=bearer_token,
+            _strict_response_validation=True,
+            default_headers={"X-Foo": "bar"},
         )
         assert client.default_headers["X-Foo"] == "bar"
 
@@ -865,7 +886,7 @@ class TestAsyncPropulsionai:
 
     def test_copy_default_query(self) -> None:
         client = AsyncPropulsionai(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
+            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
 
@@ -990,7 +1011,7 @@ class TestAsyncPropulsionai:
 
     async def test_client_timeout_option(self) -> None:
         client = AsyncPropulsionai(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
+            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1001,7 +1022,7 @@ class TestAsyncPropulsionai:
         # custom timeout given to the httpx client should be used
         async with httpx.AsyncClient(timeout=None) as http_client:
             client = AsyncPropulsionai(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1011,7 +1032,7 @@ class TestAsyncPropulsionai:
         # no timeout given to the httpx client should not use the httpx default
         async with httpx.AsyncClient() as http_client:
             client = AsyncPropulsionai(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1021,7 +1042,7 @@ class TestAsyncPropulsionai:
         # explicitly passing the default timeout currently results in it being ignored
         async with httpx.AsyncClient(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
             client = AsyncPropulsionai(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1033,14 +1054,17 @@ class TestAsyncPropulsionai:
             with httpx.Client() as http_client:
                 AsyncPropulsionai(
                     base_url=base_url,
-                    api_key=api_key,
+                    bearer_token=bearer_token,
                     _strict_response_validation=True,
                     http_client=cast(Any, http_client),
                 )
 
     def test_default_headers_option(self) -> None:
         client = AsyncPropulsionai(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+            base_url=base_url,
+            bearer_token=bearer_token,
+            _strict_response_validation=True,
+            default_headers={"X-Foo": "bar"},
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
@@ -1048,7 +1072,7 @@ class TestAsyncPropulsionai:
 
         client2 = AsyncPropulsionai(
             base_url=base_url,
-            api_key=api_key,
+            bearer_token=bearer_token,
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
@@ -1060,17 +1084,20 @@ class TestAsyncPropulsionai:
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
-        client = AsyncPropulsionai(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncPropulsionai(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
-        assert request.headers.get("Authorization") == f"Bearer {api_key}"
+        assert request.headers.get("Authorization") == f"Bearer {bearer_token}"
 
         with pytest.raises(PropulsionaiError):
-            client2 = AsyncPropulsionai(base_url=base_url, api_key=None, _strict_response_validation=True)
+            client2 = AsyncPropulsionai(base_url=base_url, bearer_token=None, _strict_response_validation=True)
             _ = client2
 
     def test_default_query_option(self) -> None:
         client = AsyncPropulsionai(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
+            base_url=base_url,
+            bearer_token=bearer_token,
+            _strict_response_validation=True,
+            default_query={"query_param": "bar"},
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
@@ -1271,7 +1298,7 @@ class TestAsyncPropulsionai:
 
     def test_base_url_setter(self) -> None:
         client = AsyncPropulsionai(
-            base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True
+            base_url="https://example.com/from_init", bearer_token=bearer_token, _strict_response_validation=True
         )
         assert client.base_url == "https://example.com/from_init/"
 
@@ -1281,18 +1308,20 @@ class TestAsyncPropulsionai:
 
     def test_base_url_env(self) -> None:
         with update_env(PROPULSIONAI_BASE_URL="http://localhost:5000/from/env"):
-            client = AsyncPropulsionai(api_key=api_key, _strict_response_validation=True)
+            client = AsyncPropulsionai(bearer_token=bearer_token, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
     @pytest.mark.parametrize(
         "client",
         [
             AsyncPropulsionai(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+                base_url="http://localhost:5000/custom/path/",
+                bearer_token=bearer_token,
+                _strict_response_validation=True,
             ),
             AsyncPropulsionai(
                 base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
+                bearer_token=bearer_token,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1313,11 +1342,13 @@ class TestAsyncPropulsionai:
         "client",
         [
             AsyncPropulsionai(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+                base_url="http://localhost:5000/custom/path/",
+                bearer_token=bearer_token,
+                _strict_response_validation=True,
             ),
             AsyncPropulsionai(
                 base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
+                bearer_token=bearer_token,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1338,11 +1369,13 @@ class TestAsyncPropulsionai:
         "client",
         [
             AsyncPropulsionai(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+                base_url="http://localhost:5000/custom/path/",
+                bearer_token=bearer_token,
+                _strict_response_validation=True,
             ),
             AsyncPropulsionai(
                 base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
+                bearer_token=bearer_token,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1360,7 +1393,7 @@ class TestAsyncPropulsionai:
         assert request.url == "https://myapi.com/foo"
 
     async def test_copied_client_does_not_close_http(self) -> None:
-        client = AsyncPropulsionai(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncPropulsionai(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -1372,7 +1405,7 @@ class TestAsyncPropulsionai:
         assert not client.is_closed()
 
     async def test_client_context_manager(self) -> None:
-        client = AsyncPropulsionai(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncPropulsionai(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
         async with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -1395,7 +1428,10 @@ class TestAsyncPropulsionai:
     async def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
             AsyncPropulsionai(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
+                base_url=base_url,
+                bearer_token=bearer_token,
+                _strict_response_validation=True,
+                max_retries=cast(Any, None),
             )
 
     @pytest.mark.respx(base_url=base_url)
@@ -1406,12 +1442,14 @@ class TestAsyncPropulsionai:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = AsyncPropulsionai(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        strict_client = AsyncPropulsionai(
+            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True
+        )
 
         with pytest.raises(APIResponseValidationError):
             await strict_client.get("/foo", cast_to=Model)
 
-        client = AsyncPropulsionai(base_url=base_url, api_key=api_key, _strict_response_validation=False)
+        client = AsyncPropulsionai(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=False)
 
         response = await client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -1439,7 +1477,7 @@ class TestAsyncPropulsionai:
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     @pytest.mark.asyncio
     async def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = AsyncPropulsionai(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncPropulsionai(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
