@@ -1,11 +1,11 @@
 [project]
 name = "propulsionai"
-version = "0.1.0-alpha.8"
-description = "The official Python library for the propulsionai API"
+version = "0.1.0-alpha.9"
+description = "The official Python library for the PropulsionAI API"
 dynamic = ["readme"]
 license = "Apache-2.0"
 authors = [
-{ name = "Propulsionai", email = "dev-feedback@propulsionai.com" },
+{ name = "Propulsion AI", email = "dev-feedback@propulsionhq.com" },
 ]
 dependencies = [
     "httpx>=0.23.0, <1",
