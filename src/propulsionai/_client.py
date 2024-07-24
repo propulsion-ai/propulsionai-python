@@ -25,7 +25,7 @@ from ._utils import (
 )
 from ._version import __version__
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
-from ._exceptions import APIStatusError, PropulsionaiError
+from ._exceptions import APIStatusError, PropulsionAIError
 from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
@@ -38,17 +38,17 @@ __all__ = [
     "ProxiesTypes",
     "RequestOptions",
     "resources",
-    "Propulsionai",
-    "AsyncPropulsionai",
+    "PropulsionAI",
+    "AsyncPropulsionAI",
     "Client",
     "AsyncClient",
 ]
 
 
-class Propulsionai(SyncAPIClient):
+class PropulsionAI(SyncAPIClient):
     chat: resources.ChatResource
-    with_raw_response: PropulsionaiWithRawResponse
-    with_streaming_response: PropulsionaiWithStreamedResponse
+    with_raw_response: PropulsionAIWithRawResponse
+    with_streaming_response: PropulsionAIWithStreamedResponse
 
     # client options
     bearer_token: str
@@ -83,7 +83,7 @@ class Propulsionai(SyncAPIClient):
         if bearer_token is None:
             bearer_token = os.environ.get("PROPULSIONAI_BEARER_TOKEN")
         if bearer_token is None:
-            raise PropulsionaiError(
+            raise PropulsionAIError(
                 "The bearer_token client option must be set either by passing bearer_token to the client or by setting the PROPULSIONAI_BEARER_TOKEN environment variable"
             )
         self.bearer_token = bearer_token
@@ -105,8 +105,8 @@ class Propulsionai(SyncAPIClient):
         )
 
         self.chat = resources.ChatResource(self)
-        self.with_raw_response = PropulsionaiWithRawResponse(self)
-        self.with_streaming_response = PropulsionaiWithStreamedResponse(self)
+        self.with_raw_response = PropulsionAIWithRawResponse(self)
+        self.with_streaming_response = PropulsionAIWithStreamedResponse(self)
 
     @property
     @override
@@ -213,10 +213,10 @@ class Propulsionai(SyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class AsyncPropulsionai(AsyncAPIClient):
+class AsyncPropulsionAI(AsyncAPIClient):
     chat: resources.AsyncChatResource
-    with_raw_response: AsyncPropulsionaiWithRawResponse
-    with_streaming_response: AsyncPropulsionaiWithStreamedResponse
+    with_raw_response: AsyncPropulsionAIWithRawResponse
+    with_streaming_response: AsyncPropulsionAIWithStreamedResponse
 
     # client options
     bearer_token: str
@@ -251,7 +251,7 @@ class AsyncPropulsionai(AsyncAPIClient):
         if bearer_token is None:
             bearer_token = os.environ.get("PROPULSIONAI_BEARER_TOKEN")
         if bearer_token is None:
-            raise PropulsionaiError(
+            raise PropulsionAIError(
                 "The bearer_token client option must be set either by passing bearer_token to the client or by setting the PROPULSIONAI_BEARER_TOKEN environment variable"
             )
         self.bearer_token = bearer_token
@@ -273,8 +273,8 @@ class AsyncPropulsionai(AsyncAPIClient):
         )
 
         self.chat = resources.AsyncChatResource(self)
-        self.with_raw_response = AsyncPropulsionaiWithRawResponse(self)
-        self.with_streaming_response = AsyncPropulsionaiWithStreamedResponse(self)
+        self.with_raw_response = AsyncPropulsionAIWithRawResponse(self)
+        self.with_streaming_response = AsyncPropulsionAIWithStreamedResponse(self)
 
     @property
     @override
@@ -381,26 +381,26 @@ class AsyncPropulsionai(AsyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class PropulsionaiWithRawResponse:
-    def __init__(self, client: Propulsionai) -> None:
+class PropulsionAIWithRawResponse:
+    def __init__(self, client: PropulsionAI) -> None:
         self.chat = resources.ChatResourceWithRawResponse(client.chat)
 
 
-class AsyncPropulsionaiWithRawResponse:
-    def __init__(self, client: AsyncPropulsionai) -> None:
+class AsyncPropulsionAIWithRawResponse:
+    def __init__(self, client: AsyncPropulsionAI) -> None:
         self.chat = resources.AsyncChatResourceWithRawResponse(client.chat)
 
 
-class PropulsionaiWithStreamedResponse:
-    def __init__(self, client: Propulsionai) -> None:
+class PropulsionAIWithStreamedResponse:
+    def __init__(self, client: PropulsionAI) -> None:
         self.chat = resources.ChatResourceWithStreamingResponse(client.chat)
 
 
-class AsyncPropulsionaiWithStreamedResponse:
-    def __init__(self, client: AsyncPropulsionai) -> None:
+class AsyncPropulsionAIWithStreamedResponse:
+    def __init__(self, client: AsyncPropulsionAI) -> None:
         self.chat = resources.AsyncChatResourceWithStreamingResponse(client.chat)
 
 
-Client = Propulsionai
+Client = PropulsionAI
 
-AsyncClient = AsyncPropulsionai
+AsyncClient = AsyncPropulsionAI
