@@ -8,7 +8,7 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from propulsionai import Propulsionai, AsyncPropulsionai
+from propulsionai import PropulsionAI, AsyncPropulsionAI
 from propulsionai.types.chat import CompletionCreateResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -18,7 +18,7 @@ class TestCompletions:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_create(self, client: Propulsionai) -> None:
+    def test_method_create(self, client: PropulsionAI) -> None:
         completion = client.chat.completions.create(
             deployment="deployment",
             messages=[{}, {}, {}],
@@ -26,7 +26,7 @@ class TestCompletions:
         assert_matches_type(CompletionCreateResponse, completion, path=["response"])
 
     @parametrize
-    def test_method_create_with_all_params(self, client: Propulsionai) -> None:
+    def test_method_create_with_all_params(self, client: PropulsionAI) -> None:
         completion = client.chat.completions.create(
             deployment="deployment",
             messages=[
@@ -81,7 +81,7 @@ class TestCompletions:
         assert_matches_type(CompletionCreateResponse, completion, path=["response"])
 
     @parametrize
-    def test_raw_response_create(self, client: Propulsionai) -> None:
+    def test_raw_response_create(self, client: PropulsionAI) -> None:
         response = client.chat.completions.with_raw_response.create(
             deployment="deployment",
             messages=[{}, {}, {}],
@@ -93,7 +93,7 @@ class TestCompletions:
         assert_matches_type(CompletionCreateResponse, completion, path=["response"])
 
     @parametrize
-    def test_streaming_response_create(self, client: Propulsionai) -> None:
+    def test_streaming_response_create(self, client: PropulsionAI) -> None:
         with client.chat.completions.with_streaming_response.create(
             deployment="deployment",
             messages=[{}, {}, {}],
@@ -111,7 +111,7 @@ class TestAsyncCompletions:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    async def test_method_create(self, async_client: AsyncPropulsionai) -> None:
+    async def test_method_create(self, async_client: AsyncPropulsionAI) -> None:
         completion = await async_client.chat.completions.create(
             deployment="deployment",
             messages=[{}, {}, {}],
@@ -119,7 +119,7 @@ class TestAsyncCompletions:
         assert_matches_type(CompletionCreateResponse, completion, path=["response"])
 
     @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncPropulsionai) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncPropulsionAI) -> None:
         completion = await async_client.chat.completions.create(
             deployment="deployment",
             messages=[
@@ -174,7 +174,7 @@ class TestAsyncCompletions:
         assert_matches_type(CompletionCreateResponse, completion, path=["response"])
 
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncPropulsionai) -> None:
+    async def test_raw_response_create(self, async_client: AsyncPropulsionAI) -> None:
         response = await async_client.chat.completions.with_raw_response.create(
             deployment="deployment",
             messages=[{}, {}, {}],
@@ -186,7 +186,7 @@ class TestAsyncCompletions:
         assert_matches_type(CompletionCreateResponse, completion, path=["response"])
 
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncPropulsionai) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncPropulsionAI) -> None:
         async with async_client.chat.completions.with_streaming_response.create(
             deployment="deployment",
             messages=[{}, {}, {}],
