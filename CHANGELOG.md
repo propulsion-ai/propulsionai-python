@@ -1,8 +1,8 @@
 # Changelog
 
-## 0.1.0-alpha.11 (2024-07-24)
+## 0.1.0-alpha.12 (2024-07-24)
 
-Full Changelog: [v0.1.0-alpha.10...v0.1.0-alpha.11](https://github.com/propulsion-ai/propulsionai-python/compare/v0.1.0-alpha.10...v0.1.0-alpha.11)
+Full Changelog: [v0.1.0-alpha.11...v0.1.0-alpha.12](https://github.com/propulsion-ai/propulsionai-python/compare/v0.1.0-alpha.11...v0.1.0-alpha.12)
 
 ### Features
 
@@ -34,4 +34,5 @@ Full Changelog: [v0.1.0-alpha.10...v0.1.0-alpha.11](https://github.com/propulsio
 ### Chores
 
 * configure new SDK language ([7eb1613](https://github.com/propulsion-ai/propulsionai-python/commit/7eb1613247cdd64fdffd473b46353176f288344d))
+* remove custom code ([9838415](https://github.com/propulsion-ai/propulsionai-python/commit/9838415023af7d17b460bc5b5c09c7b4faa8e113))
 * remove custom code ([ee2f9cb](https://github.com/propulsion-ai/propulsionai-python/commit/ee2f9cba4f40ef5a5fc182301bb8e08221211255))
