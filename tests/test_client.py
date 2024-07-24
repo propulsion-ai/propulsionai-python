@@ -331,7 +331,7 @@ class TestPropulsionai:
     def test_validate_headers(self) -> None:
         client = Propulsionai(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
-        assert request.headers.get("apiKeyAuth") == api_key
+        assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
         with pytest.raises(PropulsionaiError):
             client2 = Propulsionai(base_url=base_url, api_key=None, _strict_response_validation=True)
@@ -1062,7 +1062,7 @@ class TestAsyncPropulsionai:
     def test_validate_headers(self) -> None:
         client = AsyncPropulsionai(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
-        assert request.headers.get("apiKeyAuth") == api_key
+        assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
         with pytest.raises(PropulsionaiError):
             client2 = AsyncPropulsionai(base_url=base_url, api_key=None, _strict_response_validation=True)
