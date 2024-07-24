@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.0-alpha.8 (2024-07-10)
+
+Full Changelog: [v0.1.0-alpha.7...v0.1.0-alpha.8](https://github.com/propulsion-ai/propulsionai-python/compare/v0.1.0-alpha.7...v0.1.0-alpha.8)
+
+### Features
+
+* add **/.DS_Store ([4808613](https://github.com/propulsion-ai/propulsionai-python/commit/4808613c64ec3014c94f63cab8de50f4b806978b))
+* **api:** OpenAPI spec update via Stainless API ([#34](https://github.com/propulsion-ai/propulsionai-python/issues/34)) ([7423c8a](https://github.com/propulsion-ai/propulsionai-python/commit/7423c8a720f641986db2a0d2bc6da05baff76643))
+* fix lint ([70f4730](https://github.com/propulsion-ai/propulsionai-python/commit/70f473069e06c494d8cdf11963ea3ab86b8b131c))
+* fix model endpoints manually ([b7039ed](https://github.com/propulsion-ai/propulsionai-python/commit/b7039ed1d96babc9d1dbc918f5a346c7d51c9682))
+* fix ModelEpResponse ([ebf99be](https://github.com/propulsion-ai/propulsionai-python/commit/ebf99bef0ce027b98bdc73b754a115ee888d21a6))
+* fix test ([2a4295e](https://github.com/propulsion-ai/propulsionai-python/commit/2a4295ede5c375f3d810b9d6b2f862b27a6ff049))
+* fix test ([1670763](https://github.com/propulsion-ai/propulsionai-python/commit/167076335eb8be90d4393b1b5b317670db5e82b3))
+* fix typechecking and imports ([b38ff7b](https://github.com/propulsion-ai/propulsionai-python/commit/b38ff7b7bc4105be89921a924e81546fad672be7))
+* lint ([056bc69](https://github.com/propulsion-ai/propulsionai-python/commit/056bc6909649bb75533b9240c65d82dfe0397467))
+
 ## 0.1.0-alpha.7 (2024-07-09)
 
 Full Changelog: [v0.1.0-alpha.6...v0.1.0-alpha.7](https://github.com/propulsion-ai/propulsionai-python/compare/v0.1.0-alpha.6...v0.1.0-alpha.7)
