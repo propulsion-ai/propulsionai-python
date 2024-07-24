@@ -879,9 +879,9 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
     def _prepare_options(
         self,
         options: FinalRequestOptions,  # noqa: ARG002
-    ) -> FinalRequestOptions:
+    ) -> None:
         """Hook for mutating the given options"""
-        return options
+        return None
 
     def _prepare_request(
         self,
@@ -961,7 +961,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         input_options = model_copy(options)
 
         cast_to = self._maybe_override_cast_to(cast_to, options)
-        options = self._prepare_options(options)
+        self._prepare_options(options)
 
         retries = self._remaining_retries(remaining_retries, options)
         request = self._build_request(options)
@@ -1097,22 +1097,6 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
             if not issubclass(origin, APIResponse):
                 raise TypeError(f"API Response types must subclass {APIResponse}; Received {origin}")
 
-            response_cls = cast("type[BaseAPIResponse[Any]]", cast_to)
-            return cast(
-                ResponseT,
-                response_cls(
-                    raw=response,
-                    client=self,
-                    cast_to=extract_response_type(response_cls),
-                    stream=stream,
-                    stream_cls=stream_cls,
-                    options=options,
-                ),
-            )
-
-        if cast_to == httpx.Response:
-            return cast(ResponseT, response)
-
         api_response = APIResponse(
             raw=response,
             client=self,
@@ -1121,10 +1105,24 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
             stream_cls=stream_cls,
             options=options,
         )
+
         if bool(response.request.headers.get(RAW_RESPONSE_HEADER)):
             return cast(ResponseT, api_response)
 
-        return api_response.parse()
+        # Parse the response
+        parsed_response = api_response.parse()
+
+        # Check for X-TASK-ID header and add it to the response body
+        task_id = response.headers.get("X-TASK-ID")
+        if task_id:
+            if isinstance(parsed_response, dict):
+                parsed_response["task_id"] = task_id
+            elif hasattr(parsed_response, "__dict__"):
+                parsed_response.__dict__["task_id"] = task_id
+            # If parsed_response is neither a dict nor an object with __dict__,
+            # we can't add the task_id to it without knowing its structure
+
+        return cast(ResponseT, parsed_response)
 
     def _request_api_list(
         self,
@@ -1442,9 +1440,9 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
     async def _prepare_options(
         self,
         options: FinalRequestOptions,  # noqa: ARG002
-    ) -> FinalRequestOptions:
+    ) -> None:
         """Hook for mutating the given options"""
-        return options
+        return None
 
     async def _prepare_request(
         self,
@@ -1529,7 +1527,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         input_options = model_copy(options)
 
         cast_to = self._maybe_override_cast_to(cast_to, options)
-        options = await self._prepare_options(options)
+        await self._prepare_options(options)
 
         retries = self._remaining_retries(remaining_retries, options)
         request = self._build_request(options)
@@ -1683,7 +1681,19 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         if bool(response.request.headers.get(RAW_RESPONSE_HEADER)):
             return cast(ResponseT, api_response)
 
-        return await api_response.parse()
+        parsed_response = await api_response.parse()
+
+        # Check for X-TASK-ID header and add it to the response body
+        task_id = response.headers.get("X-TASK-ID")
+        if task_id:
+            if isinstance(parsed_response, dict):
+                parsed_response["task_id"] = task_id
+            elif hasattr(parsed_response, "__dict__"):
+                parsed_response.__dict__["task_id"] = task_id
+            # If parsed_response is neither a dict nor an object with __dict__,
+            # we can't add the task_id to it without knowing its structure
+
+        return cast(ResponseT, parsed_response)
 
     def _request_api_list(
         self,
