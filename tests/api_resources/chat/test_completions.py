@@ -21,20 +21,7 @@ class TestCompletions:
     def test_method_create(self, client: Propulsionai) -> None:
         completion = client.chat.completions.create(
             deployment="deployment",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "content",
-                },
-                {
-                    "role": "system",
-                    "content": "content",
-                },
-                {
-                    "role": "system",
-                    "content": "content",
-                },
-            ],
+            messages=[{}, {}, {}],
         )
         assert_matches_type(CompletionCreateResponse, completion, path=["response"])
 
@@ -97,20 +84,7 @@ class TestCompletions:
     def test_raw_response_create(self, client: Propulsionai) -> None:
         response = client.chat.completions.with_raw_response.create(
             deployment="deployment",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "content",
-                },
-                {
-                    "role": "system",
-                    "content": "content",
-                },
-                {
-                    "role": "system",
-                    "content": "content",
-                },
-            ],
+            messages=[{}, {}, {}],
         )
 
         assert response.is_closed is True
@@ -122,20 +96,7 @@ class TestCompletions:
     def test_streaming_response_create(self, client: Propulsionai) -> None:
         with client.chat.completions.with_streaming_response.create(
             deployment="deployment",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "content",
-                },
-                {
-                    "role": "system",
-                    "content": "content",
-                },
-                {
-                    "role": "system",
-                    "content": "content",
-                },
-            ],
+            messages=[{}, {}, {}],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -153,20 +114,7 @@ class TestAsyncCompletions:
     async def test_method_create(self, async_client: AsyncPropulsionai) -> None:
         completion = await async_client.chat.completions.create(
             deployment="deployment",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "content",
-                },
-                {
-                    "role": "system",
-                    "content": "content",
-                },
-                {
-                    "role": "system",
-                    "content": "content",
-                },
-            ],
+            messages=[{}, {}, {}],
         )
         assert_matches_type(CompletionCreateResponse, completion, path=["response"])
 
@@ -229,20 +177,7 @@ class TestAsyncCompletions:
     async def test_raw_response_create(self, async_client: AsyncPropulsionai) -> None:
         response = await async_client.chat.completions.with_raw_response.create(
             deployment="deployment",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "content",
-                },
-                {
-                    "role": "system",
-                    "content": "content",
-                },
-                {
-                    "role": "system",
-                    "content": "content",
-                },
-            ],
+            messages=[{}, {}, {}],
         )
 
         assert response.is_closed is True
@@ -254,20 +189,7 @@ class TestAsyncCompletions:
     async def test_streaming_response_create(self, async_client: AsyncPropulsionai) -> None:
         async with async_client.chat.completions.with_streaming_response.create(
             deployment="deployment",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "content",
-                },
-                {
-                    "role": "system",
-                    "content": "content",
-                },
-                {
-                    "role": "system",
-                    "content": "content",
-                },
-            ],
+            messages=[{}, {}, {}],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
