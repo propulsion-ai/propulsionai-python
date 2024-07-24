@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from propulsionai import PropulsionAI, AsyncPropulsionAI
-from propulsionai.types import ModelEpResponse, ModelChatResponse
+from propulsionai.types import ModelChatResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -132,7 +132,7 @@ class TestModels:
             model="string",
             stream=True,
         )
-        assert_matches_type(ModelEpResponse, model, path=["response"])
+        assert_matches_type(ModelChatResponse, model, path=["response"])
 
     @parametrize
     def test_method_ep_with_all_params(self, client: PropulsionAI) -> None:
@@ -189,7 +189,7 @@ class TestModels:
             ],
             top_p=0,
         )
-        assert_matches_type(ModelEpResponse, model, path=["response"])
+        assert_matches_type(ModelChatResponse, model, path=["response"])
 
     @parametrize
     def test_raw_response_ep(self, client: PropulsionAI) -> None:
@@ -203,7 +203,7 @@ class TestModels:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         model = response.parse()
-        assert_matches_type(ModelEpResponse, model, path=["response"])
+        assert_matches_type(ModelChatResponse, model, path=["response"])
 
     @parametrize
     def test_streaming_response_ep(self, client: PropulsionAI) -> None:
@@ -217,7 +217,7 @@ class TestModels:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             model = response.parse()
-            assert_matches_type(ModelEpResponse, model, path=["response"])
+            assert_matches_type(ModelChatResponse, model, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -350,7 +350,7 @@ class TestAsyncModels:
             model="string",
             stream=True,
         )
-        assert_matches_type(ModelEpResponse, model, path=["response"])
+        assert_matches_type(ModelChatResponse, model, path=["response"])
 
     @parametrize
     async def test_method_ep_with_all_params(self, async_client: AsyncPropulsionAI) -> None:
@@ -407,7 +407,7 @@ class TestAsyncModels:
             ],
             top_p=0,
         )
-        assert_matches_type(ModelEpResponse, model, path=["response"])
+        assert_matches_type(ModelChatResponse, model, path=["response"])
 
     @parametrize
     async def test_raw_response_ep(self, async_client: AsyncPropulsionAI) -> None:
@@ -421,7 +421,7 @@ class TestAsyncModels:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         model = await response.parse()
-        assert_matches_type(ModelEpResponse, model, path=["response"])
+        assert_matches_type(ModelChatResponse, model, path=["response"])
 
     @parametrize
     async def test_streaming_response_ep(self, async_client: AsyncPropulsionAI) -> None:
@@ -435,7 +435,7 @@ class TestAsyncModels:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             model = await response.parse()
-            assert_matches_type(ModelEpResponse, model, path=["response"])
+            assert_matches_type(ModelChatResponse, model, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
