@@ -12,7 +12,7 @@ import httpx
 from ._utils import extract_type_var_from_base
 
 if TYPE_CHECKING:
-    from ._client import PropulsionAI, AsyncPropulsionAI
+    from ._client import Propulsionai, AsyncPropulsionai
 
 
 _T = TypeVar("_T")
@@ -30,7 +30,7 @@ class Stream(Generic[_T]):
         *,
         cast_to: type[_T],
         response: httpx.Response,
-        client: PropulsionAI,
+        client: Propulsionai,
     ) -> None:
         self.response = response
         self._cast_to = cast_to
@@ -93,7 +93,7 @@ class AsyncStream(Generic[_T]):
         *,
         cast_to: type[_T],
         response: httpx.Response,
-        client: AsyncPropulsionAI,
+        client: AsyncPropulsionai,
     ) -> None:
         self.response = response
         self._cast_to = cast_to

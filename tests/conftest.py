@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Iterator, AsyncIterator
 
 import pytest
 
-from propulsionai import PropulsionAI, AsyncPropulsionAI
+from propulsionai import Propulsionai, AsyncPropulsionai
 
 if TYPE_CHECKING:
     from _pytest.fixtures import FixtureRequest
@@ -30,22 +30,22 @@ bearer_token = "My Bearer Token"
 
 
 @pytest.fixture(scope="session")
-def client(request: FixtureRequest) -> Iterator[PropulsionAI]:
+def client(request: FixtureRequest) -> Iterator[Propulsionai]:
     strict = getattr(request, "param", True)
     if not isinstance(strict, bool):
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    with PropulsionAI(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=strict) as client:
+    with Propulsionai(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=strict) as client:
         yield client
 
 
 @pytest.fixture(scope="session")
-async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncPropulsionAI]:
+async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncPropulsionai]:
     strict = getattr(request, "param", True)
     if not isinstance(strict, bool):
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    async with AsyncPropulsionAI(
+    async with AsyncPropulsionai(
         base_url=base_url, bearer_token=bearer_token, _strict_response_validation=strict
     ) as client:
         yield client
