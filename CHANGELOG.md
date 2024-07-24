@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.9 (2024-07-24)
+
+Full Changelog: [v0.1.0-alpha.8...v0.1.0-alpha.9](https://github.com/propulsion-ai/propulsionai-python/compare/v0.1.0-alpha.8...v0.1.0-alpha.9)
+
+### Features
+
+* gitignore ([d2da774](https://github.com/propulsion-ai/propulsionai-python/commit/d2da774e8badf1e0c170001bdcc2da0bed72a12e))
+
 ## 0.1.0-alpha.8 (2024-07-10)
 
 Full Changelog: [v0.1.0-alpha.7...v0.1.0-alpha.8](https://github.com/propulsion-ai/propulsionai-python/compare/v0.1.0-alpha.7...v0.1.0-alpha.8)
