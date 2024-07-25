@@ -92,7 +92,7 @@ class PropulsionAI(SyncAPIClient):
         if base_url is None:
             base_url = os.environ.get("PROPULSIONAI_BASE_URL")
         if base_url is None:
-            base_url = f"https://api.propulsionhq.com/api/v1"
+            base_url = f"https://api.propulsionhq.com/api/v2"
 
         super().__init__(
             version=__version__,
@@ -262,7 +262,7 @@ class AsyncPropulsionAI(AsyncAPIClient):
         if base_url is None:
             base_url = os.environ.get("PROPULSIONAI_BASE_URL")
         if base_url is None:
-            base_url = f"https://api.propulsionhq.com/api/v1"
+            base_url = f"https://api.propulsionhq.com/api/v2"
 
         super().__init__(
             version=__version__,
