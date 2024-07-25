@@ -8,6 +8,6 @@ __all__ = ["ItemCreateResponse"]
 
 
 class ItemCreateResponse(BaseModel):
-    message: Optional[str] = None
+    id: Optional[str] = None
 
-    task_id: Optional[str] = None
+    message: Optional[str] = None
