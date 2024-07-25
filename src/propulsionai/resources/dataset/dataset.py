@@ -6,14 +6,6 @@ from typing import Dict
 
 import httpx
 
-from .record import (
-    RecordResource,
-    AsyncRecordResource,
-    RecordResourceWithRawResponse,
-    AsyncRecordResourceWithRawResponse,
-    RecordResourceWithStreamingResponse,
-    AsyncRecordResourceWithStreamingResponse,
-)
 from ...types import dataset_create_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
@@ -35,10 +27,6 @@ __all__ = ["DatasetResource", "AsyncDatasetResource"]
 
 
 class DatasetResource(SyncAPIResource):
-    @cached_property
-    def record(self) -> RecordResource:
-        return RecordResource(self._client)
-
     @cached_property
     def with_raw_response(self) -> DatasetResourceWithRawResponse:
         return DatasetResourceWithRawResponse(self)
@@ -92,10 +80,6 @@ class DatasetResource(SyncAPIResource):
 
 
 class AsyncDatasetResource(AsyncAPIResource):
-    @cached_property
-    def record(self) -> AsyncRecordResource:
-        return AsyncRecordResource(self._client)
-
     @cached_property
     def with_raw_response(self) -> AsyncDatasetResourceWithRawResponse:
         return AsyncDatasetResourceWithRawResponse(self)
@@ -156,10 +140,6 @@ class DatasetResourceWithRawResponse:
             dataset.create,
         )
 
-    @cached_property
-    def record(self) -> RecordResourceWithRawResponse:
-        return RecordResourceWithRawResponse(self._dataset.record)
-
 
 class AsyncDatasetResourceWithRawResponse:
     def __init__(self, dataset: AsyncDatasetResource) -> None:
@@ -168,10 +148,6 @@ class AsyncDatasetResourceWithRawResponse:
         self.create = async_to_raw_response_wrapper(
             dataset.create,
         )
-
-    @cached_property
-    def record(self) -> AsyncRecordResourceWithRawResponse:
-        return AsyncRecordResourceWithRawResponse(self._dataset.record)
 
 
 class DatasetResourceWithStreamingResponse:
@@ -182,10 +158,6 @@ class DatasetResourceWithStreamingResponse:
             dataset.create,
         )
 
-    @cached_property
-    def record(self) -> RecordResourceWithStreamingResponse:
-        return RecordResourceWithStreamingResponse(self._dataset.record)
-
 
 class AsyncDatasetResourceWithStreamingResponse:
     def __init__(self, dataset: AsyncDatasetResource) -> None:
@@ -194,7 +166,3 @@ class AsyncDatasetResourceWithStreamingResponse:
         self.create = async_to_streamed_response_wrapper(
             dataset.create,
         )
-
-    @cached_property
-    def record(self) -> AsyncRecordResourceWithStreamingResponse:
-        return AsyncRecordResourceWithStreamingResponse(self._dataset.record)
