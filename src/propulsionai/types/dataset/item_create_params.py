@@ -37,7 +37,7 @@ class DataTool(TypedDict, total=False):
 class Data(TypedDict, total=False):
     chosen: Optional[str]
 
-    history: Iterable[List[str]]
+    history: Optional[Iterable[List[str]]]
 
     images: Optional[str]
 
@@ -55,4 +55,4 @@ class Data(TypedDict, total=False):
 
     system: Optional[str]
 
-    tools: Iterable[DataTool]
+    tools: Optional[Iterable[DataTool]]
