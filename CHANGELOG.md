@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.2.0 (2024-07-25)
+
+Full Changelog: [v0.1.0-alpha.12...v0.2.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.1.0-alpha.12...v0.2.0)
+
+### Features
+
+* **api:** OpenAPI spec update via Stainless API ([#61](https://github.com/propulsion-ai/propulsionai-python/issues/61)) ([802a176](https://github.com/propulsion-ai/propulsionai-python/commit/802a176edc3f1b01493775cc71d7240167e43f64))
+* **api:** OpenAPI spec update via Stainless API ([#62](https://github.com/propulsion-ai/propulsionai-python/issues/62)) ([d22c581](https://github.com/propulsion-ai/propulsionai-python/commit/d22c581f5fc81619fa0de99fb9bdf8531a896951))
+* **api:** OpenAPI spec update via Stainless API ([#63](https://github.com/propulsion-ai/propulsionai-python/issues/63)) ([15b039b](https://github.com/propulsion-ai/propulsionai-python/commit/15b039b53d929fbe268d3373a03ff51efe2fe64f))
+* **api:** OpenAPI spec update via Stainless API ([#65](https://github.com/propulsion-ai/propulsionai-python/issues/65)) ([f0ee52f](https://github.com/propulsion-ai/propulsionai-python/commit/f0ee52f4d571a5d9ebd3164f73d8323c0141bf3e))
+* **api:** OpenAPI spec update via Stainless API ([#67](https://github.com/propulsion-ai/propulsionai-python/issues/67)) ([1497385](https://github.com/propulsion-ai/propulsionai-python/commit/1497385f1d57c619e88461cb055d5bce44788f7c))
+* **api:** OpenAPI spec update via Stainless API ([#68](https://github.com/propulsion-ai/propulsionai-python/issues/68)) ([1e0a7aa](https://github.com/propulsion-ai/propulsionai-python/commit/1e0a7aaf5d57ef2c6f81bec99c3086f8f806bf2d))
+* **api:** update via SDK Studio ([#59](https://github.com/propulsion-ai/propulsionai-python/issues/59)) ([d89297c](https://github.com/propulsion-ai/propulsionai-python/commit/d89297cbf0d392abb1157bff3d776e280cd68e3e))
+* **api:** update via SDK Studio ([#64](https://github.com/propulsion-ai/propulsionai-python/issues/64)) ([f23575a](https://github.com/propulsion-ai/propulsionai-python/commit/f23575ad63f2e03953e1c594b0d67e0c136bac8e))
+* **api:** update via SDK Studio ([#66](https://github.com/propulsion-ai/propulsionai-python/issues/66)) ([d4dddb5](https://github.com/propulsion-ai/propulsionai-python/commit/d4dddb548926551c94bca7284fc8dace8d5bd086))
+* **api:** update via SDK Studio ([#69](https://github.com/propulsion-ai/propulsionai-python/issues/69)) ([ff0276f](https://github.com/propulsion-ai/propulsionai-python/commit/ff0276ffaed48896c237ace8883c8e01fc10d7f2))
+
 ## 0.1.0-alpha.12 (2024-07-24)
 
 Full Changelog: [v0.1.0-alpha.11...v0.1.0-alpha.12](https://github.com/propulsion-ai/propulsionai-python/compare/v0.1.0-alpha.11...v0.1.0-alpha.12)
