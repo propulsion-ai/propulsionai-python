@@ -26,6 +26,8 @@ class Dataset(BaseModel):
 
 
 class DatasetCreateResponse(BaseModel):
+    id: Optional[float] = None
+
     dataset: Optional[Dataset] = None
 
     message: Optional[str] = None
