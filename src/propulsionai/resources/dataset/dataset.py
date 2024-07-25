@@ -6,6 +6,14 @@ from typing import Dict
 
 import httpx
 
+from .item import (
+    ItemResource,
+    AsyncItemResource,
+    ItemResourceWithRawResponse,
+    AsyncItemResourceWithRawResponse,
+    ItemResourceWithStreamingResponse,
+    AsyncItemResourceWithStreamingResponse,
+)
 from ...types import dataset_create_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
@@ -27,6 +35,10 @@ __all__ = ["DatasetResource", "AsyncDatasetResource"]
 
 
 class DatasetResource(SyncAPIResource):
+    @cached_property
+    def item(self) -> ItemResource:
+        return ItemResource(self._client)
+
     @cached_property
     def with_raw_response(self) -> DatasetResourceWithRawResponse:
         return DatasetResourceWithRawResponse(self)
@@ -80,6 +92,10 @@ class DatasetResource(SyncAPIResource):
 
 
 class AsyncDatasetResource(AsyncAPIResource):
+    @cached_property
+    def item(self) -> AsyncItemResource:
+        return AsyncItemResource(self._client)
+
     @cached_property
     def with_raw_response(self) -> AsyncDatasetResourceWithRawResponse:
         return AsyncDatasetResourceWithRawResponse(self)
@@ -140,6 +156,10 @@ class DatasetResourceWithRawResponse:
             dataset.create,
         )
 
+    @cached_property
+    def item(self) -> ItemResourceWithRawResponse:
+        return ItemResourceWithRawResponse(self._dataset.item)
+
 
 class AsyncDatasetResourceWithRawResponse:
     def __init__(self, dataset: AsyncDatasetResource) -> None:
@@ -148,6 +168,10 @@ class AsyncDatasetResourceWithRawResponse:
         self.create = async_to_raw_response_wrapper(
             dataset.create,
         )
+
+    @cached_property
+    def item(self) -> AsyncItemResourceWithRawResponse:
+        return AsyncItemResourceWithRawResponse(self._dataset.item)
 
 
 class DatasetResourceWithStreamingResponse:
@@ -158,6 +182,10 @@ class DatasetResourceWithStreamingResponse:
             dataset.create,
         )
 
+    @cached_property
+    def item(self) -> ItemResourceWithStreamingResponse:
+        return ItemResourceWithStreamingResponse(self._dataset.item)
+
 
 class AsyncDatasetResourceWithStreamingResponse:
     def __init__(self, dataset: AsyncDatasetResource) -> None:
@@ -166,3 +194,7 @@ class AsyncDatasetResourceWithStreamingResponse:
         self.create = async_to_streamed_response_wrapper(
             dataset.create,
         )
+
+    @cached_property
+    def item(self) -> AsyncItemResourceWithStreamingResponse:
+        return AsyncItemResourceWithStreamingResponse(self._dataset.item)
