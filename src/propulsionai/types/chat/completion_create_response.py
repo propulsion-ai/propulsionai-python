@@ -18,9 +18,9 @@ __all__ = [
 class ChoiceMessageToolCallFunction(BaseModel):
     name: str
 
-    description: Optional[str] = None
+    arguments: Optional[Dict[str, object]] = None
 
-    parameters: Optional[Dict[str, object]] = None
+    description: Optional[str] = None
 
 
 class ChoiceMessageToolCall(BaseModel):
