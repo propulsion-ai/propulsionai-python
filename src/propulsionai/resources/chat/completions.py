@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Iterable, Optional, overload # type: ignore
+from typing import List, Iterable, Optional, overload  # type: ignore
 from typing_extensions import Literal
 
 import httpx
@@ -21,11 +21,11 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ..._streaming import Stream, AsyncStream
 from ...types.chat import completion_create_params
 from ..._base_client import make_request_options
-from ...types.chat.completion_create_response import CompletionCreateResponse
 from ...types.chat.completion_create_chunk import CompletionCreateChunk
-from ..._streaming import Stream, AsyncStream
+from ...types.chat.completion_create_response import CompletionCreateResponse
 
 __all__ = ["CompletionsResource", "AsyncCompletionsResource"]
 
