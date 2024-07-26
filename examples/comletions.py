@@ -1,4 +1,5 @@
 import os
+
 from propulsionai import PropulsionAI
 
 client = PropulsionAI(
@@ -13,13 +14,25 @@ def sync_main() -> None:
             "role": "user",
             "content": "Hello, How are you?",
         }],
+        stream=False,
+    )
+    
+    print(response)
+    
+
+    stream = client.chat.completions.create(
+        deployment="<deployment_id>",
+        messages=[{
+            "role": "user",
+            "content": "Hello, How are you?",
+        }],
         stream=True,
     )
     # print(response)
-    first = next(response)
+    first = next(stream)
     print(f"got response data: {first.to_json()}")
     
-    for data in response:
+    for data in stream:
         print(data.to_json())
 
 
