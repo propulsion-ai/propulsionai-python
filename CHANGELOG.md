@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0 (2024-07-26)
+
+Full Changelog: [v0.3.0...v0.4.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.3.0...v0.4.0)
+
+### Features
+
+* attempt lint and test fix ([c5d697d](https://github.com/propulsion-ai/propulsionai-python/commit/c5d697d4251c4e523eec0f9e23b08e07044e7233))
+* attempt lint and test fix ([8ceb59a](https://github.com/propulsion-ai/propulsionai-python/commit/8ceb59aa444b3f0d384defb59a7a5d6b7bdb43aa))
+
 ## 0.3.0 (2024-07-26)
 
 Full Changelog: [v0.2.0...v0.3.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.2.0...v0.3.0)
