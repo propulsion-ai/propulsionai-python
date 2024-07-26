@@ -16,7 +16,7 @@ The REST API documentation can be found on [docs.propulsionai.com](https://docs.
 
 ```sh
 # install from PyPI
-pip install --pre propulsionai
+pip install propulsionai
 ```
 
 ## Usage
