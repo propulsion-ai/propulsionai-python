@@ -37,7 +37,7 @@ completion_create_response = client.chat.completions.create(
     messages=[
         {
             "role": "user",
-            "content": "Hello, How are you?",
+            "content": "Hello, How are you?.",
         }
     ],
 )
@@ -70,7 +70,7 @@ async def main() -> None:
         messages=[
             {
                 "role": "user",
-                "content": "Hello, How are you?",
+                "content": "Hello, How are you?.",
             }
         ],
     )

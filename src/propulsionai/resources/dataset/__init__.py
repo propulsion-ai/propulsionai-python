@@ -1,12 +1,12 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .chat import (
-    ChatResource,
-    AsyncChatResource,
-    ChatResourceWithRawResponse,
-    AsyncChatResourceWithRawResponse,
-    ChatResourceWithStreamingResponse,
-    AsyncChatResourceWithStreamingResponse,
+from .item import (
+    ItemResource,
+    AsyncItemResource,
+    ItemResourceWithRawResponse,
+    AsyncItemResourceWithRawResponse,
+    ItemResourceWithStreamingResponse,
+    AsyncItemResourceWithStreamingResponse,
 )
 from .dataset import (
     DatasetResource,
@@ -18,12 +18,12 @@ from .dataset import (
 )
 
 __all__ = [
-    "ChatResource",
-    "AsyncChatResource",
-    "ChatResourceWithRawResponse",
-    "AsyncChatResourceWithRawResponse",
-    "ChatResourceWithStreamingResponse",
-    "AsyncChatResourceWithStreamingResponse",
+    "ItemResource",
+    "AsyncItemResource",
+    "ItemResourceWithRawResponse",
+    "AsyncItemResourceWithRawResponse",
+    "ItemResourceWithStreamingResponse",
+    "AsyncItemResourceWithStreamingResponse",
     "DatasetResource",
     "AsyncDatasetResource",
     "DatasetResourceWithRawResponse",

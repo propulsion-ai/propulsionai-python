@@ -5,7 +5,28 @@ from typing_extensions import Literal
 
 from ..._models import BaseModel
 
-__all__ = ["CompletionCreateResponse", "Choice", "ChoiceMessage", "ToolCall", "ToolCallFunction", "Usage"]
+__all__ = [
+    "CompletionCreateResponse",
+    "Choice",
+    "ChoiceMessage",
+    "ChoiceMessageToolCall",
+    "ChoiceMessageToolCallFunction",
+    "Usage",
+]
+
+
+class ChoiceMessageToolCallFunction(BaseModel):
+    name: str
+
+    arguments: Optional[Dict[str, object]] = None
+
+    description: Optional[str] = None
+
+
+class ChoiceMessageToolCall(BaseModel):
+    function: Optional[ChoiceMessageToolCallFunction] = None
+
+    type: Optional[Literal["function"]] = None
 
 
 class ChoiceMessage(BaseModel):
@@ -13,25 +34,13 @@ class ChoiceMessage(BaseModel):
 
     role: Optional[Literal["system", "user", "assistant", "tool"]] = None
 
+    tool_calls: Optional[List[ChoiceMessageToolCall]] = None
+
 
 class Choice(BaseModel):
     index: Optional[int] = None
 
     message: Optional[ChoiceMessage] = None
-
-
-class ToolCallFunction(BaseModel):
-    name: str
-
-    description: Optional[str] = None
-
-    parameters: Optional[Dict[str, object]] = None
-
-
-class ToolCall(BaseModel):
-    function: Optional[ToolCallFunction] = None
-
-    type: Optional[Literal["function"]] = None
 
 
 class Usage(BaseModel):
@@ -53,6 +62,6 @@ class CompletionCreateResponse(BaseModel):
 
     object: Optional[str] = None
 
-    tool_calls: Optional[List[ToolCall]] = None
+    task_id: Optional[str] = None
 
     usage: Optional[Usage] = None
