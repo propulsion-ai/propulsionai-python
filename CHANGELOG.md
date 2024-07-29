@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0 (2024-07-29)
+
+Full Changelog: [v0.5.0...v0.6.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.5.0...v0.6.0)
+
+### Features
+
+* **api:** update via SDK Studio ([#78](https://github.com/propulsion-ai/propulsionai-python/issues/78)) ([867e08c](https://github.com/propulsion-ai/propulsionai-python/commit/867e08c54e3679d831af6c5ea1e41eec5c302b75))
+
 ## 0.5.0 (2024-07-29)
 
 Full Changelog: [v0.4.0...v0.5.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.4.0...v0.5.0)
