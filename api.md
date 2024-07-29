@@ -35,3 +35,28 @@ from propulsionai.types.dataset import ItemCreateResponse
 Methods:
 
 - <code title="post /dataset/item">client.dataset.item.<a href="./src/propulsionai/resources/dataset/item.py">create</a>(\*\*<a href="src/propulsionai/types/dataset/item_create_params.py">params</a>) -> <a href="./src/propulsionai/types/dataset/item_create_response.py">ItemCreateResponse</a></code>
+
+# Knowledgebase
+
+Types:
+
+```python
+from propulsionai.types import KnowledgebaseCreateResponse
+```
+
+Methods:
+
+- <code title="post /knowledgebase">client.knowledgebase.<a href="./src/propulsionai/resources/knowledgebase/knowledgebase.py">create</a>(\*\*<a href="src/propulsionai/types/knowledgebase_create_params.py">params</a>) -> <a href="./src/propulsionai/types/knowledgebase_create_response.py">KnowledgebaseCreateResponse</a></code>
+
+## File
+
+Types:
+
+```python
+from propulsionai.types.knowledgebase import FileCreateResponse, FileDeleteResponse
+```
+
+Methods:
+
+- <code title="post /knowledgebase/{knowledgebase_id}/file">client.knowledgebase.file.<a href="./src/propulsionai/resources/knowledgebase/file.py">create</a>(knowledgebase_id, \*\*<a href="src/propulsionai/types/knowledgebase/file_create_params.py">params</a>) -> <a href="./src/propulsionai/types/knowledgebase/file_create_response.py">FileCreateResponse</a></code>
+- <code title="delete /knowledgebase/{knowledgebase_id}/file/{file_id}">client.knowledgebase.file.<a href="./src/propulsionai/resources/knowledgebase/file.py">delete</a>(file_id, \*, knowledgebase_id) -> <a href="./src/propulsionai/types/knowledgebase/file_delete_response.py">FileDeleteResponse</a></code>
