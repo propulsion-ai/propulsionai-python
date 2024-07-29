@@ -22,9 +22,9 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.knowledgebase import file_create_params
-from ...types.knowledgebase.file_create_response import FileCreateResponse
+from ...types.knowledgebase import file_upload_params
 from ...types.knowledgebase.file_delete_response import FileDeleteResponse
+from ...types.knowledgebase.file_upload_response import FileUploadResponse
 
 __all__ = ["FileResource", "AsyncFileResource"]
 
@@ -37,46 +37,6 @@ class FileResource(SyncAPIResource):
     @cached_property
     def with_streaming_response(self) -> FileResourceWithStreamingResponse:
         return FileResourceWithStreamingResponse(self)
-
-    def create(
-        self,
-        knowledgebase_id: float,
-        *,
-        file: FileTypes,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> FileCreateResponse:
-        """
-        Uploads a file to a knowledgebase.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        body = deepcopy_minimal({"file": file})
-        files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
-        # It should be noted that the actual Content-Type header that will be
-        # sent to the server will contain a `boundary` parameter, e.g.
-        # multipart/form-data; boundary=---abc--
-        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
-        return self._post(
-            f"/knowledgebase/{knowledgebase_id}/file",
-            body=maybe_transform(body, file_create_params.FileCreateParams),
-            files=files,
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=FileCreateResponse,
-        )
 
     def delete(
         self,
@@ -112,17 +72,7 @@ class FileResource(SyncAPIResource):
             cast_to=FileDeleteResponse,
         )
 
-
-class AsyncFileResource(AsyncAPIResource):
-    @cached_property
-    def with_raw_response(self) -> AsyncFileResourceWithRawResponse:
-        return AsyncFileResourceWithRawResponse(self)
-
-    @cached_property
-    def with_streaming_response(self) -> AsyncFileResourceWithStreamingResponse:
-        return AsyncFileResourceWithStreamingResponse(self)
-
-    async def create(
+    def upload(
         self,
         knowledgebase_id: float,
         *,
@@ -133,7 +83,7 @@ class AsyncFileResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> FileCreateResponse:
+    ) -> FileUploadResponse:
         """
         Uploads a file to a knowledgebase.
 
@@ -152,15 +102,25 @@ class AsyncFileResource(AsyncAPIResource):
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
         extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
-        return await self._post(
+        return self._post(
             f"/knowledgebase/{knowledgebase_id}/file",
-            body=await async_maybe_transform(body, file_create_params.FileCreateParams),
+            body=maybe_transform(body, file_upload_params.FileUploadParams),
             files=files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FileCreateResponse,
+            cast_to=FileUploadResponse,
         )
+
+
+class AsyncFileResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncFileResourceWithRawResponse:
+        return AsyncFileResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncFileResourceWithStreamingResponse:
+        return AsyncFileResourceWithStreamingResponse(self)
 
     async def delete(
         self,
@@ -196,16 +156,56 @@ class AsyncFileResource(AsyncAPIResource):
             cast_to=FileDeleteResponse,
         )
 
+    async def upload(
+        self,
+        knowledgebase_id: float,
+        *,
+        file: FileTypes,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> FileUploadResponse:
+        """
+        Uploads a file to a knowledgebase.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        body = deepcopy_minimal({"file": file})
+        files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
+        # It should be noted that the actual Content-Type header that will be
+        # sent to the server will contain a `boundary` parameter, e.g.
+        # multipart/form-data; boundary=---abc--
+        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
+        return await self._post(
+            f"/knowledgebase/{knowledgebase_id}/file",
+            body=await async_maybe_transform(body, file_upload_params.FileUploadParams),
+            files=files,
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FileUploadResponse,
+        )
+
 
 class FileResourceWithRawResponse:
     def __init__(self, file: FileResource) -> None:
         self._file = file
 
-        self.create = to_raw_response_wrapper(
-            file.create,
-        )
         self.delete = to_raw_response_wrapper(
             file.delete,
+        )
+        self.upload = to_raw_response_wrapper(
+            file.upload,
         )
 
 
@@ -213,11 +213,11 @@ class AsyncFileResourceWithRawResponse:
     def __init__(self, file: AsyncFileResource) -> None:
         self._file = file
 
-        self.create = async_to_raw_response_wrapper(
-            file.create,
-        )
         self.delete = async_to_raw_response_wrapper(
             file.delete,
+        )
+        self.upload = async_to_raw_response_wrapper(
+            file.upload,
         )
 
 
@@ -225,11 +225,11 @@ class FileResourceWithStreamingResponse:
     def __init__(self, file: FileResource) -> None:
         self._file = file
 
-        self.create = to_streamed_response_wrapper(
-            file.create,
-        )
         self.delete = to_streamed_response_wrapper(
             file.delete,
+        )
+        self.upload = to_streamed_response_wrapper(
+            file.upload,
         )
 
 
@@ -237,9 +237,9 @@ class AsyncFileResourceWithStreamingResponse:
     def __init__(self, file: AsyncFileResource) -> None:
         self._file = file
 
-        self.create = async_to_streamed_response_wrapper(
-            file.create,
-        )
         self.delete = async_to_streamed_response_wrapper(
             file.delete,
+        )
+        self.upload = async_to_streamed_response_wrapper(
+            file.upload,
         )
