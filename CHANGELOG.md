@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.6.0 (2024-07-29)
+
+Full Changelog: [v0.5.0...v0.6.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.5.0...v0.6.0)
+
+### Features
+
+* **api:** update via SDK Studio ([#78](https://github.com/propulsion-ai/propulsionai-python/issues/78)) ([867e08c](https://github.com/propulsion-ai/propulsionai-python/commit/867e08c54e3679d831af6c5ea1e41eec5c302b75))
+
+## 0.5.0 (2024-07-29)
+
+Full Changelog: [v0.4.0...v0.5.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.4.0...v0.5.0)
+
+### Features
+
+* **api:** OpenAPI spec update via Stainless API ([#75](https://github.com/propulsion-ai/propulsionai-python/issues/75)) ([b8ed847](https://github.com/propulsion-ai/propulsionai-python/commit/b8ed847e75c6d3a80ef2416f79e0f7677f24f0a7))
+
+## 0.4.0 (2024-07-26)
+
+Full Changelog: [v0.3.0...v0.4.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.3.0...v0.4.0)
+
+### Features
+
+* attempt lint and test fix ([c5d697d](https://github.com/propulsion-ai/propulsionai-python/commit/c5d697d4251c4e523eec0f9e23b08e07044e7233))
+* attempt lint and test fix ([8ceb59a](https://github.com/propulsion-ai/propulsionai-python/commit/8ceb59aa444b3f0d384defb59a7a5d6b7bdb43aa))
+
 ## 0.3.0 (2024-07-26)
 
 Full Changelog: [v0.2.0...v0.3.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.2.0...v0.3.0)

@@ -16,6 +16,14 @@ from .dataset import (
     DatasetResourceWithStreamingResponse,
     AsyncDatasetResourceWithStreamingResponse,
 )
+from .knowledgebase import (
+    KnowledgebaseResource,
+    AsyncKnowledgebaseResource,
+    KnowledgebaseResourceWithRawResponse,
+    AsyncKnowledgebaseResourceWithRawResponse,
+    KnowledgebaseResourceWithStreamingResponse,
+    AsyncKnowledgebaseResourceWithStreamingResponse,
+)
 
 __all__ = [
     "ChatResource",
@@ -30,4 +38,10 @@ __all__ = [
     "AsyncDatasetResourceWithRawResponse",
     "DatasetResourceWithStreamingResponse",
     "AsyncDatasetResourceWithStreamingResponse",
+    "KnowledgebaseResource",
+    "AsyncKnowledgebaseResource",
+    "KnowledgebaseResourceWithRawResponse",
+    "AsyncKnowledgebaseResourceWithRawResponse",
+    "KnowledgebaseResourceWithStreamingResponse",
+    "AsyncKnowledgebaseResourceWithStreamingResponse",
 ]
