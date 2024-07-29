@@ -11,7 +11,7 @@ __all__ = ["ItemCreateParams", "Data", "DataMessage", "DataTool", "DataToolFunct
 class ItemCreateParams(TypedDict, total=False):
     data: Required[Data]
 
-    dataset_id: Required[float]
+    dataset_id: Required[int]
 
 
 class DataMessage(TypedDict, total=False):

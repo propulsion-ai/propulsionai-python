@@ -8,6 +8,6 @@ __all__ = ["KnowledgebaseCreateResponse"]
 
 
 class KnowledgebaseCreateResponse(BaseModel):
-    id: Optional[str] = None
+    id: Optional[int] = None
 
     message: Optional[str] = None
