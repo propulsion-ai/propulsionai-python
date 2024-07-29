@@ -21,7 +21,6 @@ class TestKnowledgebase:
     def test_method_create(self, client: PropulsionAI) -> None:
         knowledgebase = client.knowledgebase.create(
             name="name",
-            project_id=0,
             tags="tags",
         )
         assert_matches_type(KnowledgebaseCreateResponse, knowledgebase, path=["response"])
@@ -30,7 +29,6 @@ class TestKnowledgebase:
     def test_method_create_with_all_params(self, client: PropulsionAI) -> None:
         knowledgebase = client.knowledgebase.create(
             name="name",
-            project_id=0,
             tags="tags",
             description="description",
         )
@@ -40,7 +38,6 @@ class TestKnowledgebase:
     def test_raw_response_create(self, client: PropulsionAI) -> None:
         response = client.knowledgebase.with_raw_response.create(
             name="name",
-            project_id=0,
             tags="tags",
         )
 
@@ -53,7 +50,6 @@ class TestKnowledgebase:
     def test_streaming_response_create(self, client: PropulsionAI) -> None:
         with client.knowledgebase.with_streaming_response.create(
             name="name",
-            project_id=0,
             tags="tags",
         ) as response:
             assert not response.is_closed
@@ -72,7 +68,6 @@ class TestAsyncKnowledgebase:
     async def test_method_create(self, async_client: AsyncPropulsionAI) -> None:
         knowledgebase = await async_client.knowledgebase.create(
             name="name",
-            project_id=0,
             tags="tags",
         )
         assert_matches_type(KnowledgebaseCreateResponse, knowledgebase, path=["response"])
@@ -81,7 +76,6 @@ class TestAsyncKnowledgebase:
     async def test_method_create_with_all_params(self, async_client: AsyncPropulsionAI) -> None:
         knowledgebase = await async_client.knowledgebase.create(
             name="name",
-            project_id=0,
             tags="tags",
             description="description",
         )
@@ -91,7 +85,6 @@ class TestAsyncKnowledgebase:
     async def test_raw_response_create(self, async_client: AsyncPropulsionAI) -> None:
         response = await async_client.knowledgebase.with_raw_response.create(
             name="name",
-            project_id=0,
             tags="tags",
         )
 
@@ -104,7 +97,6 @@ class TestAsyncKnowledgebase:
     async def test_streaming_response_create(self, async_client: AsyncPropulsionAI) -> None:
         async with async_client.knowledgebase.with_streaming_response.create(
             name="name",
-            project_id=0,
             tags="tags",
         ) as response:
             assert not response.is_closed
