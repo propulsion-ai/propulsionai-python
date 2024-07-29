@@ -48,6 +48,7 @@ __all__ = [
 class PropulsionAI(SyncAPIClient):
     chat: resources.ChatResource
     dataset: resources.DatasetResource
+    knowledgebase: resources.KnowledgebaseResource
     with_raw_response: PropulsionAIWithRawResponse
     with_streaming_response: PropulsionAIWithStreamedResponse
 
@@ -107,6 +108,7 @@ class PropulsionAI(SyncAPIClient):
 
         self.chat = resources.ChatResource(self)
         self.dataset = resources.DatasetResource(self)
+        self.knowledgebase = resources.KnowledgebaseResource(self)
         self.with_raw_response = PropulsionAIWithRawResponse(self)
         self.with_streaming_response = PropulsionAIWithStreamedResponse(self)
 
@@ -218,6 +220,7 @@ class PropulsionAI(SyncAPIClient):
 class AsyncPropulsionAI(AsyncAPIClient):
     chat: resources.AsyncChatResource
     dataset: resources.AsyncDatasetResource
+    knowledgebase: resources.AsyncKnowledgebaseResource
     with_raw_response: AsyncPropulsionAIWithRawResponse
     with_streaming_response: AsyncPropulsionAIWithStreamedResponse
 
@@ -277,6 +280,7 @@ class AsyncPropulsionAI(AsyncAPIClient):
 
         self.chat = resources.AsyncChatResource(self)
         self.dataset = resources.AsyncDatasetResource(self)
+        self.knowledgebase = resources.AsyncKnowledgebaseResource(self)
         self.with_raw_response = AsyncPropulsionAIWithRawResponse(self)
         self.with_streaming_response = AsyncPropulsionAIWithStreamedResponse(self)
 
@@ -389,24 +393,28 @@ class PropulsionAIWithRawResponse:
     def __init__(self, client: PropulsionAI) -> None:
         self.chat = resources.ChatResourceWithRawResponse(client.chat)
         self.dataset = resources.DatasetResourceWithRawResponse(client.dataset)
+        self.knowledgebase = resources.KnowledgebaseResourceWithRawResponse(client.knowledgebase)
 
 
 class AsyncPropulsionAIWithRawResponse:
     def __init__(self, client: AsyncPropulsionAI) -> None:
         self.chat = resources.AsyncChatResourceWithRawResponse(client.chat)
         self.dataset = resources.AsyncDatasetResourceWithRawResponse(client.dataset)
+        self.knowledgebase = resources.AsyncKnowledgebaseResourceWithRawResponse(client.knowledgebase)
 
 
 class PropulsionAIWithStreamedResponse:
     def __init__(self, client: PropulsionAI) -> None:
         self.chat = resources.ChatResourceWithStreamingResponse(client.chat)
         self.dataset = resources.DatasetResourceWithStreamingResponse(client.dataset)
+        self.knowledgebase = resources.KnowledgebaseResourceWithStreamingResponse(client.knowledgebase)
 
 
 class AsyncPropulsionAIWithStreamedResponse:
     def __init__(self, client: AsyncPropulsionAI) -> None:
         self.chat = resources.AsyncChatResourceWithStreamingResponse(client.chat)
         self.dataset = resources.AsyncDatasetResourceWithStreamingResponse(client.dataset)
+        self.knowledgebase = resources.AsyncKnowledgebaseResourceWithStreamingResponse(client.knowledgebase)
 
 
 Client = PropulsionAI
