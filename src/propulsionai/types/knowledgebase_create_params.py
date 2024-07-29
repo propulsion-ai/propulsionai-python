@@ -10,8 +10,6 @@ __all__ = ["KnowledgebaseCreateParams"]
 class KnowledgebaseCreateParams(TypedDict, total=False):
     name: Required[str]
 
-    project_id: Required[float]
-
     tags: Required[str]
 
     description: str
