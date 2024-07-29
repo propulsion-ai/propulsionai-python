@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.11.0 (2024-07-29)
+
+Full Changelog: [v0.10.0...v0.11.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.10.0...v0.11.0)
+
+### Features
+
+* **api:** update via SDK Studio ([#94](https://github.com/propulsion-ai/propulsionai-python/issues/94)) ([2434930](https://github.com/propulsion-ai/propulsionai-python/commit/2434930eab45b5e1a1a27095d898c417af54c5c7))
+
+
+### Chores
+
+* **internal:** add type construction helper ([#93](https://github.com/propulsion-ai/propulsionai-python/issues/93)) ([805faeb](https://github.com/propulsion-ai/propulsionai-python/commit/805faebf5e3adac19e3f4137c8cbdb0e71b5a679))
+
 ## 0.10.0 (2024-07-29)
 
 Full Changelog: [v0.9.0...v0.10.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.9.0...v0.10.0)
