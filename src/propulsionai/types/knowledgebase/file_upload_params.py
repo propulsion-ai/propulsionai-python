@@ -6,8 +6,8 @@ from typing_extensions import Required, TypedDict
 
 from ..._types import FileTypes
 
-__all__ = ["FileCreateParams"]
+__all__ = ["FileUploadParams"]
 
 
-class FileCreateParams(TypedDict, total=False):
+class FileUploadParams(TypedDict, total=False):
     file: Required[FileTypes]
