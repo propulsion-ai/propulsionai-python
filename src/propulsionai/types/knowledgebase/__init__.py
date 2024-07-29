@@ -2,6 +2,6 @@
 
 from __future__ import annotations
 
-from .file_create_params import FileCreateParams as FileCreateParams
-from .file_create_response import FileCreateResponse as FileCreateResponse
+from .file_upload_params import FileUploadParams as FileUploadParams
 from .file_delete_response import FileDeleteResponse as FileDeleteResponse
+from .file_upload_response import FileUploadResponse as FileUploadResponse
