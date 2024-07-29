@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.0 (2024-07-29)
+
+Full Changelog: [v0.8.0...v0.9.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.8.0...v0.9.0)
+
+### Features
+
+* fix response id type ([61755f7](https://github.com/propulsion-ai/propulsionai-python/commit/61755f776e663d81e064e698a17dd30a1925883f))
+
 ## 0.8.0 (2024-07-29)
 
 Full Changelog: [v0.7.0...v0.8.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.7.0...v0.8.0)
