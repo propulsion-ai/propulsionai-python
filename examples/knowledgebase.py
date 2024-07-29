@@ -1,13 +1,11 @@
-import sys  # type: ignore
+import os
 import json  # type: ignore
 from pathlib import Path
 from propulsionai import PropulsionAI
 
 client = PropulsionAI(
     # This is the default and can be omitted
-    bearer_token="UFJPRFVDVElPTiQxNDEkRDlYNzEySFg0M0ZaMzI4UUFUOUNNWkQ3REs3MTRa",
-    # base_url="https://npapi.propulsionhq.com/api/v2",
-    base_url="http://localhost:2999/api/v2",
+    bearer_token=os.environ.get("PROPULSIONAI_BEARER_TOKEN"),
 )
 
 
