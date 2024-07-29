@@ -8,7 +8,7 @@ __all__ = ["DatasetCreateResponse", "Dataset"]
 
 
 class Dataset(BaseModel):
-    id: Optional[float] = None
+    id: Optional[int] = None
 
     created: Optional[int] = None
 
@@ -18,7 +18,7 @@ class Dataset(BaseModel):
 
     name: Optional[str] = None
 
-    project_id: Optional[float] = None
+    project_id: Optional[int] = None
 
     settings: Optional[Dict[str, object]] = None
 
@@ -26,7 +26,7 @@ class Dataset(BaseModel):
 
 
 class DatasetCreateResponse(BaseModel):
-    id: Optional[float] = None
+    id: Optional[int] = None
 
     dataset: Optional[Dataset] = None
 
