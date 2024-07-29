@@ -49,7 +49,6 @@ class KnowledgebaseResource(SyncAPIResource):
         self,
         *,
         name: str,
-        project_id: float,
         tags: str,
         description: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -76,7 +75,6 @@ class KnowledgebaseResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "name": name,
-                    "project_id": project_id,
                     "tags": tags,
                     "description": description,
                 },
@@ -106,7 +104,6 @@ class AsyncKnowledgebaseResource(AsyncAPIResource):
         self,
         *,
         name: str,
-        project_id: float,
         tags: str,
         description: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -133,7 +130,6 @@ class AsyncKnowledgebaseResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "name": name,
-                    "project_id": project_id,
                     "tags": tags,
                     "description": description,
                 },
