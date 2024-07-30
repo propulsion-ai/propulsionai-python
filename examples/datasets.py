@@ -7,11 +7,10 @@ client = PropulsionAI(
     bearer_token=os.environ.get("PROPULSIONAI_BEARER_TOKEN"),
 )
 
+
 def sync_main() -> None:
-    response = client.dataset.create(
-        name="My Dataset"
-    )
-    
+    response = client.dataset.create(name="My Dataset")
+
     print(response.id)
 
 

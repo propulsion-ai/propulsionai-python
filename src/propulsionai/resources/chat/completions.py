@@ -38,7 +38,7 @@ class CompletionsResource(SyncAPIResource):
     @cached_property
     def with_streaming_response(self) -> CompletionsResourceWithStreamingResponse:
         return CompletionsResourceWithStreamingResponse(self)
-    
+
     @overload
     def create(
         self,
@@ -77,7 +77,7 @@ class CompletionsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         ...
-    
+
     @overload
     def create(
         self,
@@ -116,7 +116,7 @@ class CompletionsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         ...
-    
+
     @overload
     def create(
         self,
@@ -155,7 +155,7 @@ class CompletionsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         ...
-        
+
     @required_args(["messages", "deployment"], ["messages", "deployment", "stream"])
     def create(
         self,
@@ -213,7 +213,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
     @cached_property
     def with_streaming_response(self) -> AsyncCompletionsResourceWithStreamingResponse:
         return AsyncCompletionsResourceWithStreamingResponse(self)
-    
+
     @overload
     async def create(
         self,
@@ -252,7 +252,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         ...
-    
+
     @overload
     async def create(
         self,
@@ -291,7 +291,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         ...
-    
+
     @overload
     async def create(
         self,
@@ -330,7 +330,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         ...
-        
+
     @required_args(["messages", "deployment"], ["messages", "deployment", "stream"])
     async def create(
         self,
