@@ -27,7 +27,7 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.knowledgebase_create_response import KnowledgebaseCreateResponse
+from ...types.knowledgebase.knowledgebase import Knowledgebase
 
 __all__ = ["KnowledgebaseResource", "AsyncKnowledgebaseResource"]
 
@@ -57,7 +57,7 @@ class KnowledgebaseResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> KnowledgebaseCreateResponse:
+    ) -> Knowledgebase:
         """
         Creates a new knowledgebase.
 
@@ -83,7 +83,7 @@ class KnowledgebaseResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=KnowledgebaseCreateResponse,
+            cast_to=Knowledgebase,
         )
 
 
@@ -112,7 +112,7 @@ class AsyncKnowledgebaseResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> KnowledgebaseCreateResponse:
+    ) -> Knowledgebase:
         """
         Creates a new knowledgebase.
 
@@ -138,7 +138,7 @@ class AsyncKnowledgebaseResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=KnowledgebaseCreateResponse,
+            cast_to=Knowledgebase,
         )
 
 

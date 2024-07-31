@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from propulsionai import PropulsionAI, AsyncPropulsionAI
-from propulsionai.types.knowledgebase import FileDeleteResponse, FileUploadResponse
+from propulsionai.types.knowledgebase import File, FileDeleteResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -65,7 +65,7 @@ class TestFile:
             knowledgebase_id=0,
             file=b"raw file contents",
         )
-        assert_matches_type(FileUploadResponse, file, path=["response"])
+        assert_matches_type(File, file, path=["response"])
 
     @parametrize
     def test_raw_response_upload(self, client: PropulsionAI) -> None:
@@ -77,7 +77,7 @@ class TestFile:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = response.parse()
-        assert_matches_type(FileUploadResponse, file, path=["response"])
+        assert_matches_type(File, file, path=["response"])
 
     @parametrize
     def test_streaming_response_upload(self, client: PropulsionAI) -> None:
@@ -89,7 +89,7 @@ class TestFile:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = response.parse()
-            assert_matches_type(FileUploadResponse, file, path=["response"])
+            assert_matches_type(File, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -145,7 +145,7 @@ class TestAsyncFile:
             knowledgebase_id=0,
             file=b"raw file contents",
         )
-        assert_matches_type(FileUploadResponse, file, path=["response"])
+        assert_matches_type(File, file, path=["response"])
 
     @parametrize
     async def test_raw_response_upload(self, async_client: AsyncPropulsionAI) -> None:
@@ -157,7 +157,7 @@ class TestAsyncFile:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = await response.parse()
-        assert_matches_type(FileUploadResponse, file, path=["response"])
+        assert_matches_type(File, file, path=["response"])
 
     @parametrize
     async def test_streaming_response_upload(self, async_client: AsyncPropulsionAI) -> None:
@@ -169,6 +169,6 @@ class TestAsyncFile:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = await response.parse()
-            assert_matches_type(FileUploadResponse, file, path=["response"])
+            assert_matches_type(File, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
