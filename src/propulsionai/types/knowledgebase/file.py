@@ -2,12 +2,12 @@
 
 from typing import Optional
 
-from .._models import BaseModel
+from ..._models import BaseModel
 
-__all__ = ["KnowledgebaseCreateResponse"]
+__all__ = ["File"]
 
 
-class KnowledgebaseCreateResponse(BaseModel):
-    id: Optional[int] = None
+class File(BaseModel):
+    id: Optional[str] = None
 
     message: Optional[str] = None
