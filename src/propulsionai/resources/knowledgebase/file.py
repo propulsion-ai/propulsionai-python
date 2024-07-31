@@ -23,8 +23,8 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.knowledgebase import file_upload_params
+from ...types.knowledgebase.file import File
 from ...types.knowledgebase.file_delete_response import FileDeleteResponse
-from ...types.knowledgebase.file_upload_response import FileUploadResponse
 
 __all__ = ["FileResource", "AsyncFileResource"]
 
@@ -83,7 +83,7 @@ class FileResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> FileUploadResponse:
+    ) -> File:
         """
         Uploads a file to a knowledgebase.
 
@@ -109,7 +109,7 @@ class FileResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FileUploadResponse,
+            cast_to=File,
         )
 
 
@@ -167,7 +167,7 @@ class AsyncFileResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> FileUploadResponse:
+    ) -> File:
         """
         Uploads a file to a knowledgebase.
 
@@ -193,7 +193,7 @@ class AsyncFileResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FileUploadResponse,
+            cast_to=File,
         )
 
 
