@@ -53,5 +53,27 @@ Methods:
 Types:
 
 ```python
-from propulsionai.types.knowledgebase import File
+from propulsionai.types.knowledgebase import (
+    File,
+    KnowledgebaseFileUploadResponse,
+    FileDeleteResponse,
+)
 ```
+
+Methods:
+
+- <code title="post /knowledgebase/{knowledgebase_code}/file">client.knowledgebase.file.<a href="./src/propulsionai/resources/knowledgebase/file.py">create</a>(knowledgebase_code, \*\*<a href="src/propulsionai/types/knowledgebase/file_create_params.py">params</a>) -> <a href="./src/propulsionai/types/knowledgebase/file.py">File</a></code>
+- <code title="delete /knowledgebase/{knowledgebase_code}/file/{file_id}">client.knowledgebase.file.<a href="./src/propulsionai/resources/knowledgebase/file.py">delete</a>(file_id, \*, knowledgebase_code) -> <a href="./src/propulsionai/types/knowledgebase/file_delete_response.py">FileDeleteResponse</a></code>
+- <code title="post /knowledgebase/{knowledgebase_code}/file">client.knowledgebase.file.<a href="./src/propulsionai/resources/knowledgebase/file.py">upload</a>(knowledgebase_code, \*\*<a href="src/propulsionai/types/knowledgebase/file_upload_params.py">params</a>) -> <a href="./src/propulsionai/types/knowledgebase/file.py">File</a></code>
+
+## Item
+
+Types:
+
+```python
+from propulsionai.types.knowledgebase import KnowledgebaseItemResponse
+```
+
+Methods:
+
+- <code title="post /knowledgebase/{knowledgebase_code}/item">client.knowledgebase.item.<a href="./src/propulsionai/resources/knowledgebase/item.py">create</a>(knowledgebase_code, \*\*<a href="src/propulsionai/types/knowledgebase/item_create_params.py">params</a>) -> <a href="./src/propulsionai/types/knowledgebase/knowledgebase_item_response.py">KnowledgebaseItemResponse</a></code>
