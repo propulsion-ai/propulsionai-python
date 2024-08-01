@@ -8,6 +8,6 @@ __all__ = ["Knowledgebase"]
 
 
 class Knowledgebase(BaseModel):
-    id: Optional[int] = None
+    code: Optional[str] = None
 
     message: Optional[str] = None
