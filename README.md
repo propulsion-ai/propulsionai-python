@@ -10,7 +10,7 @@ It is generated with [Stainless](https://www.stainlessapi.com/).
 
 ## Documentation
 
-The REST API documentation can be found on [docs.propulsionai.com](https://docs.propulsionai.com). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.propulsionhq.com](https://docs.propulsionhq.com). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
