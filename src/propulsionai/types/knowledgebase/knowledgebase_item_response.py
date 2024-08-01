@@ -4,10 +4,10 @@ from typing import Optional
 
 from ..._models import BaseModel
 
-__all__ = ["Knowledgebase"]
+__all__ = ["KnowledgebaseItemResponse"]
 
 
-class Knowledgebase(BaseModel):
-    code: Optional[str] = None
+class KnowledgebaseItemResponse(BaseModel):
+    id: Optional[str] = None
 
     message: Optional[str] = None

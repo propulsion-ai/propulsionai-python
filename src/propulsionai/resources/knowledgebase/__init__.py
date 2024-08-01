@@ -8,6 +8,14 @@ from .file import (
     FileResourceWithStreamingResponse,
     AsyncFileResourceWithStreamingResponse,
 )
+from .item import (
+    ItemResource,
+    AsyncItemResource,
+    ItemResourceWithRawResponse,
+    AsyncItemResourceWithRawResponse,
+    ItemResourceWithStreamingResponse,
+    AsyncItemResourceWithStreamingResponse,
+)
 from .knowledgebase import (
     KnowledgebaseResource,
     AsyncKnowledgebaseResource,
@@ -24,6 +32,12 @@ __all__ = [
     "AsyncFileResourceWithRawResponse",
     "FileResourceWithStreamingResponse",
     "AsyncFileResourceWithStreamingResponse",
+    "ItemResource",
+    "AsyncItemResource",
+    "ItemResourceWithRawResponse",
+    "AsyncItemResourceWithRawResponse",
+    "ItemResourceWithStreamingResponse",
+    "AsyncItemResourceWithStreamingResponse",
     "KnowledgebaseResource",
     "AsyncKnowledgebaseResource",
     "KnowledgebaseResourceWithRawResponse",
