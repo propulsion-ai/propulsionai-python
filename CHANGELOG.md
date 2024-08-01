@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.14.0 (2024-08-01)
+
+Full Changelog: [v0.13.0...v0.14.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.13.0...v0.14.0)
+
+### Features
+
+* stream false in test fix and lint ([894636b](https://github.com/propulsion-ai/propulsionai-python/commit/894636b00c714acaf19585863ffb9621f30be2ac))
+
 ## 0.13.0 (2024-08-01)
 
 Full Changelog: [v0.12.0...v0.13.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.12.0...v0.13.0)
