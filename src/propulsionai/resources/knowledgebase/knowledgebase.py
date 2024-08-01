@@ -4,6 +4,22 @@ from __future__ import annotations
 
 import httpx
 
+from .file import (
+    FileResource,
+    AsyncFileResource,
+    FileResourceWithRawResponse,
+    AsyncFileResourceWithRawResponse,
+    FileResourceWithStreamingResponse,
+    AsyncFileResourceWithStreamingResponse,
+)
+from .item import (
+    ItemResource,
+    AsyncItemResource,
+    ItemResourceWithRawResponse,
+    AsyncItemResourceWithRawResponse,
+    ItemResourceWithStreamingResponse,
+    AsyncItemResourceWithStreamingResponse,
+)
 from ...types import knowledgebase_create_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
@@ -25,6 +41,14 @@ __all__ = ["KnowledgebaseResource", "AsyncKnowledgebaseResource"]
 
 
 class KnowledgebaseResource(SyncAPIResource):
+    @cached_property
+    def file(self) -> FileResource:
+        return FileResource(self._client)
+
+    @cached_property
+    def item(self) -> ItemResource:
+        return ItemResource(self._client)
+
     @cached_property
     def with_raw_response(self) -> KnowledgebaseResourceWithRawResponse:
         return KnowledgebaseResourceWithRawResponse(self)
@@ -76,6 +100,14 @@ class KnowledgebaseResource(SyncAPIResource):
 
 
 class AsyncKnowledgebaseResource(AsyncAPIResource):
+    @cached_property
+    def file(self) -> AsyncFileResource:
+        return AsyncFileResource(self._client)
+
+    @cached_property
+    def item(self) -> AsyncItemResource:
+        return AsyncItemResource(self._client)
+
     @cached_property
     def with_raw_response(self) -> AsyncKnowledgebaseResourceWithRawResponse:
         return AsyncKnowledgebaseResourceWithRawResponse(self)
@@ -134,6 +166,14 @@ class KnowledgebaseResourceWithRawResponse:
             knowledgebase.create,
         )
 
+    @cached_property
+    def file(self) -> FileResourceWithRawResponse:
+        return FileResourceWithRawResponse(self._knowledgebase.file)
+
+    @cached_property
+    def item(self) -> ItemResourceWithRawResponse:
+        return ItemResourceWithRawResponse(self._knowledgebase.item)
+
 
 class AsyncKnowledgebaseResourceWithRawResponse:
     def __init__(self, knowledgebase: AsyncKnowledgebaseResource) -> None:
@@ -142,6 +182,14 @@ class AsyncKnowledgebaseResourceWithRawResponse:
         self.create = async_to_raw_response_wrapper(
             knowledgebase.create,
         )
+
+    @cached_property
+    def file(self) -> AsyncFileResourceWithRawResponse:
+        return AsyncFileResourceWithRawResponse(self._knowledgebase.file)
+
+    @cached_property
+    def item(self) -> AsyncItemResourceWithRawResponse:
+        return AsyncItemResourceWithRawResponse(self._knowledgebase.item)
 
 
 class KnowledgebaseResourceWithStreamingResponse:
@@ -152,6 +200,14 @@ class KnowledgebaseResourceWithStreamingResponse:
             knowledgebase.create,
         )
 
+    @cached_property
+    def file(self) -> FileResourceWithStreamingResponse:
+        return FileResourceWithStreamingResponse(self._knowledgebase.file)
+
+    @cached_property
+    def item(self) -> ItemResourceWithStreamingResponse:
+        return ItemResourceWithStreamingResponse(self._knowledgebase.item)
+
 
 class AsyncKnowledgebaseResourceWithStreamingResponse:
     def __init__(self, knowledgebase: AsyncKnowledgebaseResource) -> None:
@@ -160,3 +216,11 @@ class AsyncKnowledgebaseResourceWithStreamingResponse:
         self.create = async_to_streamed_response_wrapper(
             knowledgebase.create,
         )
+
+    @cached_property
+    def file(self) -> AsyncFileResourceWithStreamingResponse:
+        return AsyncFileResourceWithStreamingResponse(self._knowledgebase.file)
+
+    @cached_property
+    def item(self) -> AsyncItemResourceWithStreamingResponse:
+        return AsyncItemResourceWithStreamingResponse(self._knowledgebase.item)
