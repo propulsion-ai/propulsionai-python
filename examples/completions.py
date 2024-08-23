@@ -11,6 +11,7 @@ client = PropulsionAI(
 def sync_main() -> None:
     response = client.chat.completions.create(
         deployment="<deployment_id>",
+        knowledgebases=["<knowledgebase_id_1>", "<knowledgebase_id_2>"],
         messages=[
             {
                 "role": "user",
