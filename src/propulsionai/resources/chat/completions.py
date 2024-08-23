@@ -2,10 +2,19 @@
 
 from __future__ import annotations
 
-from typing import List, Iterable, Optional, overload, Generator, AsyncGenerator, Coroutine, Any, Union, AsyncIterator  # type: ignore
+from typing import (  # type: ignore
+    Any,
+    List,
+    Union,
+    Iterable,
+    Optional,
+    Coroutine,
+    Generator,
+    AsyncIterator,
+    AsyncGenerator,
+    overload,
+)
 from typing_extensions import Literal
-from ...lib.tool_runner import stream_runner, runner
-from ...lib.tool_runner_async import async_stream_runner, async_runner
 
 import httpx
 
@@ -26,6 +35,8 @@ from ..._response import (
 from ..._streaming import Stream, AsyncStream
 from ...types.chat import completion_create_params
 from ..._base_client import make_request_options
+from ...lib.tool_runner import runner, stream_runner
+from ...lib.tool_runner_async import async_runner, async_stream_runner
 from ...types.chat.completion_create_chunk import CompletionCreateChunk
 from ...types.chat.completion_create_response import CompletionCreateResponse
 
