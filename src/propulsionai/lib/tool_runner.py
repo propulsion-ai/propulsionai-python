@@ -41,7 +41,7 @@ def runner(
             logger.warning("Unable to JSON encode processed tools for debugging.")
 
     try:
-        response = create(
+        response: CompletionCreateResponse = create(
             deployment=deployment,
             messages=messages,
             tools=processed_tools,

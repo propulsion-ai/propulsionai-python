@@ -42,7 +42,7 @@ async def async_runner(
             logger.warning("Unable to JSON encode processed tools for debugging.")
 
     try:
-        response = await create(
+        response: CompletionCreateResponse = await create(
             deployment=deployment,
             messages=messages,
             tools=processed_tools,

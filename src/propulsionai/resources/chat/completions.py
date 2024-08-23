@@ -2,16 +2,17 @@
 
 from __future__ import annotations
 
+from types import coroutine
 from typing import (  # type: ignore
-    Any,
     List,
     Union,
     Iterable,
     Optional,
-    Coroutine,
+    Awaitable,
     Generator,
     AsyncIterator,
     AsyncGenerator,
+    cast,
     overload,
 )
 from typing_extensions import Literal
@@ -559,7 +560,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Coroutine[Any, Any, CompletionCreateResponse]: ...
+    ) -> CompletionCreateResponse: ...
 
     @overload
     async def run_tools(
@@ -591,7 +592,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         *,
         messages: List[completion_create_params.Message],
         deployment: str,
-        stream: Literal[False] | Literal[True],
+        stream: bool,
         knowledgebases: List[str] | NotGiven = NOT_GIVEN,
         max_tokens: int | NotGiven = NOT_GIVEN,
         n: int | NotGiven = NOT_GIVEN,
@@ -655,14 +656,14 @@ class AwaitableAsyncGenerator:
     def __init__(self, generator: AsyncGenerator[CompletionCreateChunk, None]):
         self.generator = generator
 
-    def __await__(self):
+    def __await__(self) -> Awaitable[List[CompletionCreateChunk]]:
         async def wrapper() -> List[CompletionCreateChunk]:
             result: List[CompletionCreateChunk] = []
             async for item in self.generator:
                 result.append(item)
             return result
-
-        return wrapper().__await__()
+        
+        return cast(Awaitable[List[CompletionCreateChunk]], coroutine(wrapper))
 
     async def __aiter__(self) -> AsyncIterator[CompletionCreateChunk]:
         async for item in self.generator:
