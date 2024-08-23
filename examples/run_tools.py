@@ -1,6 +1,7 @@
+import os
 import sys  # type: ignore
 import json  # type: ignore
-import os
+
 from propulsionai import PropulsionAI
 
 client = PropulsionAI(
