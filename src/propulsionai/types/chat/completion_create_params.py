@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Iterable
+from typing import List, Callable, Dict, Union, Iterable, Any
 from typing_extensions import Literal, Required, TypedDict
 
 __all__ = [
@@ -14,7 +14,6 @@ __all__ = [
     "Tool",
     "ToolFunction",
 ]
-
 
 class CompletionCreateParams(TypedDict, total=False):
     deployment: Required[str]
@@ -49,6 +48,8 @@ class Message(TypedDict, total=False):
 
     role: Literal["system", "user", "assistant", "tool"]
 
+    tool_call_id: str
+
 
 class ToolChoiceChatCompletionNamedToolChoiceFunction(TypedDict, total=False):
     name: Required[str]
@@ -79,3 +80,7 @@ class Tool(TypedDict, total=False):
     function: Required[ToolFunction]
 
     type: Required[Literal["function"]]
+
+
+# ToolInput = Union[Callable[..., Any], Tool]
+ToolInput = Callable[..., Any]
