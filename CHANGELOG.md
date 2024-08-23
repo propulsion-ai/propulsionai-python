@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.15.0 (2024-08-23)
+
+Full Changelog: [v0.14.0...v0.15.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.14.0...v0.15.0)
+
+### Features
+
+* add run_tools ability with streaming ([f70a0e0](https://github.com/propulsion-ai/propulsionai-python/commit/f70a0e0f9edb15e12f6e7ec44732fe205544e94f))
+* add run_tools ability with streaming ([084f2bc](https://github.com/propulsion-ai/propulsionai-python/commit/084f2bcfcfe25c7f1b89823bbb70cf2d580344be))
+* lint and fix examples ([1ca1cb4](https://github.com/propulsion-ai/propulsionai-python/commit/1ca1cb4319f28e213c45ae100f8c3b888b817044))
+* lint and fix examples ([b4dceb7](https://github.com/propulsion-ai/propulsionai-python/commit/b4dceb770dcea2d57aeb2525f6690aeba792d333))
+* lint and fix examples ([6ffd494](https://github.com/propulsion-ai/propulsionai-python/commit/6ffd4940ebb403aeb42575742d1481b3d1fd34d8))
+
 ## 0.14.0 (2024-08-01)
 
 Full Changelog: [v0.13.0...v0.14.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.13.0...v0.14.0)
