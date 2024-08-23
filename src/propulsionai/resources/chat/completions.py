@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
-from typing import List, Iterable, Optional, overload  # type: ignore
+from typing import List, Iterable, Optional, overload, Generator, AsyncGenerator, Coroutine, Any, Union, AsyncIterator  # type: ignore
 from typing_extensions import Literal
+from ...lib.tool_runner import stream_runner, runner
+from ...lib.tool_runner_async import async_stream_runner, async_runner
 
 import httpx
 
@@ -44,7 +46,7 @@ class CompletionsResource(SyncAPIResource):
         self,
         *,
         deployment: str,
-        messages: Iterable[completion_create_params.Message],
+        messages: List[completion_create_params.Message],
         knowledgebases: List[str] | NotGiven = NOT_GIVEN,
         max_tokens: int | NotGiven = NOT_GIVEN,
         n: int | NotGiven = NOT_GIVEN,
@@ -82,7 +84,7 @@ class CompletionsResource(SyncAPIResource):
     def create(
         self,
         *,
-        messages: Iterable[completion_create_params.Message],
+        messages: List[completion_create_params.Message],
         deployment: str,
         stream: Literal[True],
         knowledgebases: List[str] | NotGiven = NOT_GIVEN,
@@ -121,7 +123,7 @@ class CompletionsResource(SyncAPIResource):
     def create(
         self,
         *,
-        messages: Iterable[completion_create_params.Message],
+        messages: List[completion_create_params.Message],
         deployment: str,
         stream: bool,
         knowledgebases: List[str] | NotGiven = NOT_GIVEN,
@@ -160,7 +162,7 @@ class CompletionsResource(SyncAPIResource):
     def create(
         self,
         *,
-        messages: Iterable[completion_create_params.Message],
+        messages: List[completion_create_params.Message],
         deployment: str,
         stream: Optional[Literal[False]] | Literal[True] | NotGiven = NOT_GIVEN,
         knowledgebases: List[str] | NotGiven = NOT_GIVEN,
@@ -204,6 +206,150 @@ class CompletionsResource(SyncAPIResource):
             stream_cls=Stream[CompletionCreateChunk],
         )
 
+    # Run Tools
+    @overload
+    def run_tools(
+        self,
+        *,
+        deployment: str,
+        messages: List[completion_create_params.Message],
+        knowledgebases: List[str] | NotGiven = NOT_GIVEN,
+        max_tokens: int | NotGiven = NOT_GIVEN,
+        n: int | NotGiven = NOT_GIVEN,
+        stream: Optional[Literal[False]] | NotGiven = NOT_GIVEN,
+        task_id: str | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
+        tools: List[completion_create_params.ToolInput],
+        tool_choice: completion_create_params.ToolChoice | NotGiven = NOT_GIVEN,
+        top_p: float | NotGiven = NOT_GIVEN,
+        tool_debug: bool = False,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> CompletionCreateResponse:
+        """
+        Call a deployment endpoint with specified tools and messages.
+
+        Args:
+          top_p: Probability threshold for token selection in text generation, controlling output
+              randomness.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def run_tools(
+        self,
+        *,
+        messages: List[completion_create_params.Message],
+        deployment: str,
+        stream: Literal[True],
+        knowledgebases: List[str] | NotGiven = NOT_GIVEN,
+        max_tokens: int | NotGiven = NOT_GIVEN,
+        n: int | NotGiven = NOT_GIVEN,
+        task_id: str | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
+        tool_choice: completion_create_params.ToolChoice | NotGiven = NOT_GIVEN,
+        tools: List[completion_create_params.ToolInput],
+        top_p: float | NotGiven = NOT_GIVEN,
+        tool_debug: bool = False,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Generator[CompletionCreateChunk, None, None]:
+        """
+        Call a deployment endpoint with specified tools and messages.
+
+        Args:
+          top_p: Probability threshold for token selection in text generation, controlling output
+              randomness.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["messages", "deployment", "tools"], ["messages", "deployment", "stream", "tools"])
+    def run_tools(
+        self,
+        *,
+        messages: List[completion_create_params.Message],
+        deployment: str,
+        stream: Optional[Literal[False]] | Literal[True] | NotGiven = NOT_GIVEN,
+        knowledgebases: List[str] | NotGiven = NOT_GIVEN,
+        max_tokens: int | NotGiven = NOT_GIVEN,
+        n: int | NotGiven = NOT_GIVEN,
+        task_id: str | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
+        tool_choice: completion_create_params.ToolChoice | NotGiven = NOT_GIVEN,
+        tools: List[completion_create_params.ToolInput],
+        top_p: float | NotGiven = NOT_GIVEN,
+        tool_debug: bool = False,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> CompletionCreateResponse | Generator[CompletionCreateChunk, None, None]:
+        if stream == True:
+            return stream_runner(
+                create=self.create,
+                deployment=deployment,
+                messages=messages,
+                tools=tools,
+                stream=True,
+                tool_debug=tool_debug,
+                knowledgebases=knowledgebases,
+                max_tokens=max_tokens,
+                n=n,
+                task_id=task_id,
+                temperature=temperature,
+                tool_choice=tool_choice,
+                top_p=top_p,
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            )
+        return runner(
+            create=self.create,
+            deployment=deployment,
+            messages=messages,
+            tools=tools,
+            stream=False,
+            tool_debug=tool_debug,
+            knowledgebases=knowledgebases,
+            max_tokens=max_tokens,
+            n=n,
+            task_id=task_id,
+            temperature=temperature,
+            tool_choice=tool_choice,
+            top_p=top_p,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+        )
+
 
 class AsyncCompletionsResource(AsyncAPIResource):
     @cached_property
@@ -219,7 +365,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
         self,
         *,
         deployment: str,
-        messages: Iterable[completion_create_params.Message],
+        messages: List[completion_create_params.Message],
         knowledgebases: List[str] | NotGiven = NOT_GIVEN,
         max_tokens: int | NotGiven = NOT_GIVEN,
         n: int | NotGiven = NOT_GIVEN,
@@ -257,7 +403,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        messages: Iterable[completion_create_params.Message],
+        messages: List[completion_create_params.Message],
         deployment: str,
         stream: Literal[True],
         knowledgebases: List[str] | NotGiven = NOT_GIVEN,
@@ -296,7 +442,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        messages: Iterable[completion_create_params.Message],
+        messages: List[completion_create_params.Message],
         deployment: str,
         stream: bool,
         knowledgebases: List[str] | NotGiven = NOT_GIVEN,
@@ -335,7 +481,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        messages: Iterable[completion_create_params.Message],
+        messages: List[completion_create_params.Message],
         deployment: str,
         stream: Optional[Literal[False]] | Literal[True] | NotGiven = NOT_GIVEN,
         knowledgebases: List[str] | NotGiven = NOT_GIVEN,
@@ -378,6 +524,138 @@ class AsyncCompletionsResource(AsyncAPIResource):
             stream_cls=AsyncStream[CompletionCreateChunk],
             cast_to=CompletionCreateResponse,
         )
+
+    # Run Tools
+    @overload
+    async def run_tools(
+        self,
+        *,
+        messages: List[completion_create_params.Message],
+        deployment: str,
+        stream: Literal[False],
+        knowledgebases: List[str] | NotGiven = NOT_GIVEN,
+        max_tokens: int | NotGiven = NOT_GIVEN,
+        n: int | NotGiven = NOT_GIVEN,
+        task_id: str | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
+        tool_choice: completion_create_params.ToolChoice | NotGiven = NOT_GIVEN,
+        tools: List[completion_create_params.ToolInput],
+        top_p: float | NotGiven = NOT_GIVEN,
+        tool_debug: bool = False,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Coroutine[Any, Any, CompletionCreateResponse]: ...
+
+    @overload
+    async def run_tools(
+        self,
+        *,
+        messages: List[completion_create_params.Message],
+        deployment: str,
+        stream: Literal[True],
+        knowledgebases: List[str] | NotGiven = NOT_GIVEN,
+        max_tokens: int | NotGiven = NOT_GIVEN,
+        n: int | NotGiven = NOT_GIVEN,
+        task_id: str | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
+        tool_choice: completion_create_params.ToolChoice | NotGiven = NOT_GIVEN,
+        tools: List[completion_create_params.ToolInput],
+        top_p: float | NotGiven = NOT_GIVEN,
+        tool_debug: bool = False,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> AwaitableAsyncGenerator: ...
+
+    @required_args(["messages", "deployment", "stream", "tools"], ["messages", "deployment", "stream", "tools"])
+    async def run_tools(  # type: ignore # TODO: Remove when issue is fixed
+        self,
+        *,
+        messages: List[completion_create_params.Message],
+        deployment: str,
+        stream: Literal[False] | Literal[True],
+        knowledgebases: List[str] | NotGiven = NOT_GIVEN,
+        max_tokens: int | NotGiven = NOT_GIVEN,
+        n: int | NotGiven = NOT_GIVEN,
+        task_id: str | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
+        tool_choice: completion_create_params.ToolChoice | NotGiven = NOT_GIVEN,
+        tools: List[completion_create_params.ToolInput],
+        top_p: float | NotGiven = NOT_GIVEN,
+        tool_debug: bool = False,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Union[CompletionCreateResponse, AwaitableAsyncGenerator]:
+        if stream == True:
+            return AwaitableAsyncGenerator(
+                async_stream_runner(
+                    create=self.create,
+                    deployment=deployment,
+                    messages=messages,
+                    tools=tools,
+                    stream=True,
+                    tool_debug=tool_debug,
+                    knowledgebases=knowledgebases,
+                    max_tokens=max_tokens,
+                    n=n,
+                    task_id=task_id,
+                    temperature=temperature,
+                    tool_choice=tool_choice,
+                    top_p=top_p,
+                    extra_headers=extra_headers,
+                    extra_query=extra_query,
+                    extra_body=extra_body,
+                    timeout=timeout,
+                )
+            )
+        return await async_runner(
+            create=self.create,
+            deployment=deployment,
+            messages=messages,
+            tools=tools,
+            stream=False,
+            tool_debug=tool_debug,
+            knowledgebases=knowledgebases,
+            max_tokens=max_tokens,
+            n=n,
+            task_id=task_id,
+            temperature=temperature,
+            tool_choice=tool_choice,
+            top_p=top_p,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+        )
+
+
+class AwaitableAsyncGenerator:
+    def __init__(self, generator: AsyncGenerator[CompletionCreateChunk, None]):
+        self.generator = generator
+
+    def __await__(self):
+        async def wrapper() -> List[CompletionCreateChunk]:
+            result: List[CompletionCreateChunk] = []
+            async for item in self.generator:
+                result.append(item)
+            return result
+
+        return wrapper().__await__()
+
+    async def __aiter__(self) -> AsyncIterator[CompletionCreateChunk]:
+        async for item in self.generator:
+            yield item
 
 
 class CompletionsResourceWithRawResponse:
