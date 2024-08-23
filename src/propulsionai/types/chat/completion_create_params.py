@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List, Callable, Dict, Union, Iterable, Any
+from typing import Any, Dict, List, Union, Callable, Iterable
 from typing_extensions import Literal, Required, TypedDict
 
 __all__ = [

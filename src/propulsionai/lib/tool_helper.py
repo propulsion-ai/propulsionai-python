@@ -1,6 +1,7 @@
-from typing import Callable, TypeVar, List, Union, get_type_hints
-from ..types.chat import completion_create_params
 import inspect
+from typing import List, Union, TypeVar, Callable, get_type_hints
+
+from ..types.chat import completion_create_params
 
 T = TypeVar('T')
 

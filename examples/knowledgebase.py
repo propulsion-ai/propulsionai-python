@@ -9,7 +9,7 @@ client = PropulsionAI(
 )
 
 
-def sync_main() -> None:
+def sync_kb() -> None:
     knowledgebase = client.knowledgebase.create(name="weather", description="A knowledgebase for weather", tags="uppto")
     print(f"Knowledgebase created with id: ", knowledgebase.code)
     # read ./12025248.pdf and convert it to bytes
@@ -28,5 +28,37 @@ def sync_main() -> None:
             )
             print(f"File deleted with id: ", delete_file_response.id)
 
+def sync_main() -> None:
+    response = client.chat.completions.create(
+        deployment="<deployment_id>",
+        knowledgebases=["<knowledgebase_id_1>","<knowledgebase_id_2>"],
+        messages=[
+            {
+                "role": "user",
+                "content": "Hello, How are you?",
+            }
+        ],
+        stream=False,
+    )
+
+    print(response)
+
+    stream = client.chat.completions.create(
+        deployment="<deployment_id>",
+        knowledgebases=["<knowledgebase_id_1>","<knowledgebase_id_2>"],
+        messages=[
+            {
+                "role": "user",
+                "content": "Hello, How are you?",
+            }
+        ],
+        stream=True,
+    )
+    # print(response)
+    first = next(stream)
+    print(f"got response data: {first.to_json()}")
+
+    for data in stream:
+        print(data.to_json())
 
 sync_main()
