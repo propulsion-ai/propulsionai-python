@@ -29,59 +29,59 @@ class TestItem:
     def test_method_create_with_all_params(self, client: PropulsionAI) -> None:
         item = client.dataset.item.create(
             data={
-                "query": "query",
-                "tools": [
-                    {
-                        "type": "function",
-                        "function": {
-                            "description": "description",
-                            "name": "name",
-                            "parameters": {"foo": "bar"},
-                        },
-                    },
-                    {
-                        "type": "function",
-                        "function": {
-                            "description": "description",
-                            "name": "name",
-                            "parameters": {"foo": "bar"},
-                        },
-                    },
-                    {
-                        "type": "function",
-                        "function": {
-                            "description": "description",
-                            "name": "name",
-                            "parameters": {"foo": "bar"},
-                        },
-                    },
-                ],
                 "chosen": "chosen",
-                "images": "images",
-                "prompt": "prompt",
-                "system": "system",
                 "history": [
                     ["string", "string", "string"],
                     ["string", "string", "string"],
                     ["string", "string", "string"],
                 ],
+                "images": "images",
                 "kto_tag": "kto_tag",
                 "messages": [
                     {
+                        "content": "string",
                         "role": "system",
-                        "content": "content",
                     },
                     {
+                        "content": "string",
                         "role": "system",
-                        "content": "content",
                     },
                     {
+                        "content": "string",
                         "role": "system",
-                        "content": "content",
                     },
                 ],
+                "prompt": "prompt",
+                "query": "query",
                 "rejected": "rejected",
                 "response": "response",
+                "system": "system",
+                "tools": [
+                    {
+                        "function": {
+                            "name": "name",
+                            "description": "description",
+                            "parameters": {"foo": "bar"},
+                        },
+                        "type": "function",
+                    },
+                    {
+                        "function": {
+                            "name": "name",
+                            "description": "description",
+                            "parameters": {"foo": "bar"},
+                        },
+                        "type": "function",
+                    },
+                    {
+                        "function": {
+                            "name": "name",
+                            "description": "description",
+                            "parameters": {"foo": "bar"},
+                        },
+                        "type": "function",
+                    },
+                ],
             },
             dataset_id=0,
         )
@@ -129,59 +129,59 @@ class TestAsyncItem:
     async def test_method_create_with_all_params(self, async_client: AsyncPropulsionAI) -> None:
         item = await async_client.dataset.item.create(
             data={
-                "query": "query",
-                "tools": [
-                    {
-                        "type": "function",
-                        "function": {
-                            "description": "description",
-                            "name": "name",
-                            "parameters": {"foo": "bar"},
-                        },
-                    },
-                    {
-                        "type": "function",
-                        "function": {
-                            "description": "description",
-                            "name": "name",
-                            "parameters": {"foo": "bar"},
-                        },
-                    },
-                    {
-                        "type": "function",
-                        "function": {
-                            "description": "description",
-                            "name": "name",
-                            "parameters": {"foo": "bar"},
-                        },
-                    },
-                ],
                 "chosen": "chosen",
-                "images": "images",
-                "prompt": "prompt",
-                "system": "system",
                 "history": [
                     ["string", "string", "string"],
                     ["string", "string", "string"],
                     ["string", "string", "string"],
                 ],
+                "images": "images",
                 "kto_tag": "kto_tag",
                 "messages": [
                     {
+                        "content": "string",
                         "role": "system",
-                        "content": "content",
                     },
                     {
+                        "content": "string",
                         "role": "system",
-                        "content": "content",
                     },
                     {
+                        "content": "string",
                         "role": "system",
-                        "content": "content",
                     },
                 ],
+                "prompt": "prompt",
+                "query": "query",
                 "rejected": "rejected",
                 "response": "response",
+                "system": "system",
+                "tools": [
+                    {
+                        "function": {
+                            "name": "name",
+                            "description": "description",
+                            "parameters": {"foo": "bar"},
+                        },
+                        "type": "function",
+                    },
+                    {
+                        "function": {
+                            "name": "name",
+                            "description": "description",
+                            "parameters": {"foo": "bar"},
+                        },
+                        "type": "function",
+                    },
+                    {
+                        "function": {
+                            "name": "name",
+                            "description": "description",
+                            "parameters": {"foo": "bar"},
+                        },
+                        "type": "function",
+                    },
+                ],
             },
             dataset_id=0,
         )
