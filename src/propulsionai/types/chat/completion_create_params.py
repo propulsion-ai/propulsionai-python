@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Union, Callable, Iterable
-from typing_extensions import Literal, Required, TypedDict
+from typing import Dict, List, Union, Iterable, Any, Callable
+from typing_extensions import Literal, Required, TypeAlias, TypedDict
 
 __all__ = [
     "CompletionCreateParams",
@@ -65,7 +65,7 @@ class ToolChoiceChatCompletionNamedToolChoice(TypedDict, total=False):
     type: Required[Literal["function"]]
 
 
-ToolChoice = Union[Literal["none", "auto", "required"], ToolChoiceChatCompletionNamedToolChoice]
+ToolChoice: TypeAlias = Union[Literal["none", "auto", "required"], ToolChoiceChatCompletionNamedToolChoice]
 
 
 class ToolFunction(TypedDict, total=False):
