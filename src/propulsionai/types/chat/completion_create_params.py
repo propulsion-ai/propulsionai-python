@@ -8,6 +8,8 @@ from typing_extensions import Literal, Required, TypeAlias, TypedDict
 __all__ = [
     "CompletionCreateParams",
     "Message",
+    "MessageContentUnionMember1",
+    "MessageContentUnionMember1ImageURL",
     "ToolChoice",
     "ToolChoiceChatCompletionNamedToolChoice",
     "ToolChoiceChatCompletionNamedToolChoiceFunction",
@@ -43,8 +45,20 @@ class CompletionCreateParams(TypedDict, total=False):
     """
 
 
+class MessageContentUnionMember1ImageURL(TypedDict, total=False):
+    url: str
+
+
+class MessageContentUnionMember1(TypedDict, total=False):
+    image_url: MessageContentUnionMember1ImageURL
+
+    text: str
+
+    type: Literal["text", "image_url"]
+
+
 class Message(TypedDict, total=False):
-    content: str
+    content: Union[str, Iterable[MessageContentUnionMember1]]
 
     role: Literal["system", "user", "assistant", "tool"]
 

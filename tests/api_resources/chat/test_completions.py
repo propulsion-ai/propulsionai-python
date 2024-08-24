@@ -40,15 +40,15 @@ class TestCompletions:
             deployment="deployment",
             messages=[
                 {
-                    "content": "content",
+                    "content": "string",
                     "role": "system",
                 },
                 {
-                    "content": "content",
+                    "content": "string",
                     "role": "system",
                 },
                 {
-                    "content": "content",
+                    "content": "string",
                     "role": "system",
                 },
             ],
@@ -160,15 +160,15 @@ class TestAsyncCompletions:
             deployment="deployment",
             messages=[
                 {
-                    "content": "content",
+                    "content": "string",
                     "role": "system",
                 },
                 {
-                    "content": "content",
+                    "content": "string",
                     "role": "system",
                 },
                 {
-                    "content": "content",
+                    "content": "string",
                     "role": "system",
                 },
             ],
