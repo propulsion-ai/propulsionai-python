@@ -40,16 +40,16 @@ class TestCompletions:
             deployment="deployment",
             messages=[
                 {
+                    "content": "string",
                     "role": "system",
-                    "content": "content",
                 },
                 {
+                    "content": "string",
                     "role": "system",
-                    "content": "content",
                 },
                 {
+                    "content": "string",
                     "role": "system",
-                    "content": "content",
                 },
             ],
             knowledgebases=["string", "string", "string"],
@@ -61,28 +61,28 @@ class TestCompletions:
             tool_choice="none",
             tools=[
                 {
-                    "type": "function",
                     "function": {
-                        "description": "description",
                         "name": "name",
+                        "description": "description",
                         "parameters": {"foo": "bar"},
                     },
+                    "type": "function",
                 },
                 {
-                    "type": "function",
                     "function": {
-                        "description": "description",
                         "name": "name",
+                        "description": "description",
                         "parameters": {"foo": "bar"},
                     },
+                    "type": "function",
                 },
                 {
-                    "type": "function",
                     "function": {
-                        "description": "description",
                         "name": "name",
+                        "description": "description",
                         "parameters": {"foo": "bar"},
                     },
+                    "type": "function",
                 },
             ],
             top_p=0,
@@ -160,16 +160,16 @@ class TestAsyncCompletions:
             deployment="deployment",
             messages=[
                 {
+                    "content": "string",
                     "role": "system",
-                    "content": "content",
                 },
                 {
+                    "content": "string",
                     "role": "system",
-                    "content": "content",
                 },
                 {
+                    "content": "string",
                     "role": "system",
-                    "content": "content",
                 },
             ],
             knowledgebases=["string", "string", "string"],
@@ -181,28 +181,28 @@ class TestAsyncCompletions:
             tool_choice="none",
             tools=[
                 {
-                    "type": "function",
                     "function": {
-                        "description": "description",
                         "name": "name",
+                        "description": "description",
                         "parameters": {"foo": "bar"},
                     },
+                    "type": "function",
                 },
                 {
-                    "type": "function",
                     "function": {
-                        "description": "description",
                         "name": "name",
+                        "description": "description",
                         "parameters": {"foo": "bar"},
                     },
+                    "type": "function",
                 },
                 {
-                    "type": "function",
                     "function": {
-                        "description": "description",
                         "name": "name",
+                        "description": "description",
                         "parameters": {"foo": "bar"},
                     },
+                    "type": "function",
                 },
             ],
             top_p=0,
