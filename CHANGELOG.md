@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.16.0 (2024-08-24)
+
+Full Changelog: [v0.15.1...v0.16.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.15.1...v0.16.0)
+
+### Features
+
+* linting ([385b1a2](https://github.com/propulsion-ai/propulsionai-python/commit/385b1a2a1968182ab9fa7ba828f436d722f3db2d))
+
 ## 0.15.1 (2024-08-24)
 
 Full Changelog: [v0.15.0...v0.15.1](https://github.com/propulsion-ai/propulsionai-python/compare/v0.15.0...v0.15.1)
