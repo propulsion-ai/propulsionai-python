@@ -39,15 +39,15 @@ class TestItem:
                 "kto_tag": "kto_tag",
                 "messages": [
                     {
-                        "content": "content",
+                        "content": "string",
                         "role": "system",
                     },
                     {
-                        "content": "content",
+                        "content": "string",
                         "role": "system",
                     },
                     {
-                        "content": "content",
+                        "content": "string",
                         "role": "system",
                     },
                 ],
@@ -139,15 +139,15 @@ class TestAsyncItem:
                 "kto_tag": "kto_tag",
                 "messages": [
                     {
-                        "content": "content",
+                        "content": "string",
                         "role": "system",
                     },
                     {
-                        "content": "content",
+                        "content": "string",
                         "role": "system",
                     },
                     {
-                        "content": "content",
+                        "content": "string",
                         "role": "system",
                     },
                 ],
