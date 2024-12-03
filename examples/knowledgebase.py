@@ -30,12 +30,14 @@ def sync_kb() -> None:
         
 
         # Add content to the knowledgebase
-        content = client.knowledgebase.item.create(
+        response = client.knowledgebase.item.create(
             knowledgebase_code=knowledgebase.code,
             content="The weather is nice today",
             source="https://www.weather.com",
             metadata="{\"author\": \"John Doe\"}",
         )
+
+        print(response)
 
 def sync_main() -> None:
     response = client.chat.completions.create(
