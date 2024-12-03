@@ -196,7 +196,7 @@ class CompletionsResource(SyncAPIResource):
             "/chat/completions",
             body=maybe_transform(
                 {
-                    "deployment": deployment,
+                    "model": deployment,
                     "messages": messages,
                     "knowledgebases": knowledgebases,
                     "max_tokens": max_tokens,
@@ -515,7 +515,7 @@ class AsyncCompletionsResource(AsyncAPIResource):
             "/chat/completions",
             body=await async_maybe_transform(
                 {
-                    "deployment": deployment,
+                    "model": deployment,
                     "messages": messages,
                     "knowledgebases": knowledgebases,
                     "max_tokens": max_tokens,

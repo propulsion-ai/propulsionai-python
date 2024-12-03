@@ -27,6 +27,15 @@ def sync_kb() -> None:
                 knowledgebase_code=knowledgebase.code, file_id=upload_file_response.id
             )
             print(f"File deleted with id: ", delete_file_response.id)
+        
+
+        # Add content to the knowledgebase
+        content = client.knowledgebase.item.create(
+            knowledgebase_code=knowledgebase.code,
+            content="The weather is nice today",
+            source="https://www.weather.com",
+            metadata="{\"author\": \"John Doe\"}",
+        )
 
 def sync_main() -> None:
     response = client.chat.completions.create(
