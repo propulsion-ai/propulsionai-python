@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.16.0 (2025-03-18)
+
+Full Changelog: [v0.15.2...v0.16.0](https://github.com/propulsion-ai/propulsionai-python/compare/v0.15.2...v0.16.0)
+
+### Features
+
+* upgrade and remove proxies ([7743603](https://github.com/propulsion-ai/propulsionai-python/commit/774360300c06590859663086b9d98cad1dfbd3a6))
+
 ## 0.15.3 (2025-03-18)
 
 Full Changelog: [v0.15.2...v0.15.3](https://github.com/propulsion-ai/propulsionai-python/compare/v0.15.2...v0.15.3)
