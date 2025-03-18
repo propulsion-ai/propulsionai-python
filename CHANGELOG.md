@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.15.3 (2025-03-18)
+
+Full Changelog: [v0.15.2...v0.15.3](https://github.com/propulsion-ai/propulsionai-python/compare/v0.15.2...v0.15.3)
 ## 0.15.2 (2024-12-03)
 
 Full Changelog: [v0.15.1...v0.15.2](https://github.com/propulsion-ai/propulsionai-python/compare/v0.15.1...v0.15.2)
